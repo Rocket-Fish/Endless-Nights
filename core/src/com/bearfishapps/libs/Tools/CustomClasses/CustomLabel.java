@@ -2,8 +2,8 @@ package com.bearfishapps.libs.Tools.CustomClasses;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.bearfishapps.drive.Tools.Constants;
-import com.bearfishapps.drive.Tools.FontGenerator;
+import com.bearfishapps.libs.Tools.Constants;
+import com.bearfishapps.libs.Tools.FontGenerator;
 
 public class CustomLabel {
     public static Label.LabelStyle style;

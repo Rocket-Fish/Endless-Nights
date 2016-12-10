@@ -4,15 +4,16 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
-public class AssetLoader {
+public class AssetFetcher {
     private AssetManager assetManager;
 
-    public AssetLoader() {
+    public AssetFetcher() {
         assetManager = new AssetManager();
     }
 
     public void loadLogo() {
-        assetManager.load(Constants.logo, Texture.class);
+        assetManager.load(Constants.logo1, Texture.class);
+        assetManager.load(Constants.logo2, Texture.class);
     }
 
     public void loadEverything() {

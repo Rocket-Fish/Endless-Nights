@@ -8,6 +8,7 @@ import com.bearfishapps.libs.GeneralScreens;
 public class GameScreen extends GeneralScreens {
     public GameScreen(GdxGame game) {
         super(game);
+        setBackgroundColor(255, 255, 255, 1);
     }
 
     @Override
