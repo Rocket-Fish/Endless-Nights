@@ -9,8 +9,11 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.bearfishapps.shadowarcher.Physics.InputInterpretors.TouchSensor;
+import com.bearfishapps.shadowarcher.Physics.WorldObjects.Arrow;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.GroundPlatform;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.Humanoid;
+
+import java.util.ArrayList;
 
 public class PhysicsWorld extends Actor{
     protected ShapeRenderer shapeRenderer;
@@ -18,6 +21,7 @@ public class PhysicsWorld extends Actor{
     private GroundPlatform groundPlatform;
     private TouchSensor touchSensor;
     private Humanoid humanoid;
+    private ArrayList<Arrow> arrows = new ArrayList<Arrow>();
 
     // TODO: REMOVE/Disable DEGUB RENDERER DIRNG RELEASE
     private Box2DDebugRenderer debugRenderer;
@@ -30,6 +34,8 @@ public class PhysicsWorld extends Actor{
 
         groundPlatform = new GroundPlatform(world, new Vector2(0, 50), new Vector2(800, 50));
         humanoid = new Humanoid(world, new Vector2(200, 72), 40);
+
+        arrows.add(humanoid.drawArrow());
 
     }
 

@@ -27,9 +27,16 @@ public class Humanoid extends CustomPhysicsBody{
     // The bow pos is a bit bugged, dunno why though ...
                     bowPos[] = {/**/ 0.8f, -0.55f,/**/  0.3f, -0.675f, -0.3f, -0.675f, /**/ -0.8f, -0.55f};
 
+    protected World world;
+    protected float scale;
+
+    private RevoluteJoint armJoint1;
     public Humanoid(World world, Vector2 pos, float scale) {
         super(7);
         System.arraycopy(lArmPos, 0, rArmPos, 0, lArmPos.length);
+
+        this.world = world;
+        this.scale = scale;
 
         bodyPos = WorldUtils.scaleF(bodyPos, scale);
         headPos = WorldUtils.scaleF(headPos, scale);
@@ -49,7 +56,7 @@ public class Humanoid extends CustomPhysicsBody{
 
         RevoluteJoint headJoint = WorldUtils.makeRevJoint(world, bodies[0], bodies[1],
                 new Vector2((bodyPos[0]+bodyPos[2])/2, bodyPos[5]), new Vector2((headPos[0]+headPos[2])/2, headPos[1]), true, 1.04f, -1.04f, true, stiffness);
-        RevoluteJoint armJoint1 = WorldUtils.makeRevJoint(world, bodies[0], bodies[2],
+        armJoint1 = WorldUtils.makeRevJoint(world, bodies[0], bodies[2],
                 new Vector2((bodyPos[0]+bodyPos[2])/2, bodyPos[5]), new Vector2((lArmPos[0]+lArmPos[2])/2, lArmPos[1]), false, 0, 0, true, stiffness);
         RevoluteJoint armJoint2 = WorldUtils.makeRevJoint(world, bodies[0], bodies[3],
                 new Vector2((bodyPos[0]+bodyPos[2])/2, bodyPos[5]), new Vector2((rArmPos[0]+rArmPos[2])/2, rArmPos[1]), false, 0, 0, true, stiffness);
@@ -58,8 +65,23 @@ public class Humanoid extends CustomPhysicsBody{
         RevoluteJoint legJoint2 = WorldUtils.makeRevJoint(world, bodies[0], bodies[5],
                 new Vector2((bodyPos[0]+bodyPos[2])/2, bodyPos[1]), new Vector2((rLegPos[0]+rLegPos[2])/2, rLegPos[1]), true, 1.7f, -1.7f, true, stiffness);
 
-        WeldJoint bowWJoint = WorldUtils.weldJoint(world, bodies[2], bodies[6], new Vector2(0, lArmPos[5]+0.06f*scale), new Vector2(0, bowPos[1]));
+        WeldJoint bowJoint = WorldUtils.weldJoint(world, bodies[2], bodies[6], new Vector2(0, lArmPos[5]+0.06f*scale), new Vector2(0, bowPos[1]));
+
+        float halfPI = MathUtils.PI/2;
+        bodies[2].setTransform(bodies[2].getPosition(), halfPI);
+        bodies[3].setTransform(bodies[3].getPosition(), halfPI);
+
+    }
+
+    private Arrow arrow = null;
+    public Arrow drawArrow() {
+        arrow = new Arrow(world, new Vector2(bodies[6].getPosition().x,bodies[6].getPosition().y), scale, armJoint1.getJointAngle());
+//        arrow = new Arrow(world, new Vector2(300, 100), scale, armJoint1.getJointAngle());
+        return arrow;
     }
 
 
+    public void shootArrow() {
+
+    }
 }

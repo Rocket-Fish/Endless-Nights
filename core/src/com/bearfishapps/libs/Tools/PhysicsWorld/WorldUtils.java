@@ -86,6 +86,10 @@ public class WorldUtils {
         return ret;
     }
 
+    public static float[] rotateFRadians(float[] x, float rotationInRadias) {
+        return rotateF(x, rotationInRadias*MathUtils.radiansToDegrees);
+    }
+
     public static float[] rotateF(float[] x, float rotationInDegrees) {
         return rotateF(x, rotationInDegrees, 0, 0);
     }

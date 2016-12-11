@@ -34,7 +34,6 @@ public class TouchSensor implements InputProcessor {
 
             float angle = MathUtils.atan2(dy, dx);
             float halfPI = MathUtils.PI/2;
-
             arm.setTransform(arm.getPosition(), angle + halfPI);
             arm2.setTransform(arm.getPosition(), angle + halfPI);
         }
