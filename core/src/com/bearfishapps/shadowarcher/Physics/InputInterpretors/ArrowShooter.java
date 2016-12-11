@@ -8,18 +8,24 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.Arrow;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.Humanoid;
 
+import java.util.ArrayList;
+
 public class ArrowShooter implements InputProcessor {
 
     private Camera camera;
     private Body arm, arm2;
     private Humanoid humanoid;
-    private OnArrowShootAction onArrowShootAction;
-    public ArrowShooter(OnArrowShootAction onArrowShootAction, Humanoid humanoid, Camera camera) {
+    ArrayList<Arrow> arrows;
+    private int screenXstart, screeXend;
+    public ArrowShooter(ArrayList<Arrow> arrows, Humanoid humanoid, Camera camera, int screenXstart, int screenXend) {
         this.arm = humanoid.getBodies()[2];
         this.arm2 = humanoid.getBodies()[3];
         this.humanoid = humanoid;
         this.camera = camera;
-        this.onArrowShootAction = onArrowShootAction;
+        this.arrows = arrows;
+
+        this.screenXstart = screenXstart;
+        this.screeXend = screenXend;
     }
 
     private Vector3 touchPos = new Vector3(0, 0, 0);
@@ -51,7 +57,7 @@ public class ArrowShooter implements InputProcessor {
         }
         else if(shooting && humanoid.getArrow() != null) {
             humanoid.shootArrow();
-            onArrowShootAction.onShoot();
+            arrows.add(humanoid.drawArrow());
             shooting = false;
         }
 
@@ -59,9 +65,11 @@ public class ArrowShooter implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        isPressed = true;
         touchPos.set(screenX, screenY, 0);
         camera.unproject(touchPos);
+        if(touchPos.x >  screenXstart && touchPos.x < screeXend) {
+            isPressed = true;
+        }
         return false;
     }
 
@@ -77,9 +85,11 @@ public class ArrowShooter implements InputProcessor {
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        hasMoved = true;
         moveVec.set(screenX, screenY, 0);
         camera.unproject(moveVec);
+        if(touchPos.x >  screenXstart && touchPos.x < screeXend && isPressed) {
+            hasMoved = true;
+        }
         return false;
     }
 

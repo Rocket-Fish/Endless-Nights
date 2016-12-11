@@ -9,19 +9,20 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.bearfishapps.shadowarcher.Physics.InputInterpretors.ArrowShooter;
-import com.bearfishapps.shadowarcher.Physics.InputInterpretors.OnArrowShootAction;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.Arrow;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.GroundPlatform;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.Humanoid;
 
 import java.util.ArrayList;
 
-public class PhysicsWorld extends Actor implements OnArrowShootAction{
+public class PhysicsWorld extends Actor{
     protected ShapeRenderer shapeRenderer;
     private World world;
     private GroundPlatform groundPlatform;
-    private ArrowShooter arrowShooter;
-    private Humanoid humanoid;
+    private ArrowShooter arrowShooterP1;
+    private ArrowShooter arrowShooterP2;
+    private Humanoid humanoidP1;
+    private Humanoid humanoidP2;
     private ArrayList<Arrow> arrows = new ArrayList<Arrow>();
 
     // TODO: REMOVE/Disable DEGUB RENDERER DIRNG RELEASE
@@ -33,21 +34,20 @@ public class PhysicsWorld extends Actor implements OnArrowShootAction{
         world = new World(new Vector2(0, -29.8f), true);
         debugRenderer = new Box2DDebugRenderer();
 
-        groundPlatform = new GroundPlatform(world, new Vector2(0, 10), new Vector2(800, 10));
-        humanoid = new Humanoid(world, new Vector2(20, 16f), 10);
+        groundPlatform = new GroundPlatform(world, new Vector2(0, 10), new Vector2(400, 10));
 
-        arrows.add(humanoid.drawArrow());
-    }
+        humanoidP1 = new Humanoid(world, new Vector2(20, 16f), 10);
+        humanoidP2 = new Humanoid(world, new Vector2(380, 16f), 10);
 
-    @Override
-    public void onShoot() {
-        arrows.add(humanoid.drawArrow());
+        arrows.add(humanoidP1.drawArrow());
+        arrows.add(humanoidP2.drawArrow());
     }
 
     public void step() {
         world.step(1 / 60f, 6, 2);
 
-        arrowShooter.refresh();
+        arrowShooterP1.refresh();
+        arrowShooterP2.refresh();
         for(Arrow a: arrows) {
             a.applyDrag();
         }
@@ -73,8 +73,10 @@ public class PhysicsWorld extends Actor implements OnArrowShootAction{
 
     public void initUserInput(InputMultiplexer multiplexer, final Camera camera) {
  //       multiplexer.addProcessor(new MouseDrag(world, camera, groundPlatform.getBodies()[0]));
-        arrowShooter = new ArrowShooter(this, humanoid, camera);
-        multiplexer.addProcessor(arrowShooter);
+        arrowShooterP1 = new ArrowShooter(arrows, humanoidP1, camera, 0, (int)camera.viewportWidth/2);
+        arrowShooterP2 = new ArrowShooter(arrows, humanoidP2, camera, (int)camera.viewportWidth/2, (int)camera.viewportWidth);
+        multiplexer.addProcessor(arrowShooterP1);
+        multiplexer.addProcessor(arrowShooterP2);
     }
 
     public void dispose() {
