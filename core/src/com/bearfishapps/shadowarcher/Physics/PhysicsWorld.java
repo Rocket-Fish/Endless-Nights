@@ -64,7 +64,7 @@ public class PhysicsWorld extends Actor{
 
     public void initUserInput(InputMultiplexer multiplexer, final Camera camera) {
  //       multiplexer.addProcessor(new MouseDrag(world, camera, groundPlatform.getBodies()[0]));
-        touchSensor = new TouchSensor(humanoid.getBodies()[2], humanoid.getBodies()[3], camera);
+        touchSensor = new TouchSensor(humanoid, camera);
         multiplexer.addProcessor(touchSensor);
     }
 

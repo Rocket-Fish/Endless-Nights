@@ -2,10 +2,7 @@ package com.bearfishapps.shadowarcher.Physics.WorldObjects;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.EdgeShape;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
 import com.badlogic.gdx.physics.box2d.joints.WeldJoint;
@@ -31,6 +28,8 @@ public class Humanoid extends CustomPhysicsBody{
     protected float scale;
 
     private RevoluteJoint armJoint1;
+    private Arrow arrow;
+
     public Humanoid(World world, Vector2 pos, float scale) {
         super(7);
         System.arraycopy(lArmPos, 0, rArmPos, 0, lArmPos.length);
@@ -71,15 +70,18 @@ public class Humanoid extends CustomPhysicsBody{
         bodies[2].setTransform(bodies[2].getPosition(), halfPI);
         bodies[3].setTransform(bodies[3].getPosition(), halfPI);
 
+        arrow = null;
     }
 
-    private Arrow arrow = null;
     public Arrow drawArrow() {
         arrow = new Arrow(world, new Vector2(bodies[6].getPosition().x,bodies[6].getPosition().y), scale, armJoint1.getJointAngle());
 //        arrow = new Arrow(world, new Vector2(300, 100), scale, armJoint1.getJointAngle());
         return arrow;
     }
 
+    public Arrow getArrow() {
+        return arrow;
+    }
 
     public void shootArrow() {
 

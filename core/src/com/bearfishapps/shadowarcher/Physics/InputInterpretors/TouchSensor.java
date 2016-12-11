@@ -3,17 +3,20 @@ package com.bearfishapps.shadowarcher.Physics.InputInterpretors;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.bearfishapps.shadowarcher.Physics.WorldObjects.Arrow;
+import com.bearfishapps.shadowarcher.Physics.WorldObjects.Humanoid;
 
 public class TouchSensor implements InputProcessor {
 
     private Camera camera;
     private Body arm, arm2;
-    public TouchSensor(Body arm, Body arm2, Camera camera) {
-        this.arm = arm;
-        this.arm2 = arm2;
+    private Humanoid humanoid;
+    public TouchSensor(Humanoid humanoid, Camera camera) {
+        this.arm = humanoid.getBodies()[2];
+        this.arm2 = humanoid.getBodies()[3];
+        this.humanoid = humanoid;
         this.camera = camera;
     }
 
@@ -36,6 +39,11 @@ public class TouchSensor implements InputProcessor {
             float halfPI = MathUtils.PI/2;
             arm.setTransform(arm.getPosition(), angle + halfPI);
             arm2.setTransform(arm.getPosition(), angle + halfPI);
+
+            Arrow a = humanoid.getArrow();
+            if(a != null) {
+                humanoid.getArrow().rotateTo(angle);
+            }
         }
     }
 
