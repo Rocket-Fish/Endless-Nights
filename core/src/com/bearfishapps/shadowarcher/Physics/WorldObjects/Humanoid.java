@@ -22,12 +22,12 @@ public class Humanoid extends CustomPhysicsBody{
                     lArmPos[] = {-0.075f, 0f, 0.075f, 0f, 0.045f, -0.675f, -0.045f, -0.675f},
                     rArmPos[] = new float[lArmPos.length],
                     lLegPos[] = {-0.1f, 0f, 0.1f, -0f, 0.2f, -0.6f, 0.05f, -0.6f},
-                    rLegPos[] = {-0.1f, 0f, 0.1f, -0f, -0.05f, -0.6f, -0.2f, -0.6f};
-    protected Body staticAttatchment;
-
+                    rLegPos[] = {-0.1f, 0f, 0.1f, -0f, -0.05f, -0.6f, -0.2f, -0.6f},
+    // The bow pos is a bit bugged, dunno why though ...
+                    bowPos[] = {-0.275f, -0.6f, 0.275f, -0.6f, /**/ 0.8f, -0.55f,/**/  0.3f, -0.7f, -0.3f, -0.7f, /**/ -0.8f, -0.55f};
 
     public Humanoid(World world, Vector2 pos, float scale) {
-        super(6);
+        super(7);
         System.arraycopy(lArmPos, 0, rArmPos, 0, lArmPos.length);
 
         bodyPos = WorldUtils.scaleF(bodyPos, scale);
@@ -36,6 +36,7 @@ public class Humanoid extends CustomPhysicsBody{
         rArmPos = WorldUtils.scaleF(rArmPos, scale);
         lLegPos = WorldUtils.scaleF(lLegPos, scale);
         rLegPos = WorldUtils.scaleF(rLegPos, scale);
+        bowPos = WorldUtils.scaleF(bowPos, scale);
 
         bodies[0] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, bodyPos, pos.x, pos.y, density, 0.1f, friction, CollisionMasks.Mask_BODY, (short)(CollisionMasks.Mask_DEFAULT | CollisionMasks.Mask_LEG));
         bodies[1] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, headPos, pos.x, pos.y+(bodyPos[5]+headPos[5]), density*0.9f, 0.1f, friction, CollisionMasks.Mask_HEAD, (short)(CollisionMasks.Mask_DEFAULT | CollisionMasks.Mask_LEG));
@@ -43,6 +44,7 @@ public class Humanoid extends CustomPhysicsBody{
         bodies[3] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, rArmPos, pos.x, pos.y-rArmPos[5], density*0.4f, 0.1f, friction, CollisionMasks.Mask_ARM, CollisionMasks.Mask_DEFAULT);
         bodies[4] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, lLegPos, pos.x, pos.y+(bodyPos[2]), density*0.6f, 0.1f, friction, CollisionMasks.Mask_LEG, (short)(CollisionMasks.Mask_DEFAULT|CollisionMasks.Mask_BODY));
         bodies[5] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, rLegPos, pos.x, pos.y+(bodyPos[2]), density*0.6f, 0.1f, friction, CollisionMasks.Mask_ARM, (short)(CollisionMasks.Mask_DEFAULT|CollisionMasks.Mask_BODY));
+        bodies[6] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, bowPos, pos.x, pos.y, 0.1f, 0.1f, friction, CollisionMasks.Mask_BOWnARROW, CollisionMasks.Mask_DEFAULT);
 
         RevoluteJoint headJoint = WorldUtils.makeRevJoint(world, bodies[0], bodies[1],
                 new Vector2((bodyPos[0]+bodyPos[2])/2, bodyPos[5]), new Vector2((headPos[0]+headPos[2])/2, headPos[1]), true, 1.04f, -1.04f, true, stiffness);
@@ -54,6 +56,9 @@ public class Humanoid extends CustomPhysicsBody{
                 new Vector2((bodyPos[0]+bodyPos[2])/2, bodyPos[1]), new Vector2((lLegPos[0]+lLegPos[2])/2, lLegPos[1]), true, 1.7f, -1.7f, true, stiffness);
         RevoluteJoint legJoint2 = WorldUtils.makeRevJoint(world, bodies[0], bodies[5],
                 new Vector2((bodyPos[0]+bodyPos[2])/2, bodyPos[1]), new Vector2((rLegPos[0]+rLegPos[2])/2, rLegPos[1]), true, 1.7f, -1.7f, true, stiffness);
+
+        RevoluteJoint bowJoint = WorldUtils.makeRevJoint(world, bodies[0], bodies[6],
+                new Vector2((bodyPos[0]+bodyPos[2])/2, bodyPos[5]), new Vector2((bowPos[0]+bowPos[2])/2, 0), false, 0, 0, true, stiffness);
 
     }
 

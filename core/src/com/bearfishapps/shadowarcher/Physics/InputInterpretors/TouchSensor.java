@@ -10,10 +10,11 @@ import com.badlogic.gdx.physics.box2d.Body;
 public class TouchSensor implements InputProcessor {
 
     private Camera camera;
-    private Body arm, arm2;
-    public TouchSensor(Body arm, Body arm2,  Camera camera) {
+    private Body arm, arm2, bow;
+    public TouchSensor(Body arm, Body arm2, Body bow, Camera camera) {
         this.arm = arm;
         this.arm2 = arm2;
+        this.bow = bow;
         this.camera = camera;
     }
 
@@ -37,6 +38,7 @@ public class TouchSensor implements InputProcessor {
 
             arm.setTransform(arm.getPosition(), angle + halfPI);
             arm2.setTransform(arm.getPosition(), angle + halfPI);
+            bow.setTransform(arm.getPosition(), angle + halfPI);
         }
     }
 
