@@ -52,7 +52,7 @@ public class Humanoid extends CustomPhysicsBody{
         bodies[3] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, rArmPos, pos.x, pos.y-rArmPos[5], density*0.01f, 0.1f, friction, CollisionMasks.Mask_ARM, CollisionMasks.Mask_DEFAULT);
         bodies[4] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, lLegPos, pos.x, pos.y+(bodyPos[2]), density*0.6f, 0.1f, friction, CollisionMasks.Mask_LEG, (short)(CollisionMasks.Mask_DEFAULT|CollisionMasks.Mask_BODY));
         bodies[5] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, rLegPos, pos.x, pos.y+(bodyPos[2]), density*0.6f, 0.1f, friction, CollisionMasks.Mask_ARM, (short)(CollisionMasks.Mask_DEFAULT|CollisionMasks.Mask_BODY));
-        bodies[6] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, bowPos, pos.x, pos.y-lArmPos[5], 0.001f, 0.1f, friction, CollisionMasks.Mask_BOWnARROW, CollisionMasks.Mask_DEFAULT);
+        bodies[6] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, bowPos, pos.x, pos.y-lArmPos[5], 0.001f, 0.1f, friction, CollisionMasks.Mask_BOW, CollisionMasks.Mask_DEFAULT);
 
         RevoluteJoint headJoint = WorldUtils.makeRevJoint(world, bodies[0], bodies[1],
                 new Vector2((bodyPos[0]+bodyPos[2])/2, bodyPos[5]), new Vector2((headPos[0]+headPos[2])/2, headPos[1]), true, 1.04f, -1.04f, true, stiffness);
@@ -76,8 +76,10 @@ public class Humanoid extends CustomPhysicsBody{
     }
 
     public void remainActive() {
-        for(Body b: bodies)
-            b.setActive(true);
+        for(Body b: bodies) {
+            if(!b.isActive())
+                b.setActive(true);
+        }
     }
 
     public Arrow drawArrow() {
@@ -91,7 +93,7 @@ public class Humanoid extends CustomPhysicsBody{
     }
 
     public void shootArrow() {
-        arrow.release(100, armJoint1.getJointAngle());
+        arrow.release(240, armJoint1.getJointAngle());
         arrow = null;
     }
 }

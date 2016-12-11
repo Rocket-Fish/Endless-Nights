@@ -30,11 +30,11 @@ public class PhysicsWorld extends Actor implements OnArrowShootAction{
     public PhysicsWorld() {
         shapeRenderer = new ShapeRenderer();
 
-        world = new World(new Vector2(0, -9.8f), true);
+        world = new World(new Vector2(0, -20f), true);
         debugRenderer = new Box2DDebugRenderer();
 
         groundPlatform = new GroundPlatform(world, new Vector2(0, 50), new Vector2(800, 50));
-        humanoid = new Humanoid(world, new Vector2(200, 72), 40);
+        humanoid = new Humanoid(world, new Vector2(200, 62), 20);
 
         arrows.add(humanoid.drawArrow());
     }
@@ -46,7 +46,11 @@ public class PhysicsWorld extends Actor implements OnArrowShootAction{
 
     public void step() {
         world.step(1 / 60f, 6, 2);
+
         arrowShooter.refresh();
+        for(Arrow a: arrows) {
+            a.applyDrag();
+        }
     }
 
     @Override
