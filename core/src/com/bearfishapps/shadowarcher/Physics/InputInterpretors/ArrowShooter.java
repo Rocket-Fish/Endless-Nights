@@ -8,35 +8,40 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.Arrow;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.Humanoid;
 
-public class TouchSensor implements InputProcessor {
+public class ArrowShooter implements InputProcessor {
 
     private Camera camera;
     private Body arm, arm2;
     private Humanoid humanoid;
-    public TouchSensor(Humanoid humanoid, Camera camera) {
+    private OnArrowShootAction onArrowShootAction;
+    public ArrowShooter(OnArrowShootAction onArrowShootAction, Humanoid humanoid, Camera camera) {
         this.arm = humanoid.getBodies()[2];
         this.arm2 = humanoid.getBodies()[3];
         this.humanoid = humanoid;
         this.camera = camera;
+        this.onArrowShootAction = onArrowShootAction;
     }
 
     private Vector3 touchPos = new Vector3(0, 0, 0);
     private Vector3 moveVec = new Vector3(0, 0, 0);
-    private boolean isPressed = false, hasMoved = false;
+    private boolean isPressed = false, hasMoved = false, shooting = false;
 
     public void refresh() {
-        if(isPressed && hasMoved) {
-            float dx = touchPos.x - moveVec.x;
-            if (Math.abs(dx) < 0.001f) {
-                if(dx < 0)
-                    dx = -0.001f;
-                else
-                    dx = 0.001f;
-            }
-            float dy = touchPos.y - moveVec.y;
+        humanoid.remainActive();
+        float dx = touchPos.x - moveVec.x;
+        if (Math.abs(dx) < 0.000001f) {
+            if(dx < 0)
+                dx = -0.000001f;
+            else
+                dx = 0.000001f;
+        }
+        float dy = touchPos.y - moveVec.y;
 
-            float angle = MathUtils.atan2(dy, dx);
-            float halfPI = MathUtils.PI/2;
+        float angle = MathUtils.atan2(dy, dx);
+        float halfPI = MathUtils.PI/2;
+
+        if(isPressed && hasMoved) {
+
             arm.setTransform(arm.getPosition(), angle + halfPI);
             arm2.setTransform(arm.getPosition(), angle + halfPI);
 
@@ -45,6 +50,12 @@ public class TouchSensor implements InputProcessor {
                 humanoid.getArrow().rotateTo(angle);
             }
         }
+        else if(shooting && humanoid.getArrow() != null) {
+            humanoid.shootArrow();
+            onArrowShootAction.onShoot();
+            shooting = false;
+        }
+
     }
 
     @Override
@@ -57,8 +68,11 @@ public class TouchSensor implements InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        isPressed = false;
-        hasMoved = false;
+        if(isPressed && hasMoved) {
+            isPressed = false;
+            hasMoved = false;
+            shooting = true;
+        }
         return false;
     }
 

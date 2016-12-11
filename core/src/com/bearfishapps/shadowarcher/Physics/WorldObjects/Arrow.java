@@ -15,12 +15,14 @@ public class Arrow extends CustomPhysicsBody {
     protected float bodyPos[] = {-0.01f, 0f, 0.01f, 0f, 0.01f, -0.8f, -0.01f, -0.8f},
             headPos[] = {-0.05f, -0.75f, 0.05f, -0.75f, 0.05f, -0.85f, -0.05f, -0.85f};
 
+    private float initialAngle;
     public Arrow(World world, Vector2 pos, float scale, float rotation) {
         super(2);
         if(world == null)
             return;
         rotation = -rotation;
 
+        initialAngle = rotation;
         bodyPos = WorldUtils.rotateFRadians(bodyPos, rotation);
         headPos = WorldUtils.rotateFRadians(headPos, rotation);
         bodyPos = WorldUtils.scaleF(bodyPos, scale);
@@ -38,7 +40,17 @@ public class Arrow extends CustomPhysicsBody {
     }
 
     public void rotateTo(float angle) {
+        angle += initialAngle;
+        angle += MathUtils.PI/2;
         bodies[0].setTransform(bodies[0].getPosition(), angle);
-        bodies[1].setTransform(bodies[0].getPosition(), angle);
+        bodies[1].setTransform(bodies[1].getPosition(), angle);
+    }
+
+    public void release(float velocity, float angle) {
+        bodies[0].setActive(true);
+        bodies[1].setActive(true);
+
+//        bodies[0].setLinearVelocity(velocity*MathUtils.sin(angle), velocity*-MathUtils.cos(angle));
+        bodies[1].setLinearVelocity(velocity*MathUtils.sin(angle), velocity*-MathUtils.cos(angle));
     }
 }

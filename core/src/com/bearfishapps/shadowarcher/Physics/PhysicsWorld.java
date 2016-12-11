@@ -8,18 +8,19 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.bearfishapps.shadowarcher.Physics.InputInterpretors.TouchSensor;
+import com.bearfishapps.shadowarcher.Physics.InputInterpretors.ArrowShooter;
+import com.bearfishapps.shadowarcher.Physics.InputInterpretors.OnArrowShootAction;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.Arrow;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.GroundPlatform;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.Humanoid;
 
 import java.util.ArrayList;
 
-public class PhysicsWorld extends Actor{
+public class PhysicsWorld extends Actor implements OnArrowShootAction{
     protected ShapeRenderer shapeRenderer;
     private World world;
     private GroundPlatform groundPlatform;
-    private TouchSensor touchSensor;
+    private ArrowShooter arrowShooter;
     private Humanoid humanoid;
     private ArrayList<Arrow> arrows = new ArrayList<Arrow>();
 
@@ -36,12 +37,16 @@ public class PhysicsWorld extends Actor{
         humanoid = new Humanoid(world, new Vector2(200, 72), 40);
 
         arrows.add(humanoid.drawArrow());
+    }
 
+    @Override
+    public void onShoot() {
+        arrows.add(humanoid.drawArrow());
     }
 
     public void step() {
         world.step(1 / 60f, 6, 2);
-        touchSensor.refresh();
+        arrowShooter.refresh();
     }
 
     @Override
@@ -64,13 +69,12 @@ public class PhysicsWorld extends Actor{
 
     public void initUserInput(InputMultiplexer multiplexer, final Camera camera) {
  //       multiplexer.addProcessor(new MouseDrag(world, camera, groundPlatform.getBodies()[0]));
-        touchSensor = new TouchSensor(humanoid, camera);
-        multiplexer.addProcessor(touchSensor);
+        arrowShooter = new ArrowShooter(this, humanoid, camera);
+        multiplexer.addProcessor(arrowShooter);
     }
 
     public void dispose() {
         world.dispose();
         debugRenderer.dispose();
     }
-
 }
