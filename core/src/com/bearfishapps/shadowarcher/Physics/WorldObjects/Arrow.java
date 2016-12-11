@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.bearfishapps.libs.Tools.PhysicsWorld.WorldUtils;
-import com.bearfishapps.shadowarcher.Physics.CollisionMasks;
+import com.bearfishapps.shadowarcher.Physics.BodyUserDataClass;
 
 public class Arrow extends CustomPhysicsBody {
     private final float density = 1.3f;
@@ -23,6 +23,7 @@ public class Arrow extends CustomPhysicsBody {
         bodyPos = WorldUtils.scaleF(bodyPos, scale);
 
         bodies[0] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, bodyPos, pos.x, pos.y, density, 0.1f, friction);
+        bodies[0].setUserData(new BodyUserDataClass("arrow"));
 
         bodies[0].setAngularDamping(1.5f);
         bodies[0].setActive(false);

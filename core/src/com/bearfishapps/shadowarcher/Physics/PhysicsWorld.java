@@ -43,13 +43,15 @@ public class PhysicsWorld extends Actor{
         arrows.add(humanoidP2.drawArrow());
     }
 
-    public void step() {
+    public void step(float delta) {
         world.step(1 / 60f, 6, 2);
 
         arrowShooterP1.refresh();
         arrowShooterP2.refresh();
         for(Arrow a: arrows) {
             a.applyDrag();
+            if(a.getBodies()[0].isActive())
+                a.incrementTime(delta);
         }
     }
 
