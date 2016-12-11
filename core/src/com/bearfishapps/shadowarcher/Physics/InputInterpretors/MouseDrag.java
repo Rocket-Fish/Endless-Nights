@@ -10,7 +10,11 @@ import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.MouseJoint;
 import com.badlogic.gdx.physics.box2d.joints.MouseJointDef;
-import com.bearfishapps.shadowarcher.Physics.WorldObjects.GroundPlatform;
+
+/*
+ NOTE: This input processor should ONLY be used for debugging
+ TODO: make inactive before release.
+ */
 
 public class MouseDrag implements InputProcessor {
     private Camera camera;

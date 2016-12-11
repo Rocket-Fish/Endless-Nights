@@ -1,21 +1,14 @@
 package com.bearfishapps.shadowarcher.Physics;
 
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.physics.box2d.joints.MouseJoint;
-import com.badlogic.gdx.physics.box2d.joints.MouseJointDef;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.bearfishapps.shadowarcher.Physics.InputInterpretors.MouseDrag;
+import com.bearfishapps.shadowarcher.Physics.InputInterpretors.TouchSensor;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.GroundPlatform;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.Humanoid;
 
@@ -23,6 +16,7 @@ public class PhysicsWorld extends Actor{
     protected ShapeRenderer shapeRenderer;
     private World world;
     private GroundPlatform groundPlatform;
+    private TouchSensor touchSensor;
     private Humanoid humanoid;
 
     // TODO: REMOVE/Disable DEGUB RENDERER DIRNG RELEASE
@@ -36,10 +30,12 @@ public class PhysicsWorld extends Actor{
 
         groundPlatform = new GroundPlatform(world, new Vector2(0, 50), new Vector2(800, 50));
         humanoid = new Humanoid(world, new Vector2(200, 70), 40);
+
     }
 
     public void step() {
         world.step(1 / 60f, 6, 2);
+        touchSensor.refresh();
     }
 
     @Override
@@ -61,7 +57,9 @@ public class PhysicsWorld extends Actor{
     }
 
     public void initUserInput(InputMultiplexer multiplexer, final Camera camera) {
-        multiplexer.addProcessor(new MouseDrag(world, camera, groundPlatform.getBodies()[0]));
+ //       multiplexer.addProcessor(new MouseDrag(world, camera, groundPlatform.getBodies()[0]));
+        touchSensor = new TouchSensor(humanoid.getBodies()[2], humanoid.getBodies()[3], camera);
+        multiplexer.addProcessor(touchSensor);
     }
 
     public void dispose() {
