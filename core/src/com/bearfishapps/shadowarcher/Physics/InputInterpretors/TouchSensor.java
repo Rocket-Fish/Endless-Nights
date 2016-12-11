@@ -19,17 +19,24 @@ public class TouchSensor implements InputProcessor {
 
     private Vector3 touchPos = new Vector3(0, 0, 0);
     private Vector3 moveVec = new Vector3(0, 0, 0);
-    private boolean isPressed = false;
+    private boolean isPressed = false, hasMoved = false;
 
     public void refresh() {
-        if(isPressed) {
+        if(isPressed && hasMoved) {
             float dx = touchPos.x - moveVec.x;
-            if (dx < 0.001f) dx = 0.001f;
+            if (Math.abs(dx) < 0.001f) {
+                if(dx < 0)
+                    dx = -0.001f;
+                else
+                    dx = 0.001f;
+            }
             float dy = touchPos.y - moveVec.y;
 
             float angle = MathUtils.atan2(dy, dx);
-            arm.setTransform(arm.getPosition(), angle + 1.58f);
-            arm2.setTransform(arm.getPosition(), angle + 1.58f);
+            float halfPI = MathUtils.PI/2;
+
+            arm.setTransform(arm.getPosition(), angle + halfPI);
+            arm2.setTransform(arm.getPosition(), angle + halfPI);
         }
     }
 
@@ -44,11 +51,13 @@ public class TouchSensor implements InputProcessor {
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         isPressed = false;
+        hasMoved = false;
         return false;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
+        hasMoved = true;
         moveVec.set(screenX, screenY, 0);
         camera.unproject(moveVec);
         return false;
