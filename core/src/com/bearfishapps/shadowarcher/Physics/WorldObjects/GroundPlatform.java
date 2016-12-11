@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.bearfishapps.shadowarcher.Physics.BodyUserDataClass;
 
 public class GroundPlatform extends CustomPhysicsBody{
     private final float friction = 0.8f;
@@ -29,6 +30,7 @@ public class GroundPlatform extends CustomPhysicsBody{
         groundFixture.density = 0;
         // Create a fixture from our polygon shape and add it to our ground body
         bodies[0].createFixture(groundFixture);
+        bodies[0].setUserData(new BodyUserDataClass("ground"));
 // Clean up after ourselves
         ground.dispose();
     }

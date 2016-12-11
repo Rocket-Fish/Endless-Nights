@@ -1,4 +1,4 @@
-package com.bearfishapps.shadowarcher.Physics;
+package com.bearfishapps.shadowarcher.Physics.Collision;
 
 public class CollisionMasks {
     public static short

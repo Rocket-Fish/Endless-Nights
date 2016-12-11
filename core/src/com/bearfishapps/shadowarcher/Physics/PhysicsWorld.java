@@ -7,7 +7,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.bearfishapps.libs.Tools.PhysicsWorld.StickyClass;
+import com.bearfishapps.libs.Tools.PhysicsWorld.WorldUtils;
+import com.bearfishapps.shadowarcher.Physics.Collision.CollisionListener;
 import com.bearfishapps.shadowarcher.Physics.InputInterpretors.ArrowShooter;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.Arrow;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.GroundPlatform;
@@ -25,6 +29,8 @@ public class PhysicsWorld extends Actor{
     private Humanoid humanoidP2;
     private ArrayList<Arrow> arrows = new ArrayList<Arrow>();
 
+    ArrayList<StickyClass> arrowsToStick = new ArrayList<StickyClass>();
+
     // TODO: REMOVE/Disable DEGUB RENDERER DIRNG RELEASE
     private Box2DDebugRenderer debugRenderer;
 
@@ -32,6 +38,7 @@ public class PhysicsWorld extends Actor{
         shapeRenderer = new ShapeRenderer();
 
         world = new World(new Vector2(0, -29.8f), true);
+        world.setContactListener(new CollisionListener(arrowsToStick));
         debugRenderer = new Box2DDebugRenderer();
 
         groundPlatform = new GroundPlatform(world, new Vector2(0, 10), new Vector2(400, 10));
@@ -43,14 +50,38 @@ public class PhysicsWorld extends Actor{
         arrows.add(humanoidP2.drawArrow());
     }
 
-    public void step() {
+    public void step(float delta) {
         world.step(1 / 60f, 6, 2);
 
         arrowShooterP1.refresh();
         arrowShooterP2.refresh();
         for(Arrow a: arrows) {
             a.applyDrag();
+            if(a.getBodies()[0].isActive())
+                a.incrementTime(delta);
         }
+
+        Vector2 tip = arrows.get(0).returnArrowTip();
+        for(StickyClass sc: arrowsToStick) {
+            Vector2 anchorPoint = null;
+            if(((BodyUserDataClass)sc.getBody1().getUserData()).getType().equals("arrow")) {
+                anchorPoint = sc.getBody1().getWorldPoint(tip);
+            } else if(((BodyUserDataClass)sc.getBody2().getUserData()).getType().equals("arrow")) {
+                anchorPoint = sc.getBody2().getWorldPoint(tip);
+            }
+
+            if(anchorPoint != null) {
+                WeldJointDef weldJointDef = new WeldJointDef();
+                weldJointDef.bodyA = sc.getBody1();
+                weldJointDef.bodyB = sc.getBody2();
+                weldJointDef.localAnchorA.set(weldJointDef.bodyA.getLocalPoint(tip));
+                weldJointDef.localAnchorB.set(weldJointDef.bodyB.getLocalPoint(tip));
+                weldJointDef.referenceAngle = weldJointDef.bodyB.getAngle() - weldJointDef.bodyA.getAngle();
+                world.createJoint(weldJointDef);
+            }
+        }
+        arrowsToStick.clear();
+
     }
 
     @Override

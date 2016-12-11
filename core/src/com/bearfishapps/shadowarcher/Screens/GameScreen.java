@@ -16,7 +16,7 @@ public class GameScreen extends GeneralScreens {
 
     @Override
     public void step(float delta, float animationKeyFrame) {
-        physicsWorld.step();
+        physicsWorld.step(delta);
     }
 
     @Override
