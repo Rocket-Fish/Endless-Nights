@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
+import com.badlogic.gdx.physics.box2d.joints.WeldJoint;
 import com.bearfishapps.libs.Tools.PhysicsWorld.WorldUtils;
 import com.bearfishapps.shadowarcher.Physics.CollisionMasks;
 
@@ -24,7 +25,7 @@ public class Humanoid extends CustomPhysicsBody{
                     lLegPos[] = {-0.1f, 0f, 0.1f, -0f, 0.2f, -0.6f, 0.05f, -0.6f},
                     rLegPos[] = {-0.1f, 0f, 0.1f, -0f, -0.05f, -0.6f, -0.2f, -0.6f},
     // The bow pos is a bit bugged, dunno why though ...
-                    bowPos[] = {-0.275f, -0.6f, 0.275f, -0.6f, /**/ 0.8f, -0.55f,/**/  0.3f, -0.7f, -0.3f, -0.7f, /**/ -0.8f, -0.55f};
+                    bowPos[] = {/**/ 0.8f, -0.55f,/**/  0.3f, -0.675f, -0.3f, -0.675f, /**/ -0.8f, -0.55f};
 
     public Humanoid(World world, Vector2 pos, float scale) {
         super(7);
@@ -44,7 +45,7 @@ public class Humanoid extends CustomPhysicsBody{
         bodies[3] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, rArmPos, pos.x, pos.y-rArmPos[5], density*0.4f, 0.1f, friction, CollisionMasks.Mask_ARM, CollisionMasks.Mask_DEFAULT);
         bodies[4] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, lLegPos, pos.x, pos.y+(bodyPos[2]), density*0.6f, 0.1f, friction, CollisionMasks.Mask_LEG, (short)(CollisionMasks.Mask_DEFAULT|CollisionMasks.Mask_BODY));
         bodies[5] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, rLegPos, pos.x, pos.y+(bodyPos[2]), density*0.6f, 0.1f, friction, CollisionMasks.Mask_ARM, (short)(CollisionMasks.Mask_DEFAULT|CollisionMasks.Mask_BODY));
-        bodies[6] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, bowPos, pos.x, pos.y, 0.1f, 0.1f, friction, CollisionMasks.Mask_BOWnARROW, CollisionMasks.Mask_DEFAULT);
+        bodies[6] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, bowPos, pos.x, pos.y-lArmPos[5], 0.1f, 0.1f, friction, CollisionMasks.Mask_BOWnARROW, CollisionMasks.Mask_DEFAULT);
 
         RevoluteJoint headJoint = WorldUtils.makeRevJoint(world, bodies[0], bodies[1],
                 new Vector2((bodyPos[0]+bodyPos[2])/2, bodyPos[5]), new Vector2((headPos[0]+headPos[2])/2, headPos[1]), true, 1.04f, -1.04f, true, stiffness);
@@ -57,9 +58,7 @@ public class Humanoid extends CustomPhysicsBody{
         RevoluteJoint legJoint2 = WorldUtils.makeRevJoint(world, bodies[0], bodies[5],
                 new Vector2((bodyPos[0]+bodyPos[2])/2, bodyPos[1]), new Vector2((rLegPos[0]+rLegPos[2])/2, rLegPos[1]), true, 1.7f, -1.7f, true, stiffness);
 
-        RevoluteJoint bowJoint = WorldUtils.makeRevJoint(world, bodies[0], bodies[6],
-                new Vector2((bodyPos[0]+bodyPos[2])/2, bodyPos[5]), new Vector2((bowPos[0]+bowPos[2])/2, 0), false, 0, 0, true, stiffness);
-
+        WeldJoint bowWJoint = WorldUtils.weldJoint(world, bodies[2], bodies[6], new Vector2(0, lArmPos[5]), new Vector2(0, bowPos[1]));
     }
 
 
