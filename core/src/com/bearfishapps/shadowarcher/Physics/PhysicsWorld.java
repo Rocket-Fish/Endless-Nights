@@ -29,7 +29,7 @@ public class PhysicsWorld extends Actor{
         debugRenderer = new Box2DDebugRenderer();
 
         groundPlatform = new GroundPlatform(world, new Vector2(0, 50), new Vector2(800, 50));
-        humanoid = new Humanoid(world, new Vector2(200, 70), 40);
+        humanoid = new Humanoid(world, new Vector2(200, 72), 40);
 
     }
 

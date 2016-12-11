@@ -2,7 +2,10 @@ package com.bearfishapps.shadowarcher.Physics.WorldObjects;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.EdgeShape;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
 import com.bearfishapps.libs.Tools.PhysicsWorld.WorldUtils;
@@ -20,6 +23,7 @@ public class Humanoid extends CustomPhysicsBody{
                     rArmPos[] = new float[lArmPos.length],
                     lLegPos[] = {-0.1f, 0f, 0.1f, -0f, 0.2f, -0.6f, 0.05f, -0.6f},
                     rLegPos[] = {-0.1f, 0f, 0.1f, -0f, -0.05f, -0.6f, -0.2f, -0.6f};
+    protected Body staticAttatchment;
 
 
     public Humanoid(World world, Vector2 pos, float scale) {
@@ -43,9 +47,9 @@ public class Humanoid extends CustomPhysicsBody{
         RevoluteJoint headJoint = WorldUtils.makeRevJoint(world, bodies[0], bodies[1],
                 new Vector2((bodyPos[0]+bodyPos[2])/2, bodyPos[5]), new Vector2((headPos[0]+headPos[2])/2, headPos[1]), true, 1.04f, -1.04f, true, stiffness);
         RevoluteJoint armJoint1 = WorldUtils.makeRevJoint(world, bodies[0], bodies[2],
-                new Vector2((bodyPos[0]+bodyPos[2])/2, bodyPos[5]), new Vector2((lArmPos[0]+lArmPos[2])/2, lArmPos[1]));
+                new Vector2((bodyPos[0]+bodyPos[2])/2, bodyPos[5]), new Vector2((lArmPos[0]+lArmPos[2])/2, lArmPos[1]), false, 0, 0, true, stiffness);
         RevoluteJoint armJoint2 = WorldUtils.makeRevJoint(world, bodies[0], bodies[3],
-                new Vector2((bodyPos[0]+bodyPos[2])/2, bodyPos[5]), new Vector2((rArmPos[0]+rArmPos[2])/2, rArmPos[1]));
+                new Vector2((bodyPos[0]+bodyPos[2])/2, bodyPos[5]), new Vector2((rArmPos[0]+rArmPos[2])/2, rArmPos[1]), false, 0, 0, true, stiffness);
         RevoluteJoint legJoint1 = WorldUtils.makeRevJoint(world, bodies[0], bodies[4],
                 new Vector2((bodyPos[0]+bodyPos[2])/2, bodyPos[1]), new Vector2((lLegPos[0]+lLegPos[2])/2, lLegPos[1]), true, 1.7f, -1.7f, true, stiffness);
         RevoluteJoint legJoint2 = WorldUtils.makeRevJoint(world, bodies[0], bodies[5],
