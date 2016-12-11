@@ -5,8 +5,6 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -27,10 +25,6 @@ public abstract class GeneralScreens implements Screen {
     protected Stage stage;
     protected Table table;
 
-    // used to render sprites and shapes
-    protected SpriteBatch batch;
-    protected ShapeRenderer shapeRenderer;
-
     // constructor with default screen size;
     public GeneralScreens(GdxGame game) {
         this.game = game;
@@ -42,8 +36,6 @@ public abstract class GeneralScreens implements Screen {
         stage = new Stage(viewport);
         table = new Table();
 
-        batch = new SpriteBatch();
-        shapeRenderer = new ShapeRenderer();
         camera.update();
     }
 
@@ -59,8 +51,6 @@ public abstract class GeneralScreens implements Screen {
         stage = new Stage(viewport);
         table = new Table();
 
-        batch = new SpriteBatch();
-        shapeRenderer = new ShapeRenderer();
         camera.update();
     }
 
@@ -95,11 +85,8 @@ public abstract class GeneralScreens implements Screen {
         Gdx.gl.glClearColor(color[0] / 255.0f, color[1] / 255.0f, color[2] / 255.0f, color[3] / 100f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // set the drawing to the relative coordinates of the camera
-        batch.setProjectionMatrix(camera.combined);
-        shapeRenderer.setProjectionMatrix(camera.combined);
         // for drawing
-        draw(delta, keyFrame);
+        step(delta, keyFrame);
 
         // for ui
         stage.act();
@@ -134,7 +121,7 @@ public abstract class GeneralScreens implements Screen {
     }
 
     // abstract classes for customization
-    public abstract void draw(float delta, float animationKeyFrame);
+    public abstract void step(float delta, float animationKeyFrame);
 
     public abstract void preShow(Table table, InputMultiplexer multiplexer);
 

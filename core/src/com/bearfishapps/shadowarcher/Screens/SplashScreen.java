@@ -18,7 +18,7 @@ public class SplashScreen extends GeneralScreens {
     }
 
     @Override
-    public void draw(float delta, float animationKeyFrame) {
+    public void step(float delta, float animationKeyFrame) {
         if (game.getLoader().get().update() && animationKeyFrame >= 3) {
 //            TextureRegionService.mapAll(game.getLoader().get().get(Constants.atlas, TextureAtlas.class));
             stage.addAction(Actions.sequence(Actions.fadeOut(1f), Actions.run(new Runnable() {
