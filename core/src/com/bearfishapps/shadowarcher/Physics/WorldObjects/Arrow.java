@@ -8,9 +8,9 @@ import com.bearfishapps.libs.Tools.PhysicsWorld.WorldUtils;
 import com.bearfishapps.shadowarcher.Physics.CollisionMasks;
 
 public class Arrow extends CustomPhysicsBody {
-    private final float density = 1f;
+    private final float density = 1.3f;
     private final float friction = 1f;
-    protected float bodyPos[] = {0f, 0f, 0.07f, -0.7f, 0f, -0.8f, -0.07f, -0.7f};
+    protected float bodyPos[] = {0f, 0f, 0.07f, -0.75f, 0f, -0.8f, -0.07f, -0.75f};
 
 //    private float initialAngle;
     public Arrow(World world, Vector2 pos, float scale, float rotation) {
@@ -24,7 +24,7 @@ public class Arrow extends CustomPhysicsBody {
 
         bodies[0] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, bodyPos, pos.x, pos.y, density, 0.1f, friction);
 
-//        bodies[0].setAngularDamping(3);
+        bodies[0].setAngularDamping(1.5f);
         bodies[0].setActive(false);
         rotateTo(rotation);
     }
@@ -44,16 +44,34 @@ public class Arrow extends CustomPhysicsBody {
     }
 
     public void applyDrag() {
+//        float flightVelocity = new Vector2(bodies[0].getLinearVelocity()).len();
+//        if(bodies[0].isActive() && Math.abs(flightVelocity) > 1) {
         if(bodies[0].isActive()) {
-            float dragConstant = 0.005f;
-            Vector2 pointingDirection = bodies[0].getWorldVector(new Vector2(0, -1));
-            Vector2 flightDirection = bodies[0].getLinearVelocity().nor();
+            Vector2 pointingDirection = new Vector2(bodies[0].getWorldVector(new Vector2(0, -1)));
+            Vector2 flightDirection = normalize(bodies[0].getLinearVelocity());
+            float flightVelocity = new Vector2(bodies[0].getLinearVelocity()).len();
 
             float dot = new Vector2(flightDirection).dot(pointingDirection);
-            float dragForceMagnitude = (1 - Math.abs(dot)) * dragConstant * bodies[0].getMass();
+            float dragForceMagnitude = (1 - Math.abs(dot))*flightVelocity* bodies[0].getMass();
 
             Vector2 tail = bodies[0].getWorldPoint(new Vector2(bodyPos[0], bodyPos[1]));
-            bodies[0].applyForce(new Vector2(flightDirection).nor().scl(-dragForceMagnitude),tail, true);
+            bodies[0].applyForce(new Vector2(flightDirection).scl(-dragForceMagnitude),tail, true);
+
+            if(bodies[0].getAngularVelocity() > 0.3f)
+                bodies[0].setAngularVelocity(0.29f);
+            else if(bodies[0].getAngularVelocity() < -0.3f)
+                bodies[0].setAngularVelocity(-0.29f);
+
         }
+    }
+
+    private Vector2 normalize(Vector2 input) {
+        Vector2 v = new Vector2(input);
+        float div = (float)Math.sqrt(v.x*v.x+v.y*v.y);
+        if(div != 0) {
+            v.x/= div;
+            v.y/= div;
+        }
+        return v;
     }
 }

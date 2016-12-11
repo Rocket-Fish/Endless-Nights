@@ -28,11 +28,11 @@ public class ArrowShooter implements InputProcessor {
 
     public void refresh() {
         float dx = touchPos.x - moveVec.x;
-        if (Math.abs(dx) < 0.000001f) {
+        if (Math.abs(dx) < 0.00000000001f) {
             if(dx < 0)
-                dx = -0.000001f;
+                dx = -0.00000000001f;
             else
-                dx = 0.000001f;
+                dx = 0.00000000001f;
         }
         float dy = touchPos.y - moveVec.y;
 

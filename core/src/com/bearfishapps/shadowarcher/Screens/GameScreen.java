@@ -9,7 +9,7 @@ import com.bearfishapps.shadowarcher.Physics.PhysicsWorld;
 public class GameScreen extends GeneralScreens {
     private PhysicsWorld physicsWorld;
     public GameScreen(GdxGame game) {
-        super(game);
+        super(game, 400, 240);
         physicsWorld = new PhysicsWorld();
 //        setBackgroundColor(255, 255, 255, 1);
     }
