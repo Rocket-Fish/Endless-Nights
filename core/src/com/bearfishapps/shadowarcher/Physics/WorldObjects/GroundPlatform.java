@@ -30,7 +30,7 @@ public class GroundPlatform extends CustomPhysicsBody{
         groundFixture.density = 0;
         // Create a fixture from our polygon shape and add it to our ground body
         bodies[0].createFixture(groundFixture);
-        bodies[0].setUserData(new BodyUserDataClass("ground"));
+        bodies[0].setUserData(new BodyUserDataClass("ground", 10f));
 // Clean up after ourselves
         ground.dispose();
     }

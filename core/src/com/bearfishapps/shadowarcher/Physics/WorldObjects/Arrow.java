@@ -6,11 +6,12 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.bearfishapps.libs.Tools.PhysicsWorld.WorldUtils;
 import com.bearfishapps.shadowarcher.Physics.BodyUserDataClass;
+import com.bearfishapps.shadowarcher.Physics.Collision.CollisionMasks;
 
 public class Arrow extends CustomPhysicsBody {
     private final float density = 1.3f;
     private final float friction = 1f;
-    protected float bodyPos[] = {0f, 0f, 0.07f, -0.75f, 0f, -0.8f, -0.07f, -0.75f};
+    protected float bodyPos[] = {0f, 0f, 0.03f, -0.75f, 0f, -0.8f, -0.03f, -0.75f};
 
 //    private float initialAngle;
     public Arrow(World world, Vector2 pos, float scale, float rotation) {
@@ -22,7 +23,7 @@ public class Arrow extends CustomPhysicsBody {
 //        bodyPos = WorldUtils.rotateFRadians(bodyPos, rotation);
         bodyPos = WorldUtils.scaleF(bodyPos, scale);
 
-        bodies[0] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, bodyPos, pos.x, pos.y, density, 0.1f, friction);
+        bodies[0] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, bodyPos, pos.x, pos.y, density, 0.1f, friction, CollisionMasks.Mask_ARROW, (short)(CollisionMasks.Mask_Humanoid | CollisionMasks.Mask_DEFAULT));
         bodies[0].setUserData(new BodyUserDataClass("arrow"));
 
         bodies[0].setAngularDamping(1.5f);

@@ -7,7 +7,9 @@ public class CollisionMasks {
             Mask_LEG = 0x04,
             Mask_BODY = 0x08,
             Mask_HEAD = 0x16,
-            Mask_BOW = 0x32
+            Mask_Humanoid = (short)(Mask_ARM | Mask_LEG | Mask_BODY | Mask_HEAD),
+            Mask_BOW = 0x32,
+            Mask_ARROW = 0x64
                     ;
     // note that they numbers much be x2 each time or binary doesnt work out !!!
     // 01 and 10 mask to make 11,

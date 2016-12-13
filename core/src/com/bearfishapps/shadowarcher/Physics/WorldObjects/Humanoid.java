@@ -56,7 +56,7 @@ public class Humanoid extends CustomPhysicsBody{
         bodies[6] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, bowPos, pos.x, pos.y-lArmPos[5], 0.001f, 0.1f, friction, CollisionMasks.Mask_BOW, CollisionMasks.Mask_DEFAULT);
 
         for(Body b: bodies) {
-            b.setUserData(new BodyUserDataClass("humanoid", 0.1f));
+            b.setUserData(new BodyUserDataClass("humanoid", 10f));
         }
 
         RevoluteJoint headJoint = WorldUtils.makeRevJoint(world, bodies[0], bodies[1],
