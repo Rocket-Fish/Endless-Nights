@@ -4,16 +4,15 @@ import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
-import com.bearfishapps.libs.Tools.PhysicsWorld.StickyClass;
 import com.bearfishapps.shadowarcher.Physics.BodyUserDataClass;
 
 import java.util.ArrayList;
 
 public class CollisionListener implements ContactListener {
 
-    ArrayList<StickyClass> stuffToStick;
+    ArrayList<StickyArrowClass> stuffToStick;
 
-    public CollisionListener(ArrayList<StickyClass> stuffToStick) {
+    public CollisionListener(ArrayList<StickyArrowClass> stuffToStick) {
         this.stuffToStick = stuffToStick;
     }
 
@@ -42,16 +41,16 @@ public class CollisionListener implements ContactListener {
                 BodyUserDataClass a = (BodyUserDataClass) objA;
                 BodyUserDataClass b = (BodyUserDataClass) objB;
 
-                if ((a.getType().equals("arrow") &&
+                if (((a.getType().equals("arrow") &&
                         ((BodyUserDataClass) contact.getFixtureA().getBody().getUserData()).getDeltaTime() > 1f) ||
                         (b.getType().equals("arrow") &&
-                                ((BodyUserDataClass) contact.getFixtureB().getBody().getUserData()).getDeltaTime() > 1f) &&
+                                ((BodyUserDataClass) contact.getFixtureB().getBody().getUserData()).getDeltaTime() > 1f)) &&
                                 (!(b.getType().equals("arrow") && a.getType().equals("arrow")))) {
                     if (impulse.getNormalImpulses()[0] > a.getHardness()) {
-                        StickyClass sc = new StickyClass(contact.getFixtureA().getBody(), contact.getFixtureB().getBody());
+                        StickyArrowClass sc = new StickyArrowClass( contact.getFixtureB().getBody(),contact.getFixtureA().getBody());
                         stuffToStick.add(sc);
                     } else if (impulse.getNormalImpulses()[0] > b.getHardness()) {
-                        StickyClass sc = new StickyClass(contact.getFixtureA().getBody(), contact.getFixtureB().getBody());
+                        StickyArrowClass sc = new StickyArrowClass(contact.getFixtureA().getBody(), contact.getFixtureB().getBody());
                         stuffToStick.add(sc);
                     }
                 }
