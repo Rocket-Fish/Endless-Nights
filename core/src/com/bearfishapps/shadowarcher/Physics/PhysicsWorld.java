@@ -5,10 +5,12 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.bearfishapps.shadowarcher.Physics.Collision.CollisionMasks;
 import com.bearfishapps.shadowarcher.Physics.Collision.StickyArrowClass;
 import com.bearfishapps.shadowarcher.Physics.Collision.CollisionListener;
 import com.bearfishapps.shadowarcher.Physics.InputInterpretors.ArrowShooter;
@@ -24,9 +26,10 @@ public class PhysicsWorld extends Actor{
     private GroundPlatform groundPlatform;
     private ArrowShooter arrowShooterP1;
     private ArrowShooter arrowShooterP2;
-    private Humanoid humanoidP1;
-    private Humanoid humanoidP2;
+    private ArrayList<Humanoid> humanoids = new ArrayList<Humanoid>();
+    Humanoid humanoidP1, humanoidP2;
     private ArrayList<Arrow> arrows = new ArrayList<Arrow>();
+    private ArrayList<Body> bodiesToChange = new ArrayList<Body>();
 
     ArrayList<StickyArrowClass> arrowsToStick = new ArrayList<StickyArrowClass>();
 
@@ -34,16 +37,20 @@ public class PhysicsWorld extends Actor{
     private Box2DDebugRenderer debugRenderer;
 
     public PhysicsWorld() {
+        CollisionMasks.printShorts();
         shapeRenderer = new ShapeRenderer();
 
         world = new World(new Vector2(0, -29.8f), true);
-        world.setContactListener(new CollisionListener(arrowsToStick));
+        world.setContactListener(new CollisionListener(arrowsToStick, bodiesToChange));
         debugRenderer = new Box2DDebugRenderer();
 
         groundPlatform = new GroundPlatform(world, new Vector2(0, 10), new Vector2(400, 10));
 
         humanoidP1 = new Humanoid(world, new Vector2(20, 16f), 10);
-        humanoidP2 = new Humanoid(world, new Vector2(380, 16f), 10);
+        humanoidP2 = new Humanoid(world, new Vector2(80, 16f), 10);
+
+        humanoids.add(humanoidP1);
+        humanoids.add(humanoidP2);
 
         arrows.add(humanoidP1.drawArrow());
         arrows.add(humanoidP2.drawArrow());
@@ -77,6 +84,16 @@ public class PhysicsWorld extends Actor{
         }
         arrowsToStick.clear();
 
+        for(Body b: bodiesToChange) {
+            for(Humanoid h: humanoids) {
+                for(Body hb:h.getBodies()) {
+                    if(hb == b) {
+                        h.damage();
+                    }
+                }
+            }
+        }
+        bodiesToChange.clear();
     }
 
     @Override

@@ -36,13 +36,17 @@ public class Arrow extends CustomPhysicsBody {
 // should have rotated the arrow as a whole isntead of moving the points
 //        angle += initialAngle;
 //        angle += MathUtils.PI/2;
-        bodies[0].setTransform(bodies[0].getPosition(), angle);
+        transformTo(bodies[0].getPosition(), angle);
     }
 
     public void release(float velocity, float angle) {
         bodies[0].setActive(true);
 
         bodies[0].setLinearVelocity(velocity*MathUtils.sin(angle), velocity*-MathUtils.cos(angle));
+    }
+
+    public void transformTo(Vector2 pos, float angle) {
+        bodies[0].setTransform(pos, angle);
     }
 
     public void applyDrag() {

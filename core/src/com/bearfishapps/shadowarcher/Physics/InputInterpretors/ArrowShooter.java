@@ -31,6 +31,7 @@ public class ArrowShooter implements InputProcessor {
     private Vector3 touchPos = new Vector3(0, 0, 0);
     private Vector3 moveVec = new Vector3(0, 0, 0);
     private boolean isPressed = false, hasMoved = false, shooting = false;
+    private float previousAngle = 0;
 
     public void refresh() {
         float dx = touchPos.x - moveVec.x;
@@ -45,14 +46,19 @@ public class ArrowShooter implements InputProcessor {
         float angle = MathUtils.atan2(dy, dx);
         float halfPI = MathUtils.PI/2;
 
+        humanoid.remainActive();
+        Arrow a = humanoid.getArrow();
+        if(a != null) {
+            a.transformTo(humanoid.getBodies()[2].getPosition(), previousAngle);
+        }
+
         if(isPressed && hasMoved) {
-            humanoid.remainActive();
             arm.setTransform(arm.getPosition(), angle + halfPI);
             arm2.setTransform(arm.getPosition(), angle + halfPI);
 
-            Arrow a = humanoid.getArrow();
             if(a != null) {
-                humanoid.getArrow().rotateTo(angle + halfPI);
+                previousAngle = angle + halfPI;
+                humanoid.getArrow().rotateTo(previousAngle);
             }
         }
         else if(shooting && humanoid.getArrow() != null) {
