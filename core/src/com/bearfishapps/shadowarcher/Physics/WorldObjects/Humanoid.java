@@ -13,9 +13,10 @@ import com.bearfishapps.shadowarcher.Physics.Collision.CollisionMasks;
 
 public class Humanoid extends CustomPhysicsBody{
 
-    private final float density = 12f;
+    private final float density = 6.1f;
     private final float friction = 0.6f;
-    private float stiffness = 10000000000f;
+    private final float maxStiffness = 10000000000f;
+    private float stiffness = maxStiffness;
 
     protected float bodyPos[] = {-0.1f, -0f, 0.1f, -0f, 0.1f, 0.6f, -0.1f, 0.6f},
                     headPos[] = {-0.25f, -0.25f, 0.25f, -0.25f, 0.25f, 0.25f, -0.25f, 0.25f},
@@ -103,13 +104,13 @@ public class Humanoid extends CustomPhysicsBody{
     }
 
     public void damage() {
-        stiffness/= 1000;
+        stiffness = maxStiffness/100000000f;
         setStiffness();
     }
 
     public void heal() {
-        if(stiffness < 10000000000f) {
-            stiffness*=1000;
+        if(stiffness < maxStiffness) {
+            stiffness = maxStiffness;
             setStiffness();
         }
     }

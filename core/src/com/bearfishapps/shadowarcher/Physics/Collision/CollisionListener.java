@@ -1,5 +1,6 @@
 package com.bearfishapps.shadowarcher.Physics.Collision;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
@@ -8,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.bearfishapps.shadowarcher.Physics.BodyUserDataClass;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class CollisionListener implements ContactListener {
 
@@ -51,6 +53,7 @@ public class CollisionListener implements ContactListener {
                         (b.getType().equals("arrow") &&
                                 ((BodyUserDataClass) contact.getFixtureB().getBody().getUserData()).getDeltaTime() > graceTime)) &&
                                 (!(b.getType().equals("arrow") && a.getType().equals("arrow")))) {
+                    Gdx.app.log("impulses", Arrays.toString(impulse.getNormalImpulses()));
                     if (impulse.getNormalImpulses()[0] > a.getHardness()) {
                         StickyArrowClass sc = new StickyArrowClass( contact.getFixtureB().getBody(),contact.getFixtureA().getBody());
                         stuffToStick.add(sc);

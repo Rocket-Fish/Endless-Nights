@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class PhysicsWorld extends Actor{
     protected ShapeRenderer shapeRenderer;
     private World world;
-    private GroundPlatform groundPlatform;
+    private GroundPlatform groundPlatform, groundPlatform2;
     private ArrowShooter arrowShooterP1;
     private ArrowShooter arrowShooterP2;
     private ArrayList<Humanoid> humanoids = new ArrayList<Humanoid>();
@@ -44,10 +44,11 @@ public class PhysicsWorld extends Actor{
         world.setContactListener(new CollisionListener(arrowsToStick, bodiesToChange));
         debugRenderer = new Box2DDebugRenderer();
 
-        groundPlatform = new GroundPlatform(world, new Vector2(0, 10), new Vector2(400, 10));
+        groundPlatform = new GroundPlatform(world, new Vector2(18, 50), new Vector2(22, 50));
+        groundPlatform2 = new GroundPlatform(world, new Vector2(378, 50), new Vector2(382, 50));
 
-        humanoidP1 = new Humanoid(world, new Vector2(20, 16f), 10);
-        humanoidP2 = new Humanoid(world, new Vector2(80, 16f), 10);
+        humanoidP1 = new Humanoid(world, new Vector2(20, 56f), 10);
+        humanoidP2 = new Humanoid(world, new Vector2(380, 56f), 10);
 
         humanoids.add(humanoidP1);
         humanoids.add(humanoidP2);
