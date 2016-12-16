@@ -34,6 +34,8 @@ public class ArrowShooter implements InputProcessor {
     private float previousAngle = 0;
 
     public void refresh() {
+        if(!humanoid.isAlive())
+            return;
         float dx = touchPos.x - moveVec.x;
         if (Math.abs(dx) < 0.00000000001f) {
             if(dx < 0)

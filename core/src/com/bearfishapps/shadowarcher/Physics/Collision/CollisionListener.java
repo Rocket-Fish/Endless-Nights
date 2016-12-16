@@ -48,6 +48,16 @@ public class CollisionListener implements ContactListener {
                 BodyUserDataClass a = (BodyUserDataClass) objA;
                 BodyUserDataClass b = (BodyUserDataClass) objB;
 
+                if(a.getType().equals("deathPlatform")){
+                    bodiesToDelete.add(contact.getFixtureB().getBody());
+                    return;
+                }
+
+                if(b.getType().equals("deathPlatform")){
+                    bodiesToDelete.add(contact.getFixtureA().getBody());
+                    return;
+                }
+
                 float graceTime = 0.3f;
 
                 if (((a.getType().equals("arrow") &&

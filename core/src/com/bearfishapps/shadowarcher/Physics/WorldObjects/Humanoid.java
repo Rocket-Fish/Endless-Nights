@@ -17,6 +17,7 @@ public class Humanoid extends CustomPhysicsBody{
     private final float friction = 0.6f;
     private final float maxStiffness = 10000000000f;
     private float stiffness = maxStiffness;
+    private boolean isAlive = true;
 
     protected float bodyPos[] = {-0.1f, -0f, 0.1f, -0f, 0.1f, 0.6f, -0.1f, 0.6f},
                     headPos[] = {-0.25f, -0.25f, 0.25f, -0.25f, 0.25f, 0.25f, -0.25f, 0.25f},
@@ -122,7 +123,11 @@ public class Humanoid extends CustomPhysicsBody{
         legJoint2.setMaxMotorTorque(stiffness);
     }
 
-    @Override
-    public void destroy() {
+    public void kill() {
+        isAlive = false;
+    }
+
+    public boolean isAlive() {
+        return isAlive;
     }
 }

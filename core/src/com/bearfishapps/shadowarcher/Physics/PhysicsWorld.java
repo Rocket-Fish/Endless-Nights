@@ -15,10 +15,12 @@ import com.bearfishapps.shadowarcher.Physics.Collision.StickyArrowClass;
 import com.bearfishapps.shadowarcher.Physics.Collision.CollisionListener;
 import com.bearfishapps.shadowarcher.Physics.InputInterpretors.ArrowShooter;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.Arrow;
+import com.bearfishapps.shadowarcher.Physics.WorldObjects.DeathPlatform;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.GroundPlatform;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.Humanoid;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class PhysicsWorld extends Actor{
     protected ShapeRenderer shapeRenderer;
@@ -68,6 +70,8 @@ public class PhysicsWorld extends Actor{
 
         arrows.add(humanoidP1.drawArrow());
         arrows.add(humanoidP2.drawArrow());
+
+        DeathPlatform dp = new DeathPlatform(world, new Vector2(-100, 10), new Vector2(500, 10));
     }
 
     public void step(float delta) {
@@ -108,6 +112,33 @@ public class PhysicsWorld extends Actor{
             }
         }
         bodiesToChange.clear();
+
+        for(Body b: bodiesToDelete) {
+            Iterator it = humanoids.iterator();
+            while (it.hasNext()) {
+                Humanoid h = (Humanoid) it.next();
+                for(Body hb:h.getBodies()) {
+                    if(hb == b) {
+                        h.kill();
+                        h.destroy();
+                    }
+                }
+                if(!h.isAlive()) {
+                    it.remove();
+                    continue;
+                }
+            }
+            Iterator ita = arrows.iterator();
+            while (ita.hasNext()) {
+                Arrow a = (Arrow) ita.next();
+                if(a.getBodies()[0] == b) {
+                    a.destroy();
+                    ita.remove();
+                }
+            }
+        }
+        bodiesToDelete.clear();
+
     }
 
     @Override
