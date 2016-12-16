@@ -24,7 +24,9 @@ public class Arrow extends CustomPhysicsBody {
         bodyPos = WorldUtils.scaleF(bodyPos, scale);
 
         bodies[0] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, bodyPos, pos.x, pos.y, density, 0.1f, friction, CollisionMasks.Mask_ARROW, (short)(CollisionMasks.Mask_Humanoid | CollisionMasks.Mask_DEFAULT));
-        bodies[0].setUserData(new BodyUserDataClass("arrow"));
+        BodyUserDataClass b = new BodyUserDataClass("arrow");
+        b.setSticky(true);
+        bodies[0].setUserData(b);
 
         bodies[0].setAngularDamping(1.5f);
         bodies[0].setActive(false);

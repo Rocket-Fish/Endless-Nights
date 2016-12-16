@@ -4,6 +4,7 @@ public class BodyUserDataClass {
     private String type;
     private float hardness;
     private float deltaTime;
+    private boolean isSticky;
 
     public BodyUserDataClass(String type) {
         this(type, 1);
@@ -13,6 +14,15 @@ public class BodyUserDataClass {
         this.type = type;
         this.hardness = hardness;
         deltaTime = 0;
+        isSticky = false;
+    }
+
+    public void setSticky(boolean sticky) {
+        isSticky = sticky;
+    }
+
+    public boolean isSticky() {
+        return isSticky;
     }
 
     public void setHardness(float hardness) {
