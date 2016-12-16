@@ -29,11 +29,9 @@ public class GroundPlatform extends CustomPhysicsBody{
         groundFixture.shape = ground;
         groundFixture.friction = friction;
         groundFixture.density = 0;
-        groundFixture.filter.categoryBits = CollisionMasks.Mask_ARROW;
-        groundFixture.filter.maskBits = (short)(CollisionMasks.Mask_DEFAULT| CollisionMasks.Mask_Humanoid);
         // Create a fixture from our polygon shape and add it to our ground body
         bodies[0].createFixture(groundFixture);
-        bodies[0].setUserData(new BodyUserDataClass("ground", 10f));
+        bodies[0].setUserData(new BodyUserDataClass("ground"));
 // Clean up after ourselves
         ground.dispose();
     }

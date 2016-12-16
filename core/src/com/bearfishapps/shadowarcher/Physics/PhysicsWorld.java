@@ -24,6 +24,7 @@ public class PhysicsWorld extends Actor{
     protected ShapeRenderer shapeRenderer;
     private World world;
     private GroundPlatform groundPlatform, groundPlatform2;
+    private ArrayList<GroundPlatform> platforms = new ArrayList<GroundPlatform>();
     private ArrowShooter arrowShooterP1;
     private ArrowShooter arrowShooterP2;
     private ArrayList<Humanoid> humanoids = new ArrayList<Humanoid>();
@@ -46,12 +47,23 @@ public class PhysicsWorld extends Actor{
 
         groundPlatform = new GroundPlatform(world, new Vector2(18, 50), new Vector2(22, 50));
         groundPlatform2 = new GroundPlatform(world, new Vector2(378, 50), new Vector2(382, 50));
+        platforms.add(groundPlatform);
+        platforms.add(groundPlatform2);
+
+        platforms.add(new GroundPlatform(world, new Vector2(100, 50), new Vector2(110, 50)));
+        platforms.add(new GroundPlatform(world, new Vector2(200, 50), new Vector2(220, 50)));
+        platforms.add(new GroundPlatform(world, new Vector2(300, 50), new Vector2(330, 50)));
+        platforms.add(new GroundPlatform(world, new Vector2(220, 150), new Vector2(250, 150)));
 
         humanoidP1 = new Humanoid(world, new Vector2(20, 56f), 10);
         humanoidP2 = new Humanoid(world, new Vector2(380, 56f), 10);
 
         humanoids.add(humanoidP1);
         humanoids.add(humanoidP2);
+        humanoids.add(new Humanoid(world, new Vector2(210, 56f), 10));
+        humanoids.add(new Humanoid(world, new Vector2(230, 156f), 10));
+        humanoids.add(new Humanoid(world, new Vector2(240, 156f), 10));
+        humanoids.add(new Humanoid(world, new Vector2(320, 56f), 10));
 
         arrows.add(humanoidP1.drawArrow());
         arrows.add(humanoidP2.drawArrow());

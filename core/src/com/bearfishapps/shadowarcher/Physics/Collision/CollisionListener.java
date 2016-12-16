@@ -55,18 +55,17 @@ public class CollisionListener implements ContactListener {
                                 ((BodyUserDataClass) contact.getFixtureB().getBody().getUserData()).getDeltaTime() > graceTime)) &&
                                 (!(b.getType().equals("arrow") && a.getType().equals("arrow")))) {
 
-                    Gdx.app.log("impulses", Arrays.toString(impulse.getNormalImpulses()));
-                    float len = (new Vector2(impulse.getNormalImpulses()[0], impulse.getNormalImpulses()[1])).len();
-
-                    if ( len > a.getHardness()) {
+                    if (a.getType().equals("arrow") && impulse.getNormalImpulses()[0]>0) {
                         if(a.isSticky()) {
+                            a.setSticky(false);
                             StickyArrowClass sc = new StickyArrowClass(contact.getFixtureB().getBody(), contact.getFixtureA().getBody());
                             stuffToStick.add(sc);
                             if ((a.getType().equals("humanoid")))
                                 humanoidContacts.add(contact.getFixtureA().getBody());
                         }
-                    } else if (len > b.getHardness()) {
+                    } else if (b.getType().equals("arrow") && impulse.getNormalImpulses()[0]>0) {
                         if(b.isSticky()) {
+                            b.setSticky(false);
                             StickyArrowClass sc = new StickyArrowClass(contact.getFixtureA().getBody(), contact.getFixtureB().getBody());
                             stuffToStick.add(sc);
                             if ((b.getType().equals("humanoid")))
