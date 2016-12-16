@@ -13,7 +13,7 @@ public class GroundPlatform extends CustomPhysicsBody{
     private final float friction = 0.8f;
 
     public GroundPlatform(World world, Vector2 one, Vector2 two) {
-        super(1);
+        super(world, 1);
         // Create our body definition
         BodyDef groundBodyDef = new BodyDef();
 // Set its world position

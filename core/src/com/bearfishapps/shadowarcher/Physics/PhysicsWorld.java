@@ -31,6 +31,7 @@ public class PhysicsWorld extends Actor{
     Humanoid humanoidP1, humanoidP2;
     private ArrayList<Arrow> arrows = new ArrayList<Arrow>();
     private ArrayList<Body> bodiesToChange = new ArrayList<Body>();
+    private ArrayList<Body> bodiesToDelete = new ArrayList<Body>();
 
     ArrayList<StickyArrowClass> arrowsToStick = new ArrayList<StickyArrowClass>();
 
@@ -42,7 +43,7 @@ public class PhysicsWorld extends Actor{
         shapeRenderer = new ShapeRenderer();
 
         world = new World(new Vector2(0, -29.8f), true);
-        world.setContactListener(new CollisionListener(arrowsToStick, bodiesToChange));
+        world.setContactListener(new CollisionListener(arrowsToStick, bodiesToChange, bodiesToDelete));
         debugRenderer = new Box2DDebugRenderer();
 
         groundPlatform = new GroundPlatform(world, new Vector2(18, 50), new Vector2(22, 50));

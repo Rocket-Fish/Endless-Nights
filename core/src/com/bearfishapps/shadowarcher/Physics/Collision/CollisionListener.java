@@ -15,11 +15,12 @@ import java.util.Arrays;
 public class CollisionListener implements ContactListener {
 
     ArrayList<StickyArrowClass> stuffToStick;
-    ArrayList<Body> humanoidContacts;
+    ArrayList<Body> humanoidContacts, bodiesToDelete;
 
-    public CollisionListener(ArrayList<StickyArrowClass> stuffToStick, ArrayList<Body> humanoidContacts) {
+    public CollisionListener(ArrayList<StickyArrowClass> stuffToStick, ArrayList<Body> humanoidContacts, ArrayList<Body> bodiesToDeleteList) {
         this.stuffToStick = stuffToStick;
         this.humanoidContacts = humanoidContacts;
+        bodiesToDelete = bodiesToDeleteList;
     }
 
     @Override
@@ -60,16 +61,16 @@ public class CollisionListener implements ContactListener {
                             a.setSticky(false);
                             StickyArrowClass sc = new StickyArrowClass(contact.getFixtureB().getBody(), contact.getFixtureA().getBody());
                             stuffToStick.add(sc);
-                            if ((a.getType().equals("humanoid")))
-                                humanoidContacts.add(contact.getFixtureA().getBody());
+                            if ((b.getType().equals("humanoid")))
+                                humanoidContacts.add(contact.getFixtureB().getBody());
                         }
                     } else if (b.getType().equals("arrow") && impulse.getNormalImpulses()[0]>0) {
                         if(b.isSticky()) {
                             b.setSticky(false);
                             StickyArrowClass sc = new StickyArrowClass(contact.getFixtureA().getBody(), contact.getFixtureB().getBody());
                             stuffToStick.add(sc);
-                            if ((b.getType().equals("humanoid")))
-                                humanoidContacts.add(contact.getFixtureB().getBody());
+                            if ((a.getType().equals("humanoid")))
+                                humanoidContacts.add(contact.getFixtureA().getBody());
                         }
                     }
                 }

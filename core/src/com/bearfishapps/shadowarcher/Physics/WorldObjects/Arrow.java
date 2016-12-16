@@ -9,13 +9,13 @@ import com.bearfishapps.shadowarcher.Physics.BodyUserDataClass;
 import com.bearfishapps.shadowarcher.Physics.Collision.CollisionMasks;
 
 public class Arrow extends CustomPhysicsBody {
-    private final float density = 6.3f;
+    private final float density = 16.3f;
     private final float friction = 1f;
     protected float bodyPos[] = {0f, 0f, 0.03f, -0.75f, 0f, -0.8f, -0.03f, -0.75f};
 
 //    private float initialAngle;
     public Arrow(World world, Vector2 pos, float scale, float rotation) {
-        super(1);
+        super(world, 1);
         if(world == null)
             return;
 
