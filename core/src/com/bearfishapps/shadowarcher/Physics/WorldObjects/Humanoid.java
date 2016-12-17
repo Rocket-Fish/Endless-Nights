@@ -36,8 +36,6 @@ public class Humanoid extends CustomPhysicsBody{
     public Humanoid(World world, Vector2 pos, float scale) {
         super(world, 7);
         System.arraycopy(lArmPos, 0, rArmPos, 0, lArmPos.length);
-
-        this.world = world;
         this.scale = scale;
 
         bodyPos = WorldUtils.scaleF(bodyPos, scale);
@@ -129,5 +127,12 @@ public class Humanoid extends CustomPhysicsBody{
 
     public boolean isAlive() {
         return isAlive;
+    }
+
+    public void destroyArrow() {
+        if(arrow != null) {
+            arrow.destroy();
+            arrow = null;
+        }
     }
 }

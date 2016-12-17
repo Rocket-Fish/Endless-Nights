@@ -56,7 +56,7 @@ public class Arrow extends CustomPhysicsBody {
 //        if(bodies[0].isActive() && Math.abs(flightVelocity) > 1) {
         if(bodies[0].isActive()) {
             Vector2 pointingDirection = new Vector2(bodies[0].getWorldVector(new Vector2(0, -1)));
-            Vector2 flightDirection = normalize(bodies[0].getLinearVelocity());
+            Vector2 flightDirection = WorldUtils.normalize(bodies[0].getLinearVelocity());
             float flightVelocity = new Vector2(bodies[0].getLinearVelocity()).len();
 
             float dot = new Vector2(flightDirection).dot(pointingDirection);
@@ -70,16 +70,6 @@ public class Arrow extends CustomPhysicsBody {
             else if(bodies[0].getAngularVelocity() < -0.3f)
                 bodies[0].setAngularVelocity(-0.29f);
         }
-    }
-
-    private Vector2 normalize(Vector2 input) {
-        Vector2 v = new Vector2(input);
-        float div = (float)Math.sqrt(v.x*v.x+v.y*v.y);
-        if(div != 0) {
-            v.x/= div;
-            v.y/= div;
-        }
-        return v;
     }
 
     public Vector2 returnArrowTip() {

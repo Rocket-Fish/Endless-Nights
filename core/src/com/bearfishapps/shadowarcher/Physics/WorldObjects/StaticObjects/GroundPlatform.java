@@ -1,4 +1,4 @@
-package com.bearfishapps.shadowarcher.Physics.WorldObjects;
+package com.bearfishapps.shadowarcher.Physics.WorldObjects.StaticObjects;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -8,8 +8,9 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.bearfishapps.shadowarcher.Physics.BodyUserDataClass;
 import com.bearfishapps.shadowarcher.Physics.Collision.CollisionMasks;
+import com.bearfishapps.shadowarcher.Physics.WorldObjects.CustomPhysicsBody;
 
-public class GroundPlatform extends CustomPhysicsBody{
+public class GroundPlatform extends CustomPhysicsBody {
     private final float friction = 0.8f;
 
     public GroundPlatform(World world, Vector2 one, Vector2 two) {

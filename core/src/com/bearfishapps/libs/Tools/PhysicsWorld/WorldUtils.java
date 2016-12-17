@@ -156,4 +156,14 @@ public class WorldUtils {
         return joint;
     }
 
+    public static Vector2 normalize(Vector2 input) {
+        Vector2 v = new Vector2(input);
+        float div = (float)Math.sqrt(v.x*v.x+v.y*v.y);
+        if(div != 0) {
+            v.x/= div;
+            v.y/= div;
+        }
+        return v;
+    }
+
 }
