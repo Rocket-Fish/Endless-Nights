@@ -25,6 +25,7 @@ public class HumanGroundBundleGroup {
 
         if(diff.len2() < 6) {
             moveableGround.setVelocity(0, 0);
+            humanoid.setVelocity(0,0);
         }
     }
 
@@ -38,9 +39,10 @@ public class HumanGroundBundleGroup {
         Vector2 pos = humanoid.getBodies()[0].getWorldPoint(new Vector2(0, 0));
         Vector2 diff = new Vector2(target.x - pos.x, target.y - pos.y);
 
-        Vector2 vel = WorldUtils.normalize(diff);
+        Vector2 vel = WorldUtils.normalize(diff).scl(10);
         Gdx.app.log("velocity", String.valueOf(vel));
-        moveableGround.setVelocity(vel.x*10, vel.y*10);
+        moveableGround.setVelocity(vel.x, vel.y);
+        humanoid.setVelocity(vel.x, vel.y);
     }
 
     public Humanoid getHumanoid() {
@@ -50,4 +52,5 @@ public class HumanGroundBundleGroup {
     public void removeGround() {
         moveableGround.destroy();
     }
+
 }

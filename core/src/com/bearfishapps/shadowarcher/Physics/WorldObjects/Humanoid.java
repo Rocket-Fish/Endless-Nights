@@ -8,8 +8,9 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
 import com.badlogic.gdx.physics.box2d.joints.WeldJoint;
 import com.bearfishapps.libs.Tools.PhysicsWorld.WorldUtils;
-import com.bearfishapps.shadowarcher.Physics.BodyUserDataClass;
+import com.bearfishapps.shadowarcher.Physics.UserDataClass.BodyUserDataClass;
 import com.bearfishapps.shadowarcher.Physics.Collision.CollisionMasks;
+import com.bearfishapps.shadowarcher.Physics.UserDataClass.HumanoidUserDataClass;
 
 public class Humanoid extends CustomPhysicsBody{
 
@@ -55,7 +56,7 @@ public class Humanoid extends CustomPhysicsBody{
         bodies[6] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, bowPos, pos.x, pos.y-lArmPos[5], 0.001f, 0.1f, friction, CollisionMasks.Mask_BOW, CollisionMasks.Mask_DEFAULT);
 
         for(Body b: bodies) {
-            b.setUserData(new BodyUserDataClass("humanoid"));
+            b.setUserData(new HumanoidUserDataClass("humanoid"));
         }
 
         headJoint = WorldUtils.makeRevJoint(world, bodies[0], bodies[1],
@@ -81,8 +82,8 @@ public class Humanoid extends CustomPhysicsBody{
 
     public void remainActive() {
         for(Body b: bodies) {
-            if(!b.isActive())
-                b.setActive(true);
+            if(!b.isAwake())
+                b.setAwake(true);
         }
     }
 
@@ -135,4 +136,20 @@ public class Humanoid extends CustomPhysicsBody{
             arrow = null;
         }
     }
+
+    public void setVelocity(float x, float y) {
+        Vector2 velocity = new Vector2(x, y);
+        boolean shouldChange = false;
+        for (Body b : bodies) {
+            shouldChange = ((HumanoidUserDataClass)b.getUserData()).isInContactWithMatchingPlatform();
+            if(shouldChange) {
+                ((HumanoidUserDataClass)b.getUserData()).setInContactWithMatchingPlatform(false);
+                break;
+            }
+        }
+        if (shouldChange)
+            for(Body b: bodies)
+                b.setLinearVelocity(velocity);
+    }
+
 }

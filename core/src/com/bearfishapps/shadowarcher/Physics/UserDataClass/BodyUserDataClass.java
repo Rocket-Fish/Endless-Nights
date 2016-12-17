@@ -1,4 +1,4 @@
-package com.bearfishapps.shadowarcher.Physics;
+package com.bearfishapps.shadowarcher.Physics.UserDataClass;
 
 public class BodyUserDataClass {
     private String type;

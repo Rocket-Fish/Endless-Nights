@@ -2,7 +2,7 @@ package com.bearfishapps.shadowarcher.Physics.WorldObjects.StaticObjects;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import com.bearfishapps.shadowarcher.Physics.BodyUserDataClass;
+import com.bearfishapps.shadowarcher.Physics.UserDataClass.BodyUserDataClass;
 
 public class DeathPlatform extends GroundPlatform {
     public DeathPlatform(World world, Vector2 one, Vector2 two) {

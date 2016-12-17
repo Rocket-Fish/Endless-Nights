@@ -1,16 +1,15 @@
 package com.bearfishapps.shadowarcher.Physics.Collision;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
-import com.bearfishapps.shadowarcher.Physics.BodyUserDataClass;
+import com.bearfishapps.shadowarcher.Physics.UserDataClass.BodyUserDataClass;
+import com.bearfishapps.shadowarcher.Physics.UserDataClass.HumanoidUserDataClass;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class CollisionListener implements ContactListener {
 
@@ -25,7 +24,6 @@ public class CollisionListener implements ContactListener {
 
     @Override
     public void beginContact(Contact contact) {
-
     }
 
     @Override
@@ -52,14 +50,19 @@ public class CollisionListener implements ContactListener {
                     bodiesToDelete.add(contact.getFixtureB().getBody());
                     return;
                 }
-
                 if(b.getType().equals("deathPlatform")){
                     bodiesToDelete.add(contact.getFixtureA().getBody());
                     return;
                 }
 
-                float graceTime = 0.3f;
 
+                if (a.getType().equals("ground_movable") && b.getType().equals("humanoid")) {
+                    ((HumanoidUserDataClass)objB).setInContactWithMatchingPlatform(true);
+                } else if (b.getType().equals("ground_movable") && a.getType().equals("humanoid")) {
+                    ((HumanoidUserDataClass)objA).setInContactWithMatchingPlatform(true);
+                }
+
+                float graceTime = 0.3f;
                 if (((a.getType().equals("arrow") &&
                         ((BodyUserDataClass) contact.getFixtureA().getBody().getUserData()).getDeltaTime() > graceTime) ||
                         (b.getType().equals("arrow") &&

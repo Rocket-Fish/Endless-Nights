@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.bearfishapps.libs.Tools.PhysicsWorld.WorldUtils;
-import com.bearfishapps.shadowarcher.Physics.BodyUserDataClass;
+import com.bearfishapps.shadowarcher.Physics.UserDataClass.BodyUserDataClass;
 import com.bearfishapps.shadowarcher.Physics.Collision.CollisionMasks;
 
 public class Arrow extends CustomPhysicsBody {
