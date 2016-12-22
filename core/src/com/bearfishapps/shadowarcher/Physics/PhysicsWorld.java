@@ -2,6 +2,7 @@ package com.bearfishapps.shadowarcher.Physics;
 
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -134,14 +135,21 @@ public class PhysicsWorld extends Actor{
 
         debugRenderer.render(world, batch.getProjectionMatrix());
 
-/*        shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+        shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
         shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
         shapeRenderer.translate(getX(), getY(), 0);
 
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(Color.BLUE);
         shapeRenderer.rect(0, 0, 700, 400);
-        shapeRenderer.end();*/
+        shapeRenderer.setColor(Color.BLACK);
+        for(HumanGroundBundleGroup hgbg: humanoidBundles) {
+            hgbg.draw(shapeRenderer);
+        }
+        for(Arrow a: arrows) {
+            a.draw(shapeRenderer);
+        }
+           shapeRenderer.end();
 
         batch.begin();
     }

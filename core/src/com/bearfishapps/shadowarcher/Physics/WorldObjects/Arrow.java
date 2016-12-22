@@ -1,5 +1,6 @@
 package com.bearfishapps.shadowarcher.Physics.WorldObjects;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -74,5 +75,11 @@ public class Arrow extends CustomPhysicsBody {
 
     public Vector2 returnArrowTip() {
         return new Vector2(bodyPos[4], bodyPos[5]);
+    }
+
+    @Override
+    public void draw(ShapeRenderer renderer) {
+        float[] renderPos = WorldUtils.matchBodyPositionFromFloat(bodyPos, bodies[0]);
+        renderer.polygon(renderPos);
     }
 }

@@ -108,8 +108,20 @@ public class WorldUtils {
         return ret;
     }
 
+    public static float[] translateF(float[] original, float x, float y) {
+        float ret[] = new float[original.length];
+        for(int i = 0; i < ret.length; i ++) {
+            if(i%2 == 0) {
+                ret[i] = original[i]+x;
+            } else {
+                ret[i] = original[i]+y;
+            }
+        }
+        return ret;
+    }
+
     public static WeldJoint weldJoint(World world, Body b1, Body b2, Vector2 anchor1, Vector2 anchor2) {
-        Gdx.app.log("anchor1, anchor2", anchor1.toString() + ", " + anchor2.toString());
+//        Gdx.app.log("anchor1, anchor2", anchor1.toString() + ", " + anchor2.toString());
         WeldJointDef weldJointDef = new WeldJointDef();
         weldJointDef.collideConnected = false;
         weldJointDef.bodyA = b1;
@@ -164,6 +176,14 @@ public class WorldUtils {
             v.y/= div;
         }
         return v;
+    }
+
+    public static float[] matchBodyPositionFromFloat(float[] initialFloatArray, Body body) {
+        float[] renderPos = new float[initialFloatArray.length];
+        System.arraycopy(initialFloatArray, 0, renderPos, 0, initialFloatArray.length);
+        renderPos = rotateFRadians(renderPos, -body.getAngle());
+        renderPos = translateF(renderPos, body.getPosition().x, body.getPosition().y);
+        return renderPos;
     }
 
 }

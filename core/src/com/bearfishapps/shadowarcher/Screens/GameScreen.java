@@ -11,7 +11,7 @@ public class GameScreen extends GeneralScreens {
     public GameScreen(GdxGame game) {
         super(game, 400, 240);
         physicsWorld = new PhysicsWorld();
-//        setBackgroundColor(255, 255, 255, 1);
+        setBackgroundColor(255, 255, 255, 1);
     }
 
     @Override

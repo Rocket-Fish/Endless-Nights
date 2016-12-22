@@ -1,20 +1,20 @@
 package com.bearfishapps.shadowarcher.Physics;
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.bearfishapps.libs.Tools.PhysicsWorld.WorldUtils;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.Humanoid;
-import com.bearfishapps.shadowarcher.Physics.WorldObjects.MoveableGround;
+import com.bearfishapps.shadowarcher.Physics.WorldObjects.MovableGround;
 
 public class HumanGroundBundleGroup {
     private Vector2 target;
     private Humanoid humanoid;
-    private MoveableGround moveableGround;
+    private MovableGround movableGround;
     private float scale;
     public HumanGroundBundleGroup(World world, Vector2 position, float scale) {
         humanoid = new Humanoid(world, position, scale);
-        moveableGround = new MoveableGround(world, position, scale);
+        movableGround = new MovableGround(world, position, scale);
         target = new Vector2(position);
         this.scale = scale;
     }
@@ -24,7 +24,7 @@ public class HumanGroundBundleGroup {
         Vector2 diff = new Vector2(target.x - pos.x, target.y - pos.y);
 
         if(diff.len2() < 6) {
-            moveableGround.setVelocity(0, 0);
+            movableGround.setVelocity(0, 0);
             humanoid.setVelocity(0,0);
         }
     }
@@ -39,9 +39,9 @@ public class HumanGroundBundleGroup {
         Vector2 pos = humanoid.getBodies()[0].getWorldPoint(new Vector2(0, 0));
         Vector2 diff = new Vector2(target.x - pos.x, target.y - pos.y);
 
-        Vector2 vel = WorldUtils.normalize(diff).scl(10);
-        Gdx.app.log("velocity", String.valueOf(vel));
-        moveableGround.setVelocity(vel.x, vel.y);
+        Vector2 vel = WorldUtils.normalize(diff).scl(20);
+        //Gdx.app.log("velocity", String.valueOf(vel));
+        movableGround.setVelocity(vel.x, vel.y);
         humanoid.setVelocity(vel.x, vel.y);
     }
 
@@ -50,7 +50,12 @@ public class HumanGroundBundleGroup {
     }
 
     public void removeGround() {
-        moveableGround.destroy();
+        movableGround.destroy();
+    }
+
+    public void draw(ShapeRenderer renderer) {
+        humanoid.draw(renderer);
+        movableGround.draw(renderer);
     }
 
 }

@@ -1,10 +1,13 @@
 package com.bearfishapps.shadowarcher.Physics.WorldObjects.StaticObjects;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.bearfishapps.libs.Tools.PhysicsWorld.WorldUtils;
 import com.bearfishapps.shadowarcher.Physics.UserDataClass.BodyUserDataClass;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.CustomPhysicsBody;
 
@@ -33,5 +36,10 @@ public class GroundPlatform extends CustomPhysicsBody {
         bodies[0].setUserData(new BodyUserDataClass("ground"));
 // Clean up after ourselves
         ground.dispose();
+    }
+
+    @Override
+    public void draw(ShapeRenderer renderer) {
+        Gdx.app.log("Grondplatform", "Do not render this");
     }
 }

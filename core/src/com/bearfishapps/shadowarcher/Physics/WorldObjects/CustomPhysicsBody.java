@@ -1,10 +1,12 @@
 package com.bearfishapps.shadowarcher.Physics.WorldObjects;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
+import com.bearfishapps.shadowarcher.Graphics.Renderable;
 import com.bearfishapps.shadowarcher.Physics.UserDataClass.BodyUserDataClass;
 
-public abstract class CustomPhysicsBody {
+public abstract class CustomPhysicsBody implements Renderable{
     protected Body[] bodies;
     protected World world;
 
@@ -29,5 +31,4 @@ public abstract class CustomPhysicsBody {
         }
 
     }
-
 }
