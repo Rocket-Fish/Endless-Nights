@@ -161,6 +161,7 @@ public class Humanoid extends CustomPhysicsBody{
         float[] rArmRenderPos = WorldUtils.matchBodyPositionFromFloat(rArmPos, bodies[3]);
         float[] lLegRenderPos = WorldUtils.matchBodyPositionFromFloat(lLegPos, bodies[4]);
         float[] rLegRenderPos = WorldUtils.matchBodyPositionFromFloat(rLegPos, bodies[5]);
+        float[] bowRenderPos = WorldUtils.matchBodyPositionFromFloat(bowPos, bodies[6]);
 
         renderer.polygon(bodyRenderPos);
         renderer.polygon(headRenderPos);
@@ -168,5 +169,6 @@ public class Humanoid extends CustomPhysicsBody{
         renderer.polygon(rArmRenderPos);
         renderer.polygon(lLegRenderPos);
         renderer.polygon(rLegRenderPos);
+        renderer.polygon(bowRenderPos);
     }
 }
