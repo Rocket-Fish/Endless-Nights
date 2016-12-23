@@ -27,16 +27,7 @@ public abstract class GeneralScreens implements Screen {
 
     // constructor with default screen size;
     public GeneralScreens(GdxGame game) {
-        this.game = game;
-
-        camera = new OrthographicCamera();
-        viewport = new ExtendViewport(800, 480, camera);
-        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
-
-        stage = new Stage(viewport);
-        table = new Table();
-
-        camera.update();
+        this(game, 800, 480);
     }
 
     // constructor with variable screen size;

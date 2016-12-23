@@ -1,4 +1,4 @@
-package com.bearfishapps.shadowarcher.Physics.WorldObjects;
+package com.bearfishapps.shadowarcher.Physics.WorldObjects.DynamicObjcts;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
@@ -9,13 +9,13 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
 import com.badlogic.gdx.physics.box2d.joints.WeldJoint;
 import com.bearfishapps.libs.Tools.PhysicsWorld.WorldUtils;
-import com.bearfishapps.shadowarcher.Physics.UserDataClass.BodyUserDataClass;
+import com.bearfishapps.libs.Tools.Rendering.RenderHelper;
 import com.bearfishapps.shadowarcher.Physics.Collision.CollisionMasks;
 import com.bearfishapps.shadowarcher.Physics.UserDataClass.HumanoidUserDataClass;
 
-public class Humanoid extends CustomPhysicsBody{
+public class Humanoid extends CustomPhysicsBody {
 
-    private final float density = 6.1f;
+    private final float density = 98.5f;
     private final float friction = 0.6f;
     private final float maxStiffness = 10000000000000f;
     private float stiffness = maxStiffness;
@@ -39,15 +39,15 @@ public class Humanoid extends CustomPhysicsBody{
         super(world, 7);
         System.arraycopy(lArmPos, 0, rArmPos, 0, lArmPos.length);
         this.scale = scale;
-
+/*
         bodyPos = WorldUtils.scaleF(bodyPos, scale);
         headPos = WorldUtils.scaleF(headPos, scale);
         lArmPos = WorldUtils.scaleF(lArmPos, scale);
         rArmPos = WorldUtils.scaleF(rArmPos, scale);
         lLegPos = WorldUtils.scaleF(lLegPos, scale);
         rLegPos = WorldUtils.scaleF(rLegPos, scale);
-        bowPos = WorldUtils.scaleF(bowPos, scale);
-
+        bowPos  = WorldUtils.scaleF(bowPos , scale);
+*/
         bodies[0] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, bodyPos, pos.x, pos.y, density*0.6f, 0.1f, friction, CollisionMasks.Mask_BODY, (short)(CollisionMasks.Mask_DEFAULT | CollisionMasks.Mask_LEG | CollisionMasks.Mask_ARROW));
         bodies[1] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, headPos, pos.x, pos.y+(bodyPos[5]+headPos[5]), density*0.95f, 0.2f, friction, CollisionMasks.Mask_HEAD, (short)(CollisionMasks.Mask_DEFAULT | CollisionMasks.Mask_LEG | CollisionMasks.Mask_ARROW));
         bodies[2] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, lArmPos, pos.x, pos.y-lArmPos[5], density*0.001f, 0.1f, friction, CollisionMasks.Mask_ARM, (short)(CollisionMasks.Mask_DEFAULT| CollisionMasks.Mask_ARROW));
@@ -71,7 +71,8 @@ public class Humanoid extends CustomPhysicsBody{
         legJoint2 = WorldUtils.makeRevJoint(world, bodies[0], bodies[5],
                                 new Vector2((bodyPos[0]+bodyPos[2])/2, bodyPos[1]), new Vector2((rLegPos[0]+rLegPos[2])/2, rLegPos[1]), true, 1.7f, -1.7f, true, stiffness);
 
-        WeldJoint bowJoint = WorldUtils.weldJoint(world, bodies[2], bodies[6], new Vector2(0, lArmPos[5]+0.06f*scale), new Vector2(0, bowPos[1]));
+//        WeldJoint bowJoint = WorldUtils.weldJoint(world, bodies[2], bodies[6], new Vector2(0, lArmPos[5]+0.06f*scale), new Vector2(0, bowPos[1]));
+        WeldJoint bowJoint = WorldUtils.weldJoint(world, bodies[2], bodies[6], new Vector2(0, lArmPos[5]+0.06f), new Vector2(0, bowPos[1]));
 
         float halfPI = MathUtils.PI/2;
         bodies[2].setTransform(bodies[2].getPosition(), halfPI);
@@ -99,12 +100,12 @@ public class Humanoid extends CustomPhysicsBody{
     }
 
     public void shootArrow() {
-        arrow.release(240, armJoint1.getJointAngle());
+        arrow.release(32, armJoint1.getJointAngle());
         arrow = null;
     }
 
     public void damage() {
-        stiffness = 10f;
+        stiffness = 1f;
         setStiffness();
     }
 
@@ -139,12 +140,13 @@ public class Humanoid extends CustomPhysicsBody{
     }
 
     public void setVelocity(float x, float y) {
+        if( stiffness < maxStiffness)
+            return;
         Vector2 velocity = new Vector2(x, y);
         boolean shouldChange = false;
         for (Body b : bodies) {
             shouldChange = ((HumanoidUserDataClass)b.getUserData()).isInContactWithMatchingPlatform();
             if(shouldChange) {
-                ((HumanoidUserDataClass)b.getUserData()).setInContactWithMatchingPlatform(false);
                 break;
             }
         }
@@ -161,14 +163,29 @@ public class Humanoid extends CustomPhysicsBody{
         float[] rArmRenderPos = WorldUtils.matchBodyPositionFromFloat(rArmPos, bodies[3]);
         float[] lLegRenderPos = WorldUtils.matchBodyPositionFromFloat(lLegPos, bodies[4]);
         float[] rLegRenderPos = WorldUtils.matchBodyPositionFromFloat(rLegPos, bodies[5]);
-        float[] bowRenderPos = WorldUtils.matchBodyPositionFromFloat(bowPos, bodies[6]);
+        float[] bowRenderPos  = WorldUtils.matchBodyPositionFromFloat(bowPos , bodies[6]);
 
-        renderer.polygon(bodyRenderPos);
-        renderer.polygon(headRenderPos);
-        renderer.polygon(lArmRenderPos);
-        renderer.polygon(rArmRenderPos);
-        renderer.polygon(lLegRenderPos);
-        renderer.polygon(rLegRenderPos);
-        renderer.polygon(bowRenderPos);
+        bodyRenderPos = WorldUtils.scaleF(bodyRenderPos, scale);
+        headRenderPos = WorldUtils.scaleF(headRenderPos, scale);
+        lArmRenderPos = WorldUtils.scaleF(lArmRenderPos, scale);
+        rArmRenderPos = WorldUtils.scaleF(rArmRenderPos, scale);
+        lLegRenderPos = WorldUtils.scaleF(lLegRenderPos, scale);
+        rLegRenderPos = WorldUtils.scaleF(rLegRenderPos, scale);
+        bowRenderPos  = WorldUtils.scaleF(bowRenderPos , scale);
+
+        RenderHelper.filledPolygon(bodyRenderPos, renderer);
+        RenderHelper.filledPolygon(headRenderPos, renderer);
+        RenderHelper.filledPolygon(lArmRenderPos, renderer);
+        RenderHelper.filledPolygon(rArmRenderPos, renderer);
+        RenderHelper.filledPolygon(lLegRenderPos, renderer);
+        RenderHelper.filledPolygon(rLegRenderPos, renderer);
+        RenderHelper.filledPolygon(bowRenderPos , renderer);
+    }
+
+    public void falsifyContact() {
+        for(Body b: bodies) {
+            if(b.getUserData()!= null && b.getUserData() instanceof HumanoidUserDataClass)
+            ((HumanoidUserDataClass)b.getUserData()).setInContactWithMatchingPlatform(false);
+        }
     }
 }

@@ -9,9 +9,10 @@ import com.bearfishapps.shadowarcher.Physics.PhysicsWorld;
 public class GameScreen extends GeneralScreens {
     private PhysicsWorld physicsWorld;
     public GameScreen(GdxGame game) {
-        super(game, 400, 240);
+        super(game, 900, 480);
         physicsWorld = new PhysicsWorld();
         setBackgroundColor(255, 255, 255, 1);
+
     }
 
     @Override
@@ -21,7 +22,7 @@ public class GameScreen extends GeneralScreens {
 
     @Override
     public void preShow(Table table, InputMultiplexer multiplexer) {
-        physicsWorld.initUserInput(multiplexer, camera);
+        physicsWorld.initUserInterface(multiplexer, camera);
         stage.addActor(physicsWorld);
     }
 

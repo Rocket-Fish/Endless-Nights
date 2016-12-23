@@ -1,4 +1,4 @@
-package com.bearfishapps.shadowarcher.Physics.WorldObjects;
+package com.bearfishapps.shadowarcher.Physics.WorldObjects.DynamicObjcts;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Body;

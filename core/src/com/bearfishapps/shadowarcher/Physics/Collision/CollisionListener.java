@@ -33,11 +33,6 @@ public class CollisionListener implements ContactListener {
 
     @Override
     public void preSolve(Contact contact, Manifold oldManifold) {
-
-    }
-
-    @Override
-    public void postSolve(Contact contact, ContactImpulse impulse) {
         Object objA = contact.getFixtureA().getBody().getUserData();
         Object objB = contact.getFixtureB().getBody().getUserData();
 
@@ -55,21 +50,30 @@ public class CollisionListener implements ContactListener {
                     return;
                 }
 
-
                 if (a.getType().equals("ground_movable") && b.getType().equals("humanoid")) {
                     ((HumanoidUserDataClass)objB).setInContactWithMatchingPlatform(true);
                 } else if (b.getType().equals("ground_movable") && a.getType().equals("humanoid")) {
                     ((HumanoidUserDataClass)objA).setInContactWithMatchingPlatform(true);
                 }
 
-                float graceTime = 0.3f;
-                if (((a.getType().equals("arrow") &&
-                        ((BodyUserDataClass) contact.getFixtureA().getBody().getUserData()).getDeltaTime() > graceTime) ||
-                        (b.getType().equals("arrow") &&
-                                ((BodyUserDataClass) contact.getFixtureB().getBody().getUserData()).getDeltaTime() > graceTime)) &&
-                                (!(b.getType().equals("arrow") && a.getType().equals("arrow")))) {
+            }
+        }
+    }
 
-                    if (a.getType().equals("arrow") && impulse.getNormalImpulses()[0]>0) {
+    @Override
+    public void postSolve(Contact contact, ContactImpulse impulse) {
+        Object objA = contact.getFixtureA().getBody().getUserData();
+        Object objB = contact.getFixtureB().getBody().getUserData();
+
+        if (objA != null && objA instanceof BodyUserDataClass) {
+            if (objB != null && objB instanceof BodyUserDataClass) {
+                BodyUserDataClass a = (BodyUserDataClass) objA;
+                BodyUserDataClass b = (BodyUserDataClass) objB;
+
+                float graceTime = 0.1f;
+
+                    if (a.getType().equals("arrow") &&
+                            ((BodyUserDataClass) contact.getFixtureA().getBody().getUserData()).getDeltaTime() > graceTime) {
                         if(a.isSticky()) {
                             a.setSticky(false);
                             StickyArrowClass sc = new StickyArrowClass(contact.getFixtureB().getBody(), contact.getFixtureA().getBody());
@@ -77,7 +81,8 @@ public class CollisionListener implements ContactListener {
                             if ((b.getType().equals("humanoid")))
                                 humanoidContacts.add(contact.getFixtureB().getBody());
                         }
-                    } else if (b.getType().equals("arrow") && impulse.getNormalImpulses()[0]>0) {
+                    } else if (b.getType().equals("arrow")&&
+                            ((BodyUserDataClass) contact.getFixtureB().getBody().getUserData()).getDeltaTime() > graceTime) {
                         if(b.isSticky()) {
                             b.setSticky(false);
                             StickyArrowClass sc = new StickyArrowClass(contact.getFixtureA().getBody(), contact.getFixtureB().getBody());
@@ -85,7 +90,6 @@ public class CollisionListener implements ContactListener {
                             if ((a.getType().equals("humanoid")))
                                 humanoidContacts.add(contact.getFixtureA().getBody());
                         }
-                    }
                 }
             }
         }

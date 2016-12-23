@@ -1,15 +1,14 @@
 package com.bearfishapps.shadowarcher.Physics.InputInterpretors;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.bearfishapps.shadowarcher.Physics.HumanGroundBundleGroup;
-import com.bearfishapps.shadowarcher.Physics.WorldObjects.Arrow;
-import com.bearfishapps.shadowarcher.Physics.WorldObjects.Humanoid;
+import com.bearfishapps.shadowarcher.Physics.WorldObjects.DynamicObjcts.Arrow;
+import com.bearfishapps.shadowarcher.Physics.WorldObjects.DynamicObjcts.Humanoid;
+import com.bearfishapps.shadowarcher.Physics.WorldObjects.HumanGroundBundleGroup;
 
 import java.util.ArrayList;
 
@@ -59,7 +58,7 @@ public class HumanInputProcessor implements InputProcessor {
         float dy = touchPos.y - moveVec.y;
         humanoid.remainActive();
         if (Math.abs(dx) < 0.00000000001f) {
-            dx = (dx < 0)?-0.00000000001f:0.00000000001f;;
+            dx = (dx < 0)?-0.00000000001f:0.00000000001f;
         }
 
         float angle = MathUtils.atan2(dy, dx);

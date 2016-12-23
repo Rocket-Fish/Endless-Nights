@@ -15,10 +15,10 @@ import com.bearfishapps.shadowarcher.Physics.Collision.CollisionMasks;
 import com.bearfishapps.shadowarcher.Physics.Collision.StickyArrowClass;
 import com.bearfishapps.shadowarcher.Physics.Collision.CollisionListener;
 import com.bearfishapps.shadowarcher.Physics.InputInterpretors.HumanInputProcessor;
-import com.bearfishapps.shadowarcher.Physics.WorldObjects.Arrow;
+import com.bearfishapps.shadowarcher.Physics.WorldObjects.DynamicObjcts.Arrow;
+import com.bearfishapps.shadowarcher.Physics.WorldObjects.DynamicObjcts.Humanoid;
+import com.bearfishapps.shadowarcher.Physics.WorldObjects.HumanGroundBundleGroup;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.StaticObjects.DeathPlatform;
-import com.bearfishapps.shadowarcher.Physics.WorldObjects.StaticObjects.GroundPlatform;
-import com.bearfishapps.shadowarcher.Physics.WorldObjects.Humanoid;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -29,7 +29,7 @@ public class PhysicsWorld extends Actor{
     private HumanInputProcessor humanInputProcessorP1;
     private HumanInputProcessor humanInputProcessorP2;
 
-    HumanGroundBundleGroup p1, p2;
+    com.bearfishapps.shadowarcher.Physics.WorldObjects.HumanGroundBundleGroup p1, p2;
     private ArrayList<HumanGroundBundleGroup> humanoidBundles = new ArrayList<HumanGroundBundleGroup>();
     private ArrayList<Arrow> arrows = new ArrayList<Arrow>();
     private ArrayList<Body> bodiesToChange = new ArrayList<Body>();
@@ -44,22 +44,26 @@ public class PhysicsWorld extends Actor{
         CollisionMasks.printShorts();
         shapeRenderer = new ShapeRenderer();
 
-        world = new World(new Vector2(0, -29.8f), true);
+        world = new World(new Vector2(0, -9.8f), true);
         world.setContactListener(new CollisionListener(arrowsToStick, bodiesToChange, bodiesToDelete));
         debugRenderer = new Box2DDebugRenderer();
 
-        p1 = new HumanGroundBundleGroup(world, new Vector2(20, 56f), 10);
-        p2 = new HumanGroundBundleGroup(world, new Vector2(380, 56f), 10);
+        p1 = new HumanGroundBundleGroup(world, new Vector2(2, 6f), 20);
+        p2 = new HumanGroundBundleGroup(world, new Vector2(43, 6f), 20);
         arrows.add(p1.getHumanoid().drawArrow());
         arrows.add(p2.getHumanoid().drawArrow());
 
         humanoidBundles.add(p1);
         humanoidBundles.add(p2);
 
-        DeathPlatform dp = new DeathPlatform(world, new Vector2(-100, 10), new Vector2(500, 10));
+        DeathPlatform dp = new DeathPlatform(world, new Vector2(-500, -1), new Vector2(545, -1));
     }
 
     public void step(float delta) {
+
+        p1.resetHumanoidContactWithGround();
+        p2.resetHumanoidContactWithGround();
+
         world.step(1 / 60f, 6, 2);
 
         humanInputProcessorP1.refresh();
@@ -107,11 +111,10 @@ public class PhysicsWorld extends Actor{
                 for(Body hb:h.getBodies()) {
                     if(hb == b) {
                         h.kill();
-                        h.destroy();
                     }
                 }
                 if(!h.isAlive()) {
-                    hh.removeGround();
+                    hh.destroy();
                     it.remove();
                     continue;
                 }
@@ -139,9 +142,7 @@ public class PhysicsWorld extends Actor{
         shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
         shapeRenderer.translate(getX(), getY(), 0);
 
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(Color.BLUE);
-        shapeRenderer.rect(0, 0, 700, 400);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(Color.BLACK);
         for(HumanGroundBundleGroup hgbg: humanoidBundles) {
             hgbg.draw(shapeRenderer);
@@ -154,7 +155,7 @@ public class PhysicsWorld extends Actor{
         batch.begin();
     }
 
-    public void initUserInput(InputMultiplexer multiplexer, final Camera camera) {
+    public void initUserInterface(InputMultiplexer multiplexer, final Camera camera) {
  //       multiplexer.addProcessor(new MouseDrag(world, camera, groundPlatform.getBodies()[0]));
         humanInputProcessorP1 = new HumanInputProcessor(arrows, p1, camera, 0, (int)camera.viewportWidth/2);
         humanInputProcessorP2 = new HumanInputProcessor(arrows, p2, camera, (int)camera.viewportWidth/2, (int)camera.viewportWidth);

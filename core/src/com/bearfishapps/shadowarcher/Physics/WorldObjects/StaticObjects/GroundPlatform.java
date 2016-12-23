@@ -7,9 +7,8 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
-import com.bearfishapps.libs.Tools.PhysicsWorld.WorldUtils;
 import com.bearfishapps.shadowarcher.Physics.UserDataClass.BodyUserDataClass;
-import com.bearfishapps.shadowarcher.Physics.WorldObjects.CustomPhysicsBody;
+import com.bearfishapps.shadowarcher.Physics.WorldObjects.DynamicObjcts.CustomPhysicsBody;
 
 public class GroundPlatform extends CustomPhysicsBody {
     private final float friction = 0.8f;

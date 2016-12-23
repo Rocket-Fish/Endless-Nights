@@ -1,11 +1,11 @@
-package com.bearfishapps.shadowarcher.Physics;
+package com.bearfishapps.shadowarcher.Physics.WorldObjects;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.bearfishapps.libs.Tools.PhysicsWorld.WorldUtils;
-import com.bearfishapps.shadowarcher.Physics.WorldObjects.Humanoid;
-import com.bearfishapps.shadowarcher.Physics.WorldObjects.MovableGround;
+import com.bearfishapps.shadowarcher.Physics.WorldObjects.DynamicObjcts.Humanoid;
+import com.bearfishapps.shadowarcher.Physics.WorldObjects.DynamicObjcts.MovableGround;
 
 public class HumanGroundBundleGroup {
     private Vector2 target;
@@ -20,7 +20,7 @@ public class HumanGroundBundleGroup {
     }
 
     public void check() {
-        Vector2 pos = humanoid.getBodies()[0].getWorldPoint(new Vector2(0, 0));
+        Vector2 pos = new Vector2(humanoid.getBodies()[0].getPosition()).scl(scale);
         Vector2 diff = new Vector2(target.x - pos.x, target.y - pos.y);
 
         if(diff.len2() < 6) {
@@ -36,10 +36,10 @@ public class HumanGroundBundleGroup {
     }
 
     private void shift() {
-        Vector2 pos = humanoid.getBodies()[0].getWorldPoint(new Vector2(0, 0));
+        Vector2 pos = new Vector2(humanoid.getBodies()[0].getPosition()).scl(scale);
         Vector2 diff = new Vector2(target.x - pos.x, target.y - pos.y);
 
-        Vector2 vel = WorldUtils.normalize(diff).scl(20);
+        Vector2 vel = WorldUtils.normalize(diff).scl(3);
         //Gdx.app.log("velocity", String.valueOf(vel));
         movableGround.setVelocity(vel.x, vel.y);
         humanoid.setVelocity(vel.x, vel.y);
@@ -49,13 +49,19 @@ public class HumanGroundBundleGroup {
         return humanoid;
     }
 
-    public void removeGround() {
+    public void destroy() {
+        humanoid.destroyArrow();
+        humanoid.destroy();
         movableGround.destroy();
     }
 
     public void draw(ShapeRenderer renderer) {
         humanoid.draw(renderer);
         movableGround.draw(renderer);
+    }
+
+    public void resetHumanoidContactWithGround() {
+        humanoid.falsifyContact();
     }
 
 }

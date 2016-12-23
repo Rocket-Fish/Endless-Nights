@@ -1,4 +1,4 @@
-package com.bearfishapps.shadowarcher.Physics.WorldObjects;
+package com.bearfishapps.shadowarcher.Physics.WorldObjects.DynamicObjcts;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
@@ -6,13 +6,16 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.bearfishapps.libs.Tools.PhysicsWorld.WorldUtils;
+import com.bearfishapps.libs.Tools.Rendering.RenderHelper;
 import com.bearfishapps.shadowarcher.Physics.UserDataClass.BodyUserDataClass;
 import com.bearfishapps.shadowarcher.Physics.Collision.CollisionMasks;
 
 public class Arrow extends CustomPhysicsBody {
-    private final float density = 16.3f;
+    private final float density = 12.3f;
     private final float friction = 1f;
     protected float bodyPos[] = {0f, 0f, 0.03f, -0.75f, 0f, -0.8f, -0.03f, -0.75f};
+
+    private float scale;
 
 //    private float initialAngle;
     public Arrow(World world, Vector2 pos, float scale, float rotation) {
@@ -20,9 +23,11 @@ public class Arrow extends CustomPhysicsBody {
         if(world == null)
             return;
 
+        this.scale = scale;
+
 //        initialAngle = rotation;
 //        bodyPos = WorldUtils.rotateFRadians(bodyPos, rotation);
-        bodyPos = WorldUtils.scaleF(bodyPos, scale);
+//        bodyPos = WorldUtils.scaleF(bodyPos, scale);
 
         bodies[0] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, bodyPos, pos.x, pos.y, density, 0.1f, friction, CollisionMasks.Mask_ARROW, (short)(CollisionMasks.Mask_Humanoid | CollisionMasks.Mask_DEFAULT));
         BodyUserDataClass b = new BodyUserDataClass("arrow");
@@ -61,7 +66,7 @@ public class Arrow extends CustomPhysicsBody {
             float flightVelocity = new Vector2(bodies[0].getLinearVelocity()).len();
 
             float dot = new Vector2(flightDirection).dot(pointingDirection);
-            float dragForceMagnitude = (1 - Math.abs(dot))*flightVelocity* bodies[0].getMass();
+            float dragForceMagnitude = (1 - Math.abs(dot))*flightVelocity*flightVelocity* bodies[0].getMass();
 
             Vector2 tail = bodies[0].getWorldPoint(new Vector2(bodyPos[0], bodyPos[1]));
             bodies[0].applyForce(new Vector2(flightDirection).scl(-dragForceMagnitude),tail, true);
@@ -80,6 +85,7 @@ public class Arrow extends CustomPhysicsBody {
     @Override
     public void draw(ShapeRenderer renderer) {
         float[] renderPos = WorldUtils.matchBodyPositionFromFloat(bodyPos, bodies[0]);
-        renderer.polygon(renderPos);
+        renderPos = WorldUtils.scaleF(renderPos, scale);
+        RenderHelper.filledPolygon(renderPos, renderer);
     }
 }
