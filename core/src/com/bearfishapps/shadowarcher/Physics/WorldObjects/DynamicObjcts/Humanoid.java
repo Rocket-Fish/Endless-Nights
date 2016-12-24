@@ -13,6 +13,8 @@ import com.bearfishapps.libs.Tools.Rendering.RenderHelper;
 import com.bearfishapps.shadowarcher.Physics.Collision.CollisionMasks;
 import com.bearfishapps.shadowarcher.Physics.UserDataClass.HumanoidUserDataClass;
 
+import box2dLight.RayHandler;
+
 public class Humanoid extends CustomPhysicsBody {
 
     private final float density = 19.8f;
@@ -20,6 +22,7 @@ public class Humanoid extends CustomPhysicsBody {
     private final float maxStiffness = 10000000000000f;
     private float stiffness = maxStiffness;
     private boolean isAlive = true;
+    private RayHandler rayHandler;
 
     protected float bodyPos[] = {-0.1f, -0f, 0.1f, -0f, 0.1f, 0.6f, -0.1f, 0.6f},
                     headPos[] = {-0.25f, -0.25f, 0.25f, -0.25f, 0.25f, 0.25f, -0.25f, 0.25f},
@@ -35,10 +38,11 @@ public class Humanoid extends CustomPhysicsBody {
     private RevoluteJoint headJoint, armJoint1, armJoint2, legJoint1, legJoint2;
     private Arrow arrow;
 
-    public Humanoid(World world, Vector2 pos, float scale) {
+    public Humanoid(World world, RayHandler rayHandler, Vector2 pos, float scale) {
         super(world, 7);
         System.arraycopy(lArmPos, 0, rArmPos, 0, lArmPos.length);
         this.scale = scale;
+        this.rayHandler = rayHandler;
 /*
         bodyPos = WorldUtils.scaleF(bodyPos, scale);
         headPos = WorldUtils.scaleF(headPos, scale);
@@ -90,7 +94,7 @@ public class Humanoid extends CustomPhysicsBody {
     }
 
     public Arrow drawArrow() {
-        arrow = new Arrow(world, new Vector2(bodies[6].getPosition().x,bodies[6].getPosition().y), scale, armJoint1.getJointAngle());
+        arrow = new Arrow(world, rayHandler, new Vector2(bodies[6].getPosition().x,bodies[6].getPosition().y), scale, armJoint1.getJointAngle());
 //        arrow = new Arrow(world, new Vector2(300, 100), scale, armJoint1.getJointAngle());
         return arrow;
     }

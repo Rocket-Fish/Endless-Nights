@@ -10,15 +10,19 @@ import com.bearfishapps.libs.Tools.Rendering.RenderHelper;
 import com.bearfishapps.shadowarcher.Physics.UserDataClass.BodyUserDataClass;
 import com.bearfishapps.shadowarcher.Physics.Collision.CollisionMasks;
 
+import box2dLight.Light;
+import box2dLight.RayHandler;
+
 public class Arrow extends CustomPhysicsBody {
     private final float density = 12.3f;
     private final float friction = 1f;
     protected float bodyPos[] = {0f, 0f, 0.03f, -0.75f, 0f, -0.8f, -0.03f, -0.75f};
 
     private float scale;
+    private Light light;
 
 //    private float initialAngle;
-    public Arrow(World world, Vector2 pos, float scale, float rotation) {
+    public Arrow(World world, RayHandler rayHandler, Vector2 pos, float scale, float rotation) {
         super(world, 1);
         if(world == null)
             return;
@@ -37,6 +41,8 @@ public class Arrow extends CustomPhysicsBody {
         bodies[0].setAngularDamping(1.5f);
         bodies[0].setActive(false);
         rotateTo(rotation);
+
+        light = WorldUtils.initPointLight(rayHandler, bodies[0], new Vector2(bodyPos[4], bodyPos[5]-0.1f));
     }
 
     public void rotateTo(float angle) {
@@ -88,4 +94,14 @@ public class Arrow extends CustomPhysicsBody {
         renderPos = WorldUtils.scaleF(renderPos, scale);
         RenderHelper.filledPolygon(renderPos, renderer);
     }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        if(light != null) {
+            light.remove();
+            light = null;
+        }
+    }
+
 }

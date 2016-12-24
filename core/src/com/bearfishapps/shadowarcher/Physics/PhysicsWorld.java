@@ -1,10 +1,13 @@
 package com.bearfishapps.shadowarcher.Physics;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -23,6 +26,9 @@ import com.bearfishapps.shadowarcher.Physics.WorldObjects.StaticObjects.DeathPla
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import box2dLight.Light;
+import box2dLight.RayHandler;
+
 public class PhysicsWorld extends Actor{
     protected ShapeRenderer shapeRenderer;
     private World world;
@@ -37,19 +43,37 @@ public class PhysicsWorld extends Actor{
 
     ArrayList<StickyArrowClass> arrowsToStick = new ArrayList<StickyArrowClass>();
 
+    // Box2d Lights
+    private RayHandler rayHandler;
+
+    float sunDirection = -90f;
+
     // TODO: REMOVE/Disable DEGUB RENDERER DIRNG RELEASE
     private Box2DDebugRenderer debugRenderer;
+    private OrthographicCamera camera;
 
-    public PhysicsWorld() {
+    public PhysicsWorld(OrthographicCamera camera) {
+        this.camera = camera;
         CollisionMasks.printShorts();
         shapeRenderer = new ShapeRenderer();
 
         world = new World(new Vector2(0, -12.8f), true);
         world.setContactListener(new CollisionListener(arrowsToStick, bodiesToChange, bodiesToDelete));
         debugRenderer = new Box2DDebugRenderer();
+        /** BOX2D LIGHT STUFF BEGIN */
+        RayHandler.setGammaCorrection(true);
+        RayHandler.useDiffuseLight(true);
 
-        p1 = new HumanGroundBundleGroup(world, new Vector2(1, 6f), 1);
-        p2 = new HumanGroundBundleGroup(world, new Vector2(44f, 6f), 1);
+        rayHandler = new RayHandler(world);
+        rayHandler.setAmbientLight(0f, 0f, 0f, 0.5f);
+//        rayHandler.setShadows(false);
+        rayHandler.setBlurNum(3);
+
+        /** BOX2D LIGHT STUFF END */
+
+
+        p1 = new HumanGroundBundleGroup(world, rayHandler, new Vector2(1, 6f), 1);
+        p2 = new HumanGroundBundleGroup(world, rayHandler, new Vector2(44f, 6f), 1);
         arrows.add(p1.getHumanoid().drawArrow());
         arrows.add(p2.getHumanoid().drawArrow());
 
@@ -57,6 +81,7 @@ public class PhysicsWorld extends Actor{
         humanoidBundles.add(p2);
 
         DeathPlatform dp = new DeathPlatform(world, new Vector2(-500, -1), new Vector2(540.9f, -1));
+
     }
 
     public void step(float delta) {
@@ -152,10 +177,13 @@ public class PhysicsWorld extends Actor{
         }
            shapeRenderer.end();
 
+        rayHandler.setCombinedMatrix(camera);
+        rayHandler.updateAndRender();
+
         batch.begin();
     }
 
-    public void initUserInterface(InputMultiplexer multiplexer, final Camera camera) {
+    public void initUserInterface(InputMultiplexer multiplexer) {
  //       multiplexer.addProcessor(new MouseDrag(world, camera, groundPlatform.getBodies()[0]));
         humanInputProcessorP1 = new HumanInputProcessor(arrows, p1, camera, 0, (int)camera.viewportWidth/2);
         humanInputProcessorP2 = new HumanInputProcessor(arrows, p2, camera, (int)camera.viewportWidth/2, (int)camera.viewportWidth);
@@ -166,5 +194,8 @@ public class PhysicsWorld extends Actor{
     public void dispose() {
         world.dispose();
         debugRenderer.dispose();
+        rayHandler.dispose();
     }
+
 }
+

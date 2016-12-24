@@ -1,6 +1,7 @@
 package com.bearfishapps.libs.Tools.PhysicsWorld;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -13,6 +14,10 @@ import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.badlogic.gdx.physics.box2d.joints.WeldJoint;
 import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
+
+import box2dLight.Light;
+import box2dLight.PointLight;
+import box2dLight.RayHandler;
 
 public class WorldUtils {
     public static Body createPoly(World world, BodyDef.BodyType type, float verts[], float x, float y, float density, float
@@ -186,4 +191,18 @@ public class WorldUtils {
         return renderPos;
     }
 
+    /*
+        Box 2d Lights Tools
+     */
+
+    static final int RAYS_PER_BALL = 120;
+    static final float LIGHT_DISTANCE = 12.5f;
+
+    public static Light initPointLight(RayHandler rayHandler, Body attatchedBody, Vector2 attatchmentBodyPosition) {
+        PointLight light = new PointLight(
+                rayHandler, RAYS_PER_BALL, new Color(1, 1, 1, 1), LIGHT_DISTANCE, 0f, 0f);
+//        light.attachToBody(attatchedBody, RADIUS / 2f, RADIUS / 2f);
+        light.attachToBody(attatchedBody, attatchmentBodyPosition.x, attatchmentBodyPosition.y);
+        return light;
+    }
 }

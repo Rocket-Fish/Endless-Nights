@@ -7,13 +7,15 @@ import com.bearfishapps.libs.Tools.PhysicsWorld.WorldUtils;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.DynamicObjcts.Humanoid;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.DynamicObjcts.MovableGround;
 
+import box2dLight.RayHandler;
+
 public class HumanGroundBundleGroup {
     private Vector2 target;
     private Humanoid humanoid;
     private MovableGround movableGround;
     private float scale;
-    public HumanGroundBundleGroup(World world, Vector2 position, float scale) {
-        humanoid = new Humanoid(world, position, scale);
+    public HumanGroundBundleGroup(World world, RayHandler rayHandler, Vector2 position, float scale) {
+        humanoid = new Humanoid(world,rayHandler, position, scale);
         movableGround = new MovableGround(world, position, scale);
         target = new Vector2(position);
         this.scale = scale;
