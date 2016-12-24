@@ -90,7 +90,7 @@ public class HumanInputProcessor implements InputProcessor {
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         moveVec.set(screenX, screenY, 0);
         camera.unproject(moveVec);
-        if(isPressed && (!hasMoved || new Vector2(touchPos.x, touchPos.y).sub(new Vector2(moveVec.x, moveVec.y)).len2() < 16)) {
+        if(isPressed && (!hasMoved || new Vector2(touchPos.x, touchPos.y).sub(new Vector2(moveVec.x, moveVec.y)).len2() < 1)) {
             isPressed = false;
             targetPos = new Vector2(touchPos.x, touchPos.y);
         }

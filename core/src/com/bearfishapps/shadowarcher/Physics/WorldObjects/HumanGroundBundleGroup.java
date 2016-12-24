@@ -20,10 +20,10 @@ public class HumanGroundBundleGroup {
     }
 
     public void check() {
-        Vector2 pos = new Vector2(humanoid.getBodies()[0].getPosition()).scl(scale);
+        Vector2 pos = new Vector2(humanoid.getBodies()[0].getWorldCenter()).scl(scale);
         Vector2 diff = new Vector2(target.x - pos.x, target.y - pos.y);
 
-        if(diff.len2() < 6) {
+        if(diff.len2() < 0.1f) {
             movableGround.setVelocity(0, 0);
             humanoid.setVelocity(0,0);
         }
@@ -36,7 +36,7 @@ public class HumanGroundBundleGroup {
     }
 
     private void shift() {
-        Vector2 pos = new Vector2(humanoid.getBodies()[0].getPosition()).scl(scale);
+        Vector2 pos = new Vector2(humanoid.getBodies()[0].getWorldCenter()).scl(scale);
         Vector2 diff = new Vector2(target.x - pos.x, target.y - pos.y);
 
         Vector2 vel = WorldUtils.normalize(diff).scl(3);

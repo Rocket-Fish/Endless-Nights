@@ -70,7 +70,7 @@ public class CollisionListener implements ContactListener {
                 BodyUserDataClass a = (BodyUserDataClass) objA;
                 BodyUserDataClass b = (BodyUserDataClass) objB;
 
-                float graceTime = 0.1f;
+                float graceTime = 0.2f;
 
                     if (a.getType().equals("arrow") &&
                             ((BodyUserDataClass) contact.getFixtureA().getBody().getUserData()).getDeltaTime() > graceTime) {

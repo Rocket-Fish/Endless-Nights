@@ -8,7 +8,7 @@ public class MainGameClass extends GdxGame{
 	@Override
 	public void create () {
 		super.create();
-//		this.setScreen(new SplashScreen(this));
-		this.setScreen(new GameScreen(this));
+		this.setScreen(new SplashScreen(this));
+//		this.setScreen(new GameScreen(this));
 	}
 }

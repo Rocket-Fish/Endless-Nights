@@ -58,14 +58,15 @@ public abstract class GeneralScreens implements Screen {
         // for input detection
         InputMultiplexer multiplexer = new InputMultiplexer();
 
-        // abstract class in order to do custom settings
-        preShow(table, multiplexer);
-
         // UI and interaction stuff
         table.setFillParent(true);
         stage.addActor(table);
         stage.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(1f)));
         multiplexer.addProcessor(stage);
+
+        // abstract class in order to do custom settings
+        preShow(table, multiplexer);
+
         Gdx.input.setInputProcessor(multiplexer);
     }
 

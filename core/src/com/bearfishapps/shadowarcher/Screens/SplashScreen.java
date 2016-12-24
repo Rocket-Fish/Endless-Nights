@@ -2,6 +2,7 @@ package com.bearfishapps.shadowarcher.Screens;
 
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.utils.Scaling;
 import com.bearfishapps.libs.GeneralScreens;
 import com.bearfishapps.libs.Tools.Constants;
 import com.bearfishapps.shadowarcher.MainGameClass;
+import com.bearfishapps.shadowarcher.Physics.Assets.TextureRegionService;
 
 public class SplashScreen extends GeneralScreens {
     public SplashScreen(MainGameClass game) {
@@ -20,10 +22,10 @@ public class SplashScreen extends GeneralScreens {
     @Override
     public void step(float delta, float animationKeyFrame) {
         if (game.getLoader().get().update() && animationKeyFrame >= 3) {
-//            TextureRegionService.mapAll(game.getLoader().get().get(Constants.atlas, TextureAtlas.class));
+            TextureRegionService.mapAll(game.getLoader().get().get(Constants.atlas, TextureAtlas.class));
             stage.addAction(Actions.sequence(Actions.fadeOut(1f), Actions.run(new Runnable() {
                 public void run() {
-                    game.setScreen(new GameScreen(game));
+                    game.setScreen(new MainMenuScreen(game));
                 }
             })));
 

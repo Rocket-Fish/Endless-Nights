@@ -44,19 +44,19 @@ public class PhysicsWorld extends Actor{
         CollisionMasks.printShorts();
         shapeRenderer = new ShapeRenderer();
 
-        world = new World(new Vector2(0, -9.8f), true);
+        world = new World(new Vector2(0, -12.8f), true);
         world.setContactListener(new CollisionListener(arrowsToStick, bodiesToChange, bodiesToDelete));
         debugRenderer = new Box2DDebugRenderer();
 
-        p1 = new HumanGroundBundleGroup(world, new Vector2(2, 6f), 20);
-        p2 = new HumanGroundBundleGroup(world, new Vector2(43, 6f), 20);
+        p1 = new HumanGroundBundleGroup(world, new Vector2(1, 6f), 1);
+        p2 = new HumanGroundBundleGroup(world, new Vector2(44f, 6f), 1);
         arrows.add(p1.getHumanoid().drawArrow());
         arrows.add(p2.getHumanoid().drawArrow());
 
         humanoidBundles.add(p1);
         humanoidBundles.add(p2);
 
-        DeathPlatform dp = new DeathPlatform(world, new Vector2(-500, -1), new Vector2(545, -1));
+        DeathPlatform dp = new DeathPlatform(world, new Vector2(-500, -1), new Vector2(540.9f, -1));
     }
 
     public void step(float delta) {

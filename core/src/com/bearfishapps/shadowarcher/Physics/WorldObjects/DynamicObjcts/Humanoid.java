@@ -15,7 +15,7 @@ import com.bearfishapps.shadowarcher.Physics.UserDataClass.HumanoidUserDataClass
 
 public class Humanoid extends CustomPhysicsBody {
 
-    private final float density = 98.5f;
+    private final float density = 19.8f;
     private final float friction = 0.6f;
     private final float maxStiffness = 10000000000000f;
     private float stiffness = maxStiffness;

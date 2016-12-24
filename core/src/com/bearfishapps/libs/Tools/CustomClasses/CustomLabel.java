@@ -13,7 +13,11 @@ public class CustomLabel {
     }
 
     public static void make(int size, Color color) {
-        FontGenerator.generate(size, Constants.tycho);
+        make(size, color, Constants.tycho);
+    }
+
+    public static void make(int size, Color color, String stringName) {
+        FontGenerator.generate(size, stringName);
         style = new Label.LabelStyle(FontGenerator.returnFont(), color);
     }
 
