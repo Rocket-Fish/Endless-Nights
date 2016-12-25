@@ -20,7 +20,7 @@ public class Arrow extends CustomPhysicsBody {
 
     private float scale;
     private Light light;
-    public final float LIGHT_INTENSITY = 6.3f;
+    public float LIGHT_INTENSITY;
     private RayHandler rayHandler;
 
 //    private float initialAngle;
@@ -31,6 +31,7 @@ public class Arrow extends CustomPhysicsBody {
         this.rayHandler = rayHandler;
 
         this.scale = scale;
+        LIGHT_INTENSITY = MathUtils.random(4.5f, 6.7f);
 
 //        initialAngle = rotation;
 //        bodyPos = WorldUtils.rotateFRadians(bodyPos, rotation);
@@ -38,31 +39,46 @@ public class Arrow extends CustomPhysicsBody {
 
     }
 
+    private BodyUserDataClass bodyUserData;
     private void createBody(Vector2 pos, float rotation) {
         bodies[0] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, bodyPos, pos.x, pos.y, density, 0.1f, friction, CollisionMasks.Mask_ARROW, (short)(CollisionMasks.Mask_Humanoid | CollisionMasks.Mask_DEFAULT));
-        BodyUserDataClass b = new BodyUserDataClass("arrow");
-        b.setSticky(true);
-        bodies[0].setUserData(b);
+        bodyUserData = new BodyUserDataClass("arrow");
+        bodyUserData.setSticky(true);
+        bodies[0].setUserData(bodyUserData);
 
         bodies[0].setAngularDamping(1.5f);
         bodies[0].setActive(false);
         bodies[0].setTransform(bodies[0].getPosition(), rotation);
 
-        light = WorldUtils.initPointLight(rayHandler, LIGHT_INTENSITY, bodies[0], new Vector2(bodyPos[4], bodyPos[5]-0.1f));
+        light = WorldUtils.initPointLight(rayHandler, LIGHT_INTENSITY, bodies[0], new Vector2(bodyPos[4], bodyPos[5]));
         light.setContactFilter(bodies[0].getFixtureList().get(0).getFilterData().categoryBits,
                 bodies[0].getFixtureList().get(0).getFilterData().groupIndex,
                 bodies[0].getFixtureList().get(0).getFilterData().maskBits);
         light.setColor(226/255f, 134/255f, 34/255f, 1);
+        light.setXray(false);
     }
 
     private boolean lightState = false;
+    private boolean fade = false;
     public void flicker() {
         if(light != null) {
-            float change = MathUtils.random(1, 10)<5?MathUtils.random(0.045f, 0.06f):MathUtils.random(0.03f, 0.075f);
-            float luminocity = lightState?light.getDistance() + change:light.getDistance() - change;
-            if(luminocity<=LIGHT_INTENSITY*0.75 || luminocity>=LIGHT_INTENSITY)
-                lightState^=true;
-            light.setDistance(luminocity);
+            if(!light.isActive())
+                return;
+            if(!fade) {
+                float change = MathUtils.random(1, 10) < 6 ? (MathUtils.random(0, 5) < 3 ? MathUtils.random(-0.015f, 0.035f) : MathUtils.random(0.045f, 0.06f)) : MathUtils.random(0.03f, 0.075f);
+                float luminocity = lightState ? light.getDistance() + change : light.getDistance() - change;
+                if (luminocity <= LIGHT_INTENSITY * 0.75 || luminocity >= LIGHT_INTENSITY)
+                    lightState ^= true;
+                light.setDistance(luminocity);
+            } else {
+                float change = MathUtils.random(-0.025f, 0.055f);
+                float luminocity = light.getDistance() - change;
+                light.setDistance(luminocity);
+            }
+            if(bodyUserData.getStepCount()>400 && !fade)
+                fade = true;
+            if(bodyUserData.getStepCount()>700)
+                light.setActive(false);
         }
     }
 
@@ -111,6 +127,10 @@ public class Arrow extends CustomPhysicsBody {
     @Override
     public void destroy() {
         super.destroy();
+        destroyLight();
+    }
+
+    public void destroyLight() {
         if(light != null ) {
             light.remove();
             light = null;
@@ -118,8 +138,8 @@ public class Arrow extends CustomPhysicsBody {
     }
 
     @Override
-    public void incrementTime(float delta) {
+    public void incrementStep() {
         if(bodies[0] != null && bodies[0].isActive())
-            super.incrementTime(delta);
+            super.incrementStep();
     }
 }

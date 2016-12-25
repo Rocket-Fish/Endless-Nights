@@ -19,9 +19,9 @@ public abstract class CustomPhysicsBody implements Renderable{
         return bodies;
     }
 
-    public void incrementTime(float delta) {
+    public void incrementStep() {
         for(Body b: bodies) {
-            ((BodyUserDataClass)b.getUserData()).step(delta);
+            ((BodyUserDataClass)b.getUserData()).step();
         }
     }
 

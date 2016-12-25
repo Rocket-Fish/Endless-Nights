@@ -18,7 +18,7 @@ public class HumanGroundBundleGroup {
     private float scale;
 
     private Light light;
-    public final float LIGHT_INTENSITY = 6.3f;
+    public final float LIGHT_INTENSITY = 12.3f;
 
     public HumanGroundBundleGroup(World world, RayHandler rayHandler, Vector2 position, float scale) {
         humanoid = new Humanoid(world,rayHandler, position, scale);
@@ -26,11 +26,11 @@ public class HumanGroundBundleGroup {
         target = new Vector2(position);
         this.scale = scale;
 
-        light = WorldUtils.initPointLight(rayHandler, LIGHT_INTENSITY, humanoid.getBodies()[0], new Vector2(0, 0));
-        light.setContactFilter(humanoid.getBodies()[0].getFixtureList().get(0).getFilterData().categoryBits,
-                humanoid.getBodies()[0].getFixtureList().get(0).getFilterData().groupIndex,
-                CollisionMasks.Mask_DEFAULT);
-        light.setColor(226/255f, 134/255f, 34/255f, 1);
+        light = WorldUtils.initPointLight(rayHandler, LIGHT_INTENSITY, humanoid.getBodies()[3], new Vector2(0, -0.67f));
+        light.setContactFilter(CollisionMasks.Mask_DEFAULT,
+                humanoid.getBodies()[3].getFixtureList().get(0).getFilterData().groupIndex,
+                (short)(CollisionMasks.Mask_DEFAULT|CollisionMasks.Mask_Humanoid));
+        light.setColor(1, 1, 1, 1);
     }
 
     public void check() {
@@ -67,6 +67,7 @@ public class HumanGroundBundleGroup {
         humanoid.destroyArrow();
         humanoid.destroy();
         movableGround.destroy();
+        light.remove();
     }
 
     public void draw(ShapeRenderer renderer) {

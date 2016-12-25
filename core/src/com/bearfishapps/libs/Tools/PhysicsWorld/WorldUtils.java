@@ -201,6 +201,8 @@ public class WorldUtils {
                 rayHandler, RAYS_PER_BALL, new Color(1, 1, 1, 1), LIGHT_DISTANCE, 0f, 0f);
 //        light.attachToBody(attatchedBody, RADIUS / 2f, RADIUS / 2f);
         light.attachToBody(attatchedBody, attatchmentBodyPosition.x, attatchmentBodyPosition.y);
+        light.setSoftnessLength(0);
+        light.setSoft(false);
         return light;
     }
 }

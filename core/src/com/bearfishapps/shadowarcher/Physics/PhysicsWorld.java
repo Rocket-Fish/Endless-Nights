@@ -2,12 +2,10 @@ package com.bearfishapps.shadowarcher.Physics;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -19,14 +17,15 @@ import com.bearfishapps.shadowarcher.Physics.Collision.StickyArrowClass;
 import com.bearfishapps.shadowarcher.Physics.Collision.CollisionListener;
 import com.bearfishapps.shadowarcher.Physics.InputInterpretors.HumanInputProcessor;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.DynamicObjcts.Arrow;
+import com.bearfishapps.shadowarcher.Physics.WorldObjects.DynamicObjcts.CustomPhysicsBody;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.DynamicObjcts.Humanoid;
+import com.bearfishapps.shadowarcher.Physics.WorldObjects.DynamicObjcts.Obstacle;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.HumanGroundBundleGroup;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.StaticObjects.DeathPlatform;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import box2dLight.Light;
 import box2dLight.RayHandler;
 
 public class PhysicsWorld extends Actor{
@@ -35,9 +34,11 @@ public class PhysicsWorld extends Actor{
     private HumanInputProcessor humanInputProcessorP1;
     private HumanInputProcessor humanInputProcessorP2;
 
-    com.bearfishapps.shadowarcher.Physics.WorldObjects.HumanGroundBundleGroup p1, p2;
+    private HumanGroundBundleGroup p1, p2;
     private ArrayList<HumanGroundBundleGroup> humanoidBundles = new ArrayList<HumanGroundBundleGroup>();
     private ArrayList<Arrow> arrows = new ArrayList<Arrow>();
+    ArrayList<CustomPhysicsBody> otherBodies = new ArrayList<CustomPhysicsBody>();
+
     private ArrayList<Body> bodiesToChange = new ArrayList<Body>();
     private ArrayList<Body> bodiesToDelete = new ArrayList<Body>();
 
@@ -64,11 +65,9 @@ public class PhysicsWorld extends Actor{
 
         rayHandler = new RayHandler(world);
         rayHandler.setAmbientLight(0f, 0f, 0f, 0.5f);
-//        rayHandler.setShadows(false);
         rayHandler.setBlurNum(3);
 
         /** BOX2D LIGHT STUFF END */
-
 
         p1 = new HumanGroundBundleGroup(world, rayHandler, new Vector2(1, 6f), 1);
         p2 = new HumanGroundBundleGroup(world, rayHandler, new Vector2(44f, 6f), 1);
@@ -80,6 +79,8 @@ public class PhysicsWorld extends Actor{
 
         DeathPlatform dp = new DeathPlatform(world, new Vector2(-500, -4), new Vector2(545f, -4));
 
+        otherBodies.add(new Obstacle(world, new Vector2(22.5f, 10f), 1));
+
     }
 
     public void step(float delta) {
@@ -87,23 +88,18 @@ public class PhysicsWorld extends Actor{
         p1.resetHumanoidContactWithGround();
         p2.resetHumanoidContactWithGround();
 
-        Gdx.app.log("PhysicsWorld", "resetHumanContactWithGround");
+        Gdx.app.log("PhysicsWorld", "FPS - "+String.valueOf(Gdx.graphics.getFramesPerSecond())+" Arrows - "+arrows.size());
 
         world.step(1 / 60f, 6, 2);
-
-        Gdx.app.log("PhysicsWorld", "stepped");
 
         humanInputProcessorP1.refresh();
         humanInputProcessorP2.refresh();
 
-        Gdx.app.log("PhysicsWorld", "ImputProcessors refreshed");
         for(Arrow a: arrows) {
             a.applyDrag();
             a.flicker();
-            a.incrementTime(delta);
+            a.incrementStep();
         }
-        Gdx.app.log("PhysicsWorld", "All arrow physics processed");
-
         Vector2 tip = arrows.get(0).returnArrowTip();
         for(StickyArrowClass sc: arrowsToStick) {
             Vector2 anchorPoint = sc.getArrow().getWorldPoint(tip);
@@ -121,8 +117,6 @@ public class PhysicsWorld extends Actor{
         }
         arrowsToStick.clear();
 
-        Gdx.app.log("PhysicsWorld", "Arrows Welding complete");
-
         for(Body b: bodiesToChange) {
             for(HumanGroundBundleGroup hh: humanoidBundles) {
                 Humanoid h = hh.getHumanoid();
@@ -134,8 +128,6 @@ public class PhysicsWorld extends Actor{
             }
         }
         bodiesToChange.clear();
-
-        Gdx.app.log("PhysicsWorld", "bodies to change has been completed");
 
         for(Body b: bodiesToDelete) {
             Iterator it = humanoidBundles.iterator();
@@ -165,8 +157,6 @@ public class PhysicsWorld extends Actor{
             }
         }
         bodiesToDelete.clear();
-        Gdx.app.log("PhysicsWorld", "mandatory bodies deleted");
-
 
     }
 
@@ -174,7 +164,7 @@ public class PhysicsWorld extends Actor{
     public void draw (Batch batch, float parentAlpha) {
         batch.end();
 
-        debugRenderer.render(world, batch.getProjectionMatrix());
+//        debugRenderer.render(world, batch.getProjectionMatrix());
 
         shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
         shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
@@ -187,6 +177,10 @@ public class PhysicsWorld extends Actor{
         }
         for(Arrow a: arrows) {
             a.draw(shapeRenderer);
+        }
+
+        for(CustomPhysicsBody b:otherBodies) {
+            b.draw(shapeRenderer);
         }
            shapeRenderer.end();
 

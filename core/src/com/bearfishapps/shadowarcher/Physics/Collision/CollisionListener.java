@@ -60,9 +60,9 @@ public class CollisionListener implements ContactListener {
                     ((HumanoidUserDataClass)objA).setInContactWithMatchingPlatform(true);
                 }
 
-                float graceTime = 0.2f;
+                int graceSteps = 3;
                 if (a.getType().equals("arrow") &&
-                        ((BodyUserDataClass) contact.getFixtureA().getBody().getUserData()).getDeltaTime() > graceTime) {
+                        ((BodyUserDataClass) contact.getFixtureA().getBody().getUserData()).getStepCount() > graceSteps) {
                     if(a.isSticky()) {
                         a.setSticky(false);
                         StickyArrowClass sc = new StickyArrowClass(contact.getFixtureB().getBody(), contact.getFixtureA().getBody());
@@ -71,7 +71,7 @@ public class CollisionListener implements ContactListener {
                             humanoidContacts.add(contact.getFixtureB().getBody());
                     }
                 } else if (b.getType().equals("arrow")&&
-                        ((BodyUserDataClass) contact.getFixtureB().getBody().getUserData()).getDeltaTime() > graceTime) {
+                        ((BodyUserDataClass) contact.getFixtureB().getBody().getUserData()).getStepCount() > graceSteps) {
                     if(b.isSticky()) {
                         b.setSticky(false);
                         StickyArrowClass sc = new StickyArrowClass(contact.getFixtureA().getBody(), contact.getFixtureB().getBody());

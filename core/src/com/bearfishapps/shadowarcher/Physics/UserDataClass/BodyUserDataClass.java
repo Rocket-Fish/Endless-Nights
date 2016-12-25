@@ -2,12 +2,12 @@ package com.bearfishapps.shadowarcher.Physics.UserDataClass;
 
 public class BodyUserDataClass {
     private String type;
-    private float deltaTime;
+    private int stepCount;
     private boolean isSticky;
 
     public BodyUserDataClass(String type) {
         this.type = type;
-        deltaTime = 0;
+        stepCount = 0;
         isSticky = false;
     }
 
@@ -22,11 +22,11 @@ public class BodyUserDataClass {
         return type;
     }
 
-    public void step(float delta) {
-        deltaTime += delta;
+    public void step() {
+        stepCount++;
     }
 
-    public float getDeltaTime() {
-        return deltaTime;
+    public float getStepCount() {
+        return stepCount;
     }
 }
