@@ -90,7 +90,7 @@ public class PhysicsWorld extends Actor{
 
         Gdx.app.log("PhysicsWorld", "FPS - "+String.valueOf(Gdx.graphics.getFramesPerSecond())+" Arrows - "+arrows.size());
 
-        world.step(1 / 60f, 6, 2);
+        world.step(1 / 45f, 6, 2);
 
         humanInputProcessorP1.refresh();
         humanInputProcessorP2.refresh();
@@ -164,7 +164,7 @@ public class PhysicsWorld extends Actor{
     public void draw (Batch batch, float parentAlpha) {
         batch.end();
 
-//        debugRenderer.render(world, batch.getProjectionMatrix());
+        debugRenderer.render(world, batch.getProjectionMatrix());
 
         shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
         shapeRenderer.setTransformMatrix(batch.getTransformMatrix());

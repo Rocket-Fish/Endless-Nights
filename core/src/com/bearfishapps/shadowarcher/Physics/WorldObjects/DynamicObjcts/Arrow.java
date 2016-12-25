@@ -31,7 +31,7 @@ public class Arrow extends CustomPhysicsBody {
         this.rayHandler = rayHandler;
 
         this.scale = scale;
-        LIGHT_INTENSITY = MathUtils.random(4.5f, 6.7f);
+        LIGHT_INTENSITY = MathUtils.random(2.3f, 4.5f);
 
 //        initialAngle = rotation;
 //        bodyPos = WorldUtils.rotateFRadians(bodyPos, rotation);
@@ -71,13 +71,13 @@ public class Arrow extends CustomPhysicsBody {
                     lightState ^= true;
                 light.setDistance(luminocity);
             } else {
-                float change = MathUtils.random(-0.025f, 0.055f);
+                float change = MathUtils.random(-0.025f, 0.065f);
                 float luminocity = light.getDistance() - change;
                 light.setDistance(luminocity);
             }
-            if(bodyUserData.getStepCount()>400 && !fade)
+            if(bodyUserData.getStepCount()>340 && !fade)
                 fade = true;
-            if(bodyUserData.getStepCount()>700)
+            if(light.getDistance() < LIGHT_INTENSITY*0.1)
                 light.setActive(false);
         }
     }

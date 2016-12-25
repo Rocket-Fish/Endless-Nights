@@ -7,6 +7,7 @@ import com.bearfishapps.shadowarcher.MainGameClass;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+		config.foregroundFPS = 45;
 		config.width = 900;
 		config.height = 480;
 		config.title = "Shadow Archer";
