@@ -18,7 +18,7 @@ public class HumanGroundBundleGroup {
     private float scale;
 
     private Light light;
-    public final float LIGHT_INTENSITY = 12.3f;
+    public final float LIGHT_INTENSITY = 3f;
 
     public HumanGroundBundleGroup(World world, RayHandler rayHandler, Vector2 position, float scale) {
         humanoid = new Humanoid(world,rayHandler, position, scale);
@@ -27,9 +27,10 @@ public class HumanGroundBundleGroup {
         this.scale = scale;
 
         light = WorldUtils.initPointLight(rayHandler, LIGHT_INTENSITY, humanoid.getBodies()[3], new Vector2(0, -0.67f));
-        light.setContactFilter(CollisionMasks.Mask_DEFAULT,
+        light.setXray(true);
+/*        light.setContactFilter(CollisionMasks.Mask_DEFAULT,
                 humanoid.getBodies()[3].getFixtureList().get(0).getFilterData().groupIndex,
-                (short)(CollisionMasks.Mask_DEFAULT|CollisionMasks.Mask_Humanoid));
+                (short)(CollisionMasks.Mask_DEFAULT|CollisionMasks.Mask_Humanoid));*/
         light.setColor(1, 1, 1, 1);
     }
 
