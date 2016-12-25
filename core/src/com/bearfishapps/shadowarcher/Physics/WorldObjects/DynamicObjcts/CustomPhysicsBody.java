@@ -27,7 +27,8 @@ public abstract class CustomPhysicsBody implements Renderable{
 
     public void destroy() {
         for(Body b: bodies) {
-            world.destroyBody(b);
+            if(b!=null)
+                world.destroyBody(b);
         }
 
     }

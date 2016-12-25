@@ -94,7 +94,7 @@ public class Humanoid extends CustomPhysicsBody {
     }
 
     public Arrow drawArrow() {
-        arrow = new Arrow(world, rayHandler, new Vector2(bodies[6].getPosition().x,bodies[6].getPosition().y), scale, armJoint1.getJointAngle());
+        arrow = new Arrow(world, rayHandler, scale);
 //        arrow = new Arrow(world, new Vector2(300, 100), scale, armJoint1.getJointAngle());
         return arrow;
     }
@@ -104,7 +104,7 @@ public class Humanoid extends CustomPhysicsBody {
     }
 
     public void shootArrow() {
-        arrow.release(32, armJoint1.getJointAngle());
+        arrow.release(32, new Vector2(bodies[6].getPosition()), armJoint1.getJointAngle());
         arrow = null;
     }
 

@@ -100,8 +100,7 @@ public class PhysicsWorld extends Actor{
         for(Arrow a: arrows) {
             a.applyDrag();
             a.flicker();
-            if(a.getBodies()[0].isActive())
-                a.incrementTime(delta);
+            a.incrementTime(delta);
         }
         Gdx.app.log("PhysicsWorld", "All arrow physics processed");
 
@@ -157,6 +156,8 @@ public class PhysicsWorld extends Actor{
             Iterator ita = arrows.iterator();
             while (ita.hasNext()) {
                 Arrow a = (Arrow) ita.next();
+                if(a.getBodies()[0] == null)
+                    continue;
                 if(a.getBodies()[0].getPosition().equals(b.getPosition())) {
                     a.destroy();
                     ita.remove();

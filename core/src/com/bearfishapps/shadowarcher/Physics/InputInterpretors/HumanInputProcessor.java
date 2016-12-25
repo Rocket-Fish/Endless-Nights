@@ -38,9 +38,6 @@ public class HumanInputProcessor implements InputProcessor {
     private boolean isPressed = false, hasMoved = false, shooting = false, tapped = false;
     public void refresh() {
         Arrow a = humanoid.getArrow();
-        if(a != null) {
-            a.transformTo(humanoid.getBodies()[2].getPosition(), humanoid.getBodies()[2].getAngle());
-        }
 
         if(!humanoid.isAlive()) {
             if(a != null)
