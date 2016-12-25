@@ -46,8 +46,6 @@ public class PhysicsWorld extends Actor{
     // Box2d Lights
     private RayHandler rayHandler;
 
-    float sunDirection = -90f;
-
     // TODO: REMOVE/Disable DEGUB RENDERER DIRNG RELEASE
     private Box2DDebugRenderer debugRenderer;
     private OrthographicCamera camera;
@@ -80,7 +78,7 @@ public class PhysicsWorld extends Actor{
         humanoidBundles.add(p1);
         humanoidBundles.add(p2);
 
-        DeathPlatform dp = new DeathPlatform(world, new Vector2(-500, -1), new Vector2(540.9f, -1));
+        DeathPlatform dp = new DeathPlatform(world, new Vector2(-500, -4), new Vector2(545f, -4));
 
     }
 
@@ -89,15 +87,23 @@ public class PhysicsWorld extends Actor{
         p1.resetHumanoidContactWithGround();
         p2.resetHumanoidContactWithGround();
 
+        Gdx.app.log("PhysicsWorld", "resetHumanContactWithGround");
+
         world.step(1 / 60f, 6, 2);
+
+        Gdx.app.log("PhysicsWorld", "stepped");
 
         humanInputProcessorP1.refresh();
         humanInputProcessorP2.refresh();
+
+        Gdx.app.log("PhysicsWorld", "ImputProcessors refreshed");
         for(Arrow a: arrows) {
             a.applyDrag();
+            a.flicker();
             if(a.getBodies()[0].isActive())
                 a.incrementTime(delta);
         }
+        Gdx.app.log("PhysicsWorld", "All arrow physics processed");
 
         Vector2 tip = arrows.get(0).returnArrowTip();
         for(StickyArrowClass sc: arrowsToStick) {
@@ -116,6 +122,8 @@ public class PhysicsWorld extends Actor{
         }
         arrowsToStick.clear();
 
+        Gdx.app.log("PhysicsWorld", "Arrows Welding complete");
+
         for(Body b: bodiesToChange) {
             for(HumanGroundBundleGroup hh: humanoidBundles) {
                 Humanoid h = hh.getHumanoid();
@@ -128,13 +136,15 @@ public class PhysicsWorld extends Actor{
         }
         bodiesToChange.clear();
 
+        Gdx.app.log("PhysicsWorld", "bodies to change has been completed");
+
         for(Body b: bodiesToDelete) {
             Iterator it = humanoidBundles.iterator();
             while (it.hasNext()) {
                 HumanGroundBundleGroup hh = (HumanGroundBundleGroup) it.next();
                 Humanoid h = hh.getHumanoid();
                 for(Body hb:h.getBodies()) {
-                    if(hb == b) {
+                    if(hb.getPosition().equals(b.getPosition())) {
                         h.kill();
                     }
                 }
@@ -147,13 +157,15 @@ public class PhysicsWorld extends Actor{
             Iterator ita = arrows.iterator();
             while (ita.hasNext()) {
                 Arrow a = (Arrow) ita.next();
-                if(a.getBodies()[0] == b) {
+                if(a.getBodies()[0].getPosition().equals(b.getPosition())) {
                     a.destroy();
                     ita.remove();
                 }
             }
         }
         bodiesToDelete.clear();
+        Gdx.app.log("PhysicsWorld", "mandatory bodies deleted");
+
 
     }
 

@@ -20,6 +20,7 @@ public class Arrow extends CustomPhysicsBody {
 
     private float scale;
     private Light light;
+    public final float LIGHT_INTENSITY = 6.3f;
 
 //    private float initialAngle;
     public Arrow(World world, RayHandler rayHandler, Vector2 pos, float scale, float rotation) {
@@ -42,10 +43,20 @@ public class Arrow extends CustomPhysicsBody {
         bodies[0].setActive(false);
         rotateTo(rotation);
 
-        light = WorldUtils.initPointLight(rayHandler, 6.7f, bodies[0], new Vector2(bodyPos[4], bodyPos[5]-0.1f));
+        light = WorldUtils.initPointLight(rayHandler, LIGHT_INTENSITY, bodies[0], new Vector2(bodyPos[4], bodyPos[5]-0.1f));
         light.setContactFilter(bodies[0].getFixtureList().get(0).getFilterData().categoryBits,
                 bodies[0].getFixtureList().get(0).getFilterData().groupIndex,
                 bodies[0].getFixtureList().get(0).getFilterData().maskBits);
+    }
+
+    private boolean lightState = false;
+    public void flicker() {
+        if(light != null) {
+            float luminocity = lightState?light.getDistance() + 0.06f:light.getDistance() - 0.06f;
+            if(luminocity<=LIGHT_INTENSITY*0.75 || luminocity>=LIGHT_INTENSITY)
+                lightState^=true;
+            light.setDistance(luminocity);
+        }
     }
 
     public void rotateTo(float angle) {
@@ -101,7 +112,7 @@ public class Arrow extends CustomPhysicsBody {
     @Override
     public void destroy() {
         super.destroy();
-        if(light != null) {
+        if(light != null ) {
             light.remove();
             light = null;
         }
