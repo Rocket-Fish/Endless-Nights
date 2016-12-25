@@ -195,10 +195,8 @@ public class WorldUtils {
         Box 2d Lights Tools
      */
 
-    static final int RAYS_PER_BALL = 120;
-    static final float LIGHT_DISTANCE = 12.5f;
-
-    public static Light initPointLight(RayHandler rayHandler, Body attatchedBody, Vector2 attatchmentBodyPosition) {
+    static final int RAYS_PER_BALL = 60;
+    public static Light initPointLight(RayHandler rayHandler, float LIGHT_DISTANCE, Body attatchedBody, Vector2 attatchmentBodyPosition) {
         PointLight light = new PointLight(
                 rayHandler, RAYS_PER_BALL, new Color(1, 1, 1, 1), LIGHT_DISTANCE, 0f, 0f);
 //        light.attachToBody(attatchedBody, RADIUS / 2f, RADIUS / 2f);

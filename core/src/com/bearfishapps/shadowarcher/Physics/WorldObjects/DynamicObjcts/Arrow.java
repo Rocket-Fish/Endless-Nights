@@ -42,7 +42,10 @@ public class Arrow extends CustomPhysicsBody {
         bodies[0].setActive(false);
         rotateTo(rotation);
 
-        light = WorldUtils.initPointLight(rayHandler, bodies[0], new Vector2(bodyPos[4], bodyPos[5]-0.1f));
+        light = WorldUtils.initPointLight(rayHandler, 6.7f, bodies[0], new Vector2(bodyPos[4], bodyPos[5]-0.1f));
+        light.setContactFilter(bodies[0].getFixtureList().get(0).getFilterData().categoryBits,
+                bodies[0].getFixtureList().get(0).getFilterData().groupIndex,
+                bodies[0].getFixtureList().get(0).getFilterData().maskBits);
     }
 
     public void rotateTo(float angle) {
