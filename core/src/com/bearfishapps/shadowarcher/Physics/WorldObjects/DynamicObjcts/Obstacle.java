@@ -15,19 +15,20 @@ public class Obstacle extends CustomPhysicsBody {
     private final float density = 10.1f;
     protected float bodyPos[];
     private float scale;
-    private Vector2[] path;
-    private float rotations[];
 
     public Obstacle(World world, Vector2 position, float scale) {
         super(world, 1);
 
         this.scale = scale;
-        int count = MathUtils.random(3, 8);
+        int count = MathUtils.random(4, 8);
         bodyPos = new float[count*2];
-        float e = MathUtils.random(5f, 10f);
-        for(int i = 0; i < count; i+=2) {
-            bodyPos[i] = MathUtils.random(-e,e);
-            bodyPos[i+1] = MathUtils.random(-e,e);
+        float e = MathUtils.random(2f, 3.5f);
+        float minR = MathUtils.random(e+1.5f, e+4f);
+        int c = 0;
+        for(int i = 0; i < bodyPos.length-1; i+=2) {
+            bodyPos[i] = (minR+MathUtils.random(-e,e))*MathUtils.cos(MathUtils.PI*2f*((float)c)/((float)count));
+            bodyPos[i+1] = (minR+MathUtils.random(-e,e))*MathUtils.sin(MathUtils.PI*2f*((float)c)/((float)count));
+            c++;
         }
 
         bodyPos = WorldUtils.scaleF(bodyPos, scale);
