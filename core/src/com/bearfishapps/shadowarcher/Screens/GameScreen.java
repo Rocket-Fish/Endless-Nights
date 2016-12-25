@@ -28,17 +28,6 @@ public class GameScreen extends GeneralScreens {
 
     @Override
     public void step(float delta, float animationKeyFrame) {
-        if (delta < (1f / 45f)) {
-            float sleepTime = (1f / 45f) - delta;
-            try {
-                Thread.sleep((long) sleepTime);
-            } catch (InterruptedException ex) {
-                Gdx.app.log("Error", ex.getLocalizedMessage());
-                ex.printStackTrace();
-
-            }
-
-        }
         physicsWorld.step(delta);
     }
 

@@ -88,7 +88,7 @@ public class PhysicsWorld extends Actor{
         p1.resetHumanoidContactWithGround();
         p2.resetHumanoidContactWithGround();
 
-        Gdx.app.log("PhysicsWorld", "FPS - "+String.valueOf(Gdx.graphics.getFramesPerSecond())+" Arrows - "+arrows.size());
+        Gdx.app.log("PhysicsWorld", "FPS - "+String.valueOf(1/delta)+" Arrows - "+arrows.size());
 
         world.step(1 / 45f, 6, 2);
 

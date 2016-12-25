@@ -36,6 +36,7 @@ public abstract class GeneralScreens implements Screen {
 
         camera = new OrthographicCamera();
         viewport = new ExtendViewport(sizeX, sizeY, camera);
+        ((ExtendViewport)viewport).setMaxWorldWidth(sizeX);
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
         camera.update();
 
