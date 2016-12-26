@@ -195,7 +195,7 @@ public class WorldUtils {
         Box 2d Lights Tools
      */
 
-    static final int RAYS_PER_BALL = 24;
+    static final int RAYS_PER_BALL = 36;
     public static Light initPointLight(RayHandler rayHandler, float LIGHT_DISTANCE, Body attatchedBody, Vector2 attatchmentBodyPosition) {
         PointLight light = new PointLight(
                 rayHandler, RAYS_PER_BALL, new Color(1, 1, 1, 1), LIGHT_DISTANCE, 0f, 0f);

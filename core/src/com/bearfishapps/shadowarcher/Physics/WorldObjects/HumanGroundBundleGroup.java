@@ -50,6 +50,14 @@ public class HumanGroundBundleGroup {
         shift();
     }
 
+    public Vector2 getTarget() {
+        return target;
+    }
+
+    public void stopGroundMovement() {
+        movableGround.setVelocity(0, 0);
+    }
+
     private void shift() {
         Vector2 pos = new Vector2(humanoid.getBodies()[0].getWorldCenter()).scl(scale);
         Vector2 diff = new Vector2(target.x - pos.x, target.y - pos.y);

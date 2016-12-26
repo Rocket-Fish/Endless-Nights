@@ -10,8 +10,8 @@ import com.bearfishapps.shadowarcher.Physics.UserDataClass.BodyUserDataClass;
 import com.bearfishapps.shadowarcher.Physics.Collision.CollisionMasks;
 
 public class MovableGround extends CustomPhysicsBody {
-    private final float friction = 10f;
-    private final float density = 10.1f;
+    private final float friction = 1f;
+    private final float density = 1.1f;
     protected float bodyPos[] = {-0.4f, -0.6f, 0.4f, -0.6f, 0.4f, -0.65f, -0.4f, -0.65f};
     private Vector2 velocity = new Vector2(0, 0);
 
@@ -33,7 +33,6 @@ public class MovableGround extends CustomPhysicsBody {
 
     @Override
     public void draw(ShapeRenderer renderer) {
-        renderer.setColor(0, 0, 0, 1);
         float[] renderPos = WorldUtils.matchBodyPositionFromFloat(bodyPos, bodies[0]);
         renderPos = WorldUtils.scaleF(renderPos, scale);
         RenderHelper.filledPolygon(renderPos, renderer);

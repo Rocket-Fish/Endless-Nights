@@ -33,7 +33,7 @@ public class Arrow extends CustomPhysicsBody implements Comparable<Arrow>{
 
 //    private float initialAngle;
     public Arrow(World world, RayHandler rayHandler, float scale) {
-        super(world, 1);
+        super(world,1);
         if(world == null)
             return;
         this.rayHandler = rayHandler;
@@ -64,6 +64,10 @@ public class Arrow extends CustomPhysicsBody implements Comparable<Arrow>{
                 bodies[0].getFixtureList().get(0).getFilterData().maskBits);
         light.setColor(226/255f, 134/255f, 34/255f, 1);
         light.setXray(false);
+    }
+
+    public void setLowGravity() {
+        bodies[0].setGravityScale(0.03f);
     }
 
     private boolean lightState = false;

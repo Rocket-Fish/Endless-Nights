@@ -1,5 +1,6 @@
 package com.bearfishapps.shadowarcher.Physics.InputInterpretors;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.MathUtils;
@@ -46,7 +47,7 @@ public class HumanInputProcessor implements InputProcessor {
         }
 
         humanoidBundle.check();
-        if(targetPos != null) {
+        if(targetPos != null && !(humanoidBundle.getTarget().equals(targetPos))) {
             humanoidBundle.setTarget(targetPos.x, targetPos.y);
             targetPos = null;
         }

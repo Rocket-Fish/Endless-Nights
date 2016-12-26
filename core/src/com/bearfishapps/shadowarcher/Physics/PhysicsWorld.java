@@ -16,10 +16,12 @@ import com.bearfishapps.shadowarcher.Physics.Collision.CollisionMasks;
 import com.bearfishapps.shadowarcher.Physics.Collision.StickyArrowClass;
 import com.bearfishapps.shadowarcher.Physics.Collision.CollisionListener;
 import com.bearfishapps.shadowarcher.Physics.InputInterpretors.HumanInputProcessor;
+import com.bearfishapps.shadowarcher.Physics.UserDataClass.BodyUserDataClass;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.DynamicObjcts.Arrow;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.DynamicObjcts.CustomPhysicsBody;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.DynamicObjcts.Humanoid;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.DynamicObjcts.Obstacle;
+import com.bearfishapps.shadowarcher.Physics.WorldObjects.DynamicObjcts.SimpleSquare;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.HumanGroundBundleGroup;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.StaticObjects.DeathPlatform;
 
@@ -84,7 +86,7 @@ public class PhysicsWorld extends Actor{
         otherBodies.add(new Obstacle(world, new Vector2(22.5f, 10f), 1));
         otherBodies.add(new Obstacle(world, new Vector2(10f, 16f), 1));
         otherBodies.add(new Obstacle(world, new Vector2(35f, 16f), 1));
-
+        otherBodies.add(new SimpleSquare(world, rayHandler, new Vector2(22.5f, 27f), 2, arrows));
     }
 
     ArrayList<Arrow> luminantArrows = new ArrayList<Arrow>();
@@ -133,6 +135,12 @@ public class PhysicsWorld extends Actor{
 
             weldJointDef.referenceAngle = weldJointDef.bodyB.getAngle() - weldJointDef.bodyA.getAngle();
             world.createJoint(weldJointDef);
+
+            if(((BodyUserDataClass)weldJointDef.bodyA.getUserData()).getType().equals("simpleSquare")) {
+                SimpleSquare ss = ((SimpleSquare)otherBodies.get(otherBodies.indexOf(new SimpleSquare(weldJointDef.bodyA))));
+                ss.shotByArrow();
+            }
+
         }
         arrowsToStick.clear();
 
@@ -179,6 +187,7 @@ public class PhysicsWorld extends Actor{
 
         Collections.sort(collidedArrows);
         for(Arrow a: collidedArrows) {
+            a.setLowGravity();
             boolean pass = true;
             for(Arrow aa:luminantArrows) {
                 if (a.getDistanceTo(aa) < 3) {

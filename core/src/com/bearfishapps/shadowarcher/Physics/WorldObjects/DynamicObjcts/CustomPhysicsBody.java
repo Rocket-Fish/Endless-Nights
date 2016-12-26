@@ -10,6 +10,10 @@ public abstract class CustomPhysicsBody implements Renderable{
     protected Body[] bodies;
     protected World world;
 
+    public CustomPhysicsBody(Body b) {
+        bodies = new Body[]{b};
+    }
+
     public CustomPhysicsBody(World world, int size) {
         this.world = world;
         bodies = new Body[size];
@@ -31,5 +35,24 @@ public abstract class CustomPhysicsBody implements Renderable{
                 world.destroyBody(b);
         }
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CustomPhysicsBody)) return false;
+
+        CustomPhysicsBody cpb = (CustomPhysicsBody) o;
+        if(bodies[0] == null)
+            return false;
+        if(cpb.getBodies()[0] == null)
+            return false;
+
+        return bodies[0]==cpb.getBodies()[0];
+    }
+
+    @Override
+    public int hashCode() {
+        return bodies[0].getPosition().hashCode();
     }
 }
