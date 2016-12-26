@@ -55,10 +55,10 @@ public class MainMenuScreen extends GeneralScreens{
         });
 
         table.setDebug(true);
-        table.top().right();
+        table.center().top();
         table.add(title).pad(20).row();
-        table.add(playButton).pad(10).width(100).height(100).right().row();
-        table.add(quitButton).pad(10).width(100).height(100).right().row();
+        table.add(playButton).pad(10).width(100).height(100).center().row();
+        table.add(quitButton).pad(10).width(100).height(100).center().row();
     }
 
     @Override

@@ -11,7 +11,7 @@ import com.bearfishapps.shadowarcher.Physics.UserDataClass.BodyUserDataClass;
 
 public class Obstacle extends CustomPhysicsBody {
     private final float friction = 1f;
-    private final float density = 1000.1f;
+    private final float density = 300.1f;
     protected float bodyPos[];
     private float scale;
 

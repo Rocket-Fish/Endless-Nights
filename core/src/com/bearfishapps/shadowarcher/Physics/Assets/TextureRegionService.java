@@ -5,42 +5,63 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class TextureRegionService {
-    public static TextureRegion loading1, loading2, loading3, loading4, loading5, loading6, loading7, loading8;
-    public static Animation loadingAnimation;
 
-    public static void mapLoading(TextureAtlas atlas) {
-        loading1 = atlas.findRegion("_loading/matt-icons_busy01-800px");
-        loading2 = atlas.findRegion("_loading/matt-icons_busy02-800px");
-        loading3 = atlas.findRegion("_loading/matt-icons_busy03-800px");
-        loading4 = atlas.findRegion("_loading/matt-icons_busy04-800px");
-        loading5 = atlas.findRegion("_loading/matt-icons_busy05-800px");
-        loading6 = atlas.findRegion("_loading/matt-icons_busy06-800px");
-        loading7 = atlas.findRegion("_loading/matt-icons_busy07-800px");
-        loading8 = atlas.findRegion("_loading/matt-icons_busy08-800px");
+    public static TextureRegion
+            playButton ,
+            quitButton ,
+            pauseButton,
+            creditsBtn ,
+            deleteBtn  ,
+            downButton ,
+            exitButton ,
+            fireButton ,
+            gameservBtn,
+            iconXButton,
+            leftButton ,
+            menuButton ,
+            musicButton,
+            musicOffBtn,
+            noButton   ,
+            questionBtn,
+            restartBtn ,
+            rightButton,
+            settingsBtn,
+            setting2Btn,
+            simpleBtn  ,
+            simpleBlock,
+            soundButton,
+            soundOffBtn,
+            upButton   ,
+            yesButton  ;
 
-        TextureRegion[] loading = {loading1, loading2, loading3, loading4, loading5, loading6, loading7, loading8};
-        loadingAnimation = new Animation(0.05f, loading);
-        loadingAnimation.setPlayMode(Animation.PlayMode.LOOP);
-
-    }
-
-    public static TextureRegion playButton, quitButton, pauseButton;
-    public static TextureRegion cogWheel3, cogWheel2, cogWheel1, woodWheel, barbWheel, fanWheel, frame, coreFrame, fuelFrame;
     public static void mapAll(TextureAtlas atlas) {
-        playButton = atlas.findRegion("_UI/playBtn");
-        quitButton = atlas.findRegion("_UI/ExitBig");
+        playButton  = atlas.findRegion("_UI/playBtn");
+        quitButton  = atlas.findRegion("_UI/ExitBig");
         pauseButton = atlas.findRegion("_UI/pause");
 
-        cogWheel1 = atlas.findRegion("_Objects/cogWheel");
-        cogWheel2 = atlas.findRegion("_Objects/cogWheel2");
-        cogWheel3 = atlas.findRegion("_Objects/cogWheel3");
-        woodWheel = atlas.findRegion("_Objects/barbedWheel");
-        barbWheel = atlas.findRegion("_Objects/woodWheel");
-        fanWheel = atlas.findRegion("_Objects/fanWheel");
-
-        frame     = atlas.findRegion("_Objects/frame");
-        coreFrame = atlas.findRegion("_Objects/heart");
-        fuelFrame = atlas.findRegion("_Objects/electricity");
+        creditsBtn  = atlas.findRegion("_UI/credits");
+        deleteBtn   = atlas.findRegion("_UI/DeleteBtn");
+        downButton  = atlas.findRegion("_UI/down");
+        exitButton  = atlas.findRegion("_UI/Exit");
+        fireButton  = atlas.findRegion("_UI/FireShootBtn");
+        gameservBtn = atlas.findRegion("_UI/gameService");
+        iconXButton = atlas.findRegion("_UI/IconX");
+        leftButton  = atlas.findRegion("_UI/left");
+        menuButton  = atlas.findRegion("_UI/Menu");
+        musicButton = atlas.findRegion("_UI/music");
+        musicOffBtn = atlas.findRegion("_UI/musicOff");
+        noButton    = atlas.findRegion("_UI/NoBtn");
+        questionBtn = atlas.findRegion("_UI/Question");
+        restartBtn  = atlas.findRegion("_UI/Restart");
+        rightButton = atlas.findRegion("_UI/right");
+        settingsBtn = atlas.findRegion("_UI/settings");
+        setting2Btn = atlas.findRegion("_UI/settings2");
+        simpleBtn   = atlas.findRegion("_UI/simple");
+        simpleBlock = atlas.findRegion("_UI/simpleBlock");
+        soundButton = atlas.findRegion("_UI/sound");
+        soundOffBtn = atlas.findRegion("_UI/soundOff");
+        upButton    = atlas.findRegion("_UI/up");
+        yesButton   = atlas.findRegion("_UI/Yes Button");
     }
 
     private TextureRegionService() {
