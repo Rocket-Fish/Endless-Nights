@@ -1,8 +1,10 @@
 package com.bearfishapps.shadowarcher.Physics.WorldObjects.DynamicObjcts;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.bearfishapps.libs.Tools.PhysicsWorld.WorldUtils;
@@ -13,7 +15,7 @@ import com.bearfishapps.shadowarcher.Physics.Collision.CollisionMasks;
 import box2dLight.Light;
 import box2dLight.RayHandler;
 
-public class Arrow extends CustomPhysicsBody {
+public class Arrow extends CustomPhysicsBody implements Comparable<Arrow>{
     private final float density = 12.3f;
     private final float friction = 1f;
     protected float bodyPos[] = {0f, 0f, 0.03f, -0.75f, 0f, -0.8f, -0.03f, -0.75f};
@@ -22,6 +24,12 @@ public class Arrow extends CustomPhysicsBody {
     private Light light;
     public float LIGHT_INTENSITY;
     private RayHandler rayHandler;
+
+    public Arrow(Body body) {
+        super(null, 1);
+        bodies[0] = body;
+        // placeholder arrow for position
+    }
 
 //    private float initialAngle;
     public Arrow(World world, RayHandler rayHandler, float scale) {
@@ -60,17 +68,16 @@ public class Arrow extends CustomPhysicsBody {
 
     private boolean lightState = false;
     private boolean fade = false;
+    private boolean stayLight = false;
     public void flicker() {
-        if(light != null) {
-            if(!light.isActive())
-                return;
-            if(!fade) {
+        if(light != null && light.isActive()) {
+            if(!fade || stayLight) {
                 float change = MathUtils.random(1, 10) < 6 ? (MathUtils.random(0, 5) < 3 ? MathUtils.random(-0.015f, 0.035f) : MathUtils.random(0.045f, 0.06f)) : MathUtils.random(0.03f, 0.075f);
                 float luminocity = lightState ? light.getDistance() + change : light.getDistance() - change;
                 if (luminocity <= LIGHT_INTENSITY * 0.75 || luminocity >= LIGHT_INTENSITY)
                     lightState ^= true;
                 light.setDistance(luminocity);
-            } else {
+            } else if(!stayLight){
                 float change = MathUtils.random(-0.025f, 0.065f);
                 float luminocity = light.getDistance() - change;
                 light.setDistance(luminocity);
@@ -80,6 +87,21 @@ public class Arrow extends CustomPhysicsBody {
             if(light.getDistance() < LIGHT_INTENSITY*0.1)
                 light.setActive(false);
         }
+    }
+
+    public boolean setConstantlyLight(boolean shouldStayLight) {
+        if(light != null && light.isActive() && light.getDistance() > LIGHT_INTENSITY*0.15) {
+            stayLight = shouldStayLight;
+            return true;
+        }
+        return false;
+    }
+
+    public Vector2 getPosition() {
+        if(bodies[0]!=null) {
+            return new Vector2(bodies[0].getPosition());
+        }
+        return null;
     }
 
     public void release(float velocity, Vector2 pos, float angle) {
@@ -141,5 +163,50 @@ public class Arrow extends CustomPhysicsBody {
     public void incrementStep() {
         if(bodies[0] != null && bodies[0].isActive())
             super.incrementStep();
+    }
+
+    @Override
+    public int compareTo(Arrow o) {
+        if(getPosition()!= null && o.getPosition() != null) {
+            float dst = getPosition().dst(0, 0);
+            float odst = o.getPosition().dst(0, 0);
+            if(dst>odst)
+                return 1;
+            else if (dst< odst)
+                return -1;
+            else return 0;
+        }
+        else if (getPosition()== null)
+            return -1;
+        else if(o.getPosition()==null)
+            return 1;
+        return 0;
+    }
+
+    public float getDistanceTo(Arrow o) {
+        return getPosition().dst(o.getPosition());
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Arrow)) return false;
+
+        Arrow arrow = (Arrow) o;
+        if(bodies[0] == null)
+            return false;
+        if(arrow.getBodies()[0] == null)
+            return false;
+
+        Gdx.app.log("Compare", "Arrow1 - "+ String.valueOf(getPosition())
+                + "Arrow2 - " + String.valueOf(arrow.getPosition())
+                + "distance - "+getDistanceTo(arrow));
+        return getPosition().equals(arrow.getPosition());
+    }
+
+    @Override
+    public int hashCode() {
+        return getPosition().hashCode();
     }
 }

@@ -24,6 +24,7 @@ import com.bearfishapps.shadowarcher.Physics.WorldObjects.HumanGroundBundleGroup
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.StaticObjects.DeathPlatform;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 import box2dLight.RayHandler;
@@ -80,15 +81,18 @@ public class PhysicsWorld extends Actor{
         DeathPlatform dp = new DeathPlatform(world, new Vector2(-500, -4), new Vector2(545f, -4));
 
         otherBodies.add(new Obstacle(world, new Vector2(22.5f, 10f), 1));
+        otherBodies.add(new Obstacle(world, new Vector2(10f, 16f), 1));
+        otherBodies.add(new Obstacle(world, new Vector2(35f, 16f), 1));
 
     }
 
+    ArrayList<Arrow> luminantArrows = new ArrayList<Arrow>();
     public void step(float delta) {
 
         p1.resetHumanoidContactWithGround();
         p2.resetHumanoidContactWithGround();
 
-        Gdx.app.log("PhysicsWorld", "FPS - "+String.valueOf(1/delta)+" Arrows - "+arrows.size());
+//        Gdx.app.log("PhysicsWorld", "FPS - "+String.valueOf(1/delta)+" Arrows - "+arrows.size());
 
         world.step(1 / 45f, 6, 2);
 
@@ -100,8 +104,20 @@ public class PhysicsWorld extends Actor{
             a.flicker();
             a.incrementStep();
         }
+
+        ArrayList<Arrow> collidedArrows = new ArrayList<Arrow>();
         Vector2 tip = arrows.get(0).returnArrowTip();
         for(StickyArrowClass sc: arrowsToStick) {
+            Gdx.app.log("Arrows[0]", String.valueOf(arrows.get(0).getPosition()));
+            Arrow a2 = new Arrow(sc.getArrow());
+            if(arrows.contains(a2)) {
+                Gdx.app.log("PhysicsWorld", "Contains a2");
+                Arrow a = arrows.get(arrows.indexOf(a2));
+                collidedArrows.add(a);
+            }
+            Gdx.app.log("-----", "------");
+
+            // welding starts after here
             Vector2 anchorPoint = sc.getArrow().getWorldPoint(tip);
 
             WeldJointDef weldJointDef = new WeldJointDef();
@@ -157,6 +173,22 @@ public class PhysicsWorld extends Actor{
             }
         }
         bodiesToDelete.clear();
+
+        Collections.sort(collidedArrows);
+        for(Arrow a: collidedArrows) {
+            boolean pass = true;
+            for(Arrow aa:luminantArrows) {
+                if (a.getDistanceTo(aa) < 3) {
+                    pass = false;
+                    continue;
+                }
+            }
+            if(pass) {
+                if(a.setConstantlyLight(true)) {
+                    luminantArrows.add(a);
+                }
+            }
+        }
 
     }
 
