@@ -161,6 +161,7 @@ public class Humanoid extends CustomPhysicsBody {
 
     @Override
     public void draw(ShapeRenderer renderer) {
+        renderer.setColor(0, 0, 0, 1);
         float[] bodyRenderPos = WorldUtils.matchBodyPositionFromFloat(bodyPos, bodies[0]);
         float[] headRenderPos = WorldUtils.matchBodyPositionFromFloat(headPos, bodies[1]);
         float[] lArmRenderPos = WorldUtils.matchBodyPositionFromFloat(lArmPos, bodies[2]);

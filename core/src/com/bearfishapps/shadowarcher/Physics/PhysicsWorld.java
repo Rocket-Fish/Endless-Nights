@@ -78,7 +78,7 @@ public class PhysicsWorld extends Actor{
         humanoidBundles.add(p1);
         humanoidBundles.add(p2);
 
-        DeathPlatform dp = new DeathPlatform(world, new Vector2(-500, -4), new Vector2(545f, -4));
+        DeathPlatform dp = new DeathPlatform(world, new Vector2(-500, -3), new Vector2(545f, -3));
 
         otherBodies.add(new Obstacle(world, new Vector2(22.5f, 10f), 1));
         otherBodies.add(new Obstacle(world, new Vector2(10f, 16f), 1));
@@ -92,7 +92,7 @@ public class PhysicsWorld extends Actor{
         p1.resetHumanoidContactWithGround();
         p2.resetHumanoidContactWithGround();
 
-//        Gdx.app.log("PhysicsWorld", "FPS - "+String.valueOf(1/delta)+" Arrows - "+arrows.size());
+        Gdx.app.log("PhysicsWorld", "FPS - "+String.valueOf(1/delta)+" Arrows - "+arrows.size());
 
         world.step(1 / 45f, 6, 2);
 
@@ -111,18 +111,18 @@ public class PhysicsWorld extends Actor{
             Gdx.app.log("Arrows[0]", String.valueOf(arrows.get(0).getPosition()));
             Arrow a2 = new Arrow(sc.getArrow());
             if(arrows.contains(a2)) {
-                Gdx.app.log("PhysicsWorld", "Contains a2");
+//                Gdx.app.log("PhysicsWorld", "Contains a2");
                 Arrow a = arrows.get(arrows.indexOf(a2));
                 collidedArrows.add(a);
             }
-            Gdx.app.log("-----", "------");
+//            Gdx.app.log("-----", "------");
 
             // welding starts after here
             Vector2 anchorPoint = sc.getArrow().getWorldPoint(tip);
 
             WeldJointDef weldJointDef = new WeldJointDef();
-            weldJointDef.bodyA = sc.getArrow();
-            weldJointDef.bodyB = sc.getBody2();
+            weldJointDef.bodyA = sc.getBody2();
+            weldJointDef.bodyB = sc.getArrow();
 
             weldJointDef.localAnchorA.set(weldJointDef.bodyA.getLocalPoint(anchorPoint));
             Vector2 pos = weldJointDef.bodyB.getLocalPoint(anchorPoint);

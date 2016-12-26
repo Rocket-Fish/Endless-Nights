@@ -3,450 +3,290 @@ pack1.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-_loading/matt-icons_busy01-800px
-  rotate: false
-  xy: 1, 803
-  size: 800, 800
-  orig: 800, 800
-  offset: 0, 0
-  index: -1
-_loading/matt-icons_busy02-800px
-  rotate: false
-  xy: 1, 1
-  size: 800, 800
-  orig: 800, 800
-  offset: 0, 0
-  index: -1
-_loading/matt-icons_busy03-800px
-  rotate: false
-  xy: 803, 803
-  size: 800, 800
-  orig: 800, 800
-  offset: 0, 0
-  index: -1
-_loading/matt-icons_busy04-800px
-  rotate: false
-  xy: 803, 1
-  size: 800, 800
-  orig: 800, 800
-  offset: 0, 0
-  index: -1
-
-pack12.png
-format: RGBA8888
-filter: Nearest,Nearest
-repeat: none
-_loading/matt-icons_busy05-800px
-  rotate: false
-  xy: 1, 803
-  size: 800, 800
-  orig: 800, 800
-  offset: 0, 0
-  index: -1
-_loading/matt-icons_busy06-800px
-  rotate: false
-  xy: 1, 1
-  size: 800, 800
-  orig: 800, 800
-  offset: 0, 0
-  index: -1
-_loading/matt-icons_busy07-800px
-  rotate: false
-  xy: 803, 803
-  size: 800, 800
-  orig: 800, 800
-  offset: 0, 0
-  index: -1
-_loading/matt-icons_busy08-800px
-  rotate: false
-  xy: 803, 1
-  size: 800, 800
-  orig: 800, 800
-  offset: 0, 0
-  index: -1
-
-pack13.png
-format: RGBA8888
-filter: Nearest,Nearest
-repeat: none
-_Objects/electricity
-  rotate: false
-  xy: 1, 1029
-  size: 512, 512
-  orig: 512, 512
-  offset: 0, 0
-  index: -1
-_Objects/frame
-  rotate: false
-  xy: 1, 515
-  size: 512, 512
-  orig: 512, 512
-  offset: 0, 0
-  index: -1
-_Objects/heart
-  rotate: false
-  xy: 515, 1029
-  size: 512, 512
-  orig: 512, 512
-  offset: 0, 0
-  index: -1
-_Objects/barbedWheel
-  rotate: false
-  xy: 1, 1
-  size: 512, 512
-  orig: 512, 512
-  offset: 0, 0
-  index: -1
-_Objects/cogWheel
-  rotate: false
-  xy: 515, 515
-  size: 512, 512
-  orig: 512, 512
-  offset: 0, 0
-  index: -1
-_Objects/cogWheel2
-  rotate: false
-  xy: 1029, 1029
-  size: 512, 512
-  orig: 512, 512
-  offset: 0, 0
-  index: -1
-_Objects/fanWheel
-  rotate: false
-  xy: 515, 1
-  size: 512, 512
-  orig: 512, 512
-  offset: 0, 0
-  index: -1
-_Objects/crystal
-  rotate: false
-  xy: 1029, 515
-  size: 512, 512
-  orig: 512, 512
-  offset: 0, 0
-  index: -1
-_Objects/overdrive
-  rotate: false
-  xy: 1029, 1
-  size: 512, 512
-  orig: 512, 512
-  offset: 0, 0
-  index: -1
-
-pack14.png
-format: RGBA8888
-filter: Nearest,Nearest
-repeat: none
-_Objects/cogWheel3
-  rotate: false
-  xy: 1, 1
-  size: 512, 512
-  orig: 512, 512
-  offset: 0, 0
-  index: -1
-_Objects/woodWheel
-  rotate: false
-  xy: 515, 1
-  size: 512, 512
-  orig: 512, 512
-  offset: 0, 0
-  index: -1
-_Objects/crate
-  rotate: false
-  xy: 1029, 1
-  size: 512, 512
-  orig: 512, 512
-  offset: 0, 0
-  index: -1
-
-pack15.png
-format: RGBA8888
-filter: Nearest,Nearest
-repeat: none
 _UI/ExitBig
   rotate: false
-  xy: 1, 83
+  xy: 1, 329
   size: 150, 150
   orig: 150, 150
   offset: 0, 0
   index: -1
 _UI/Knob1
   rotate: false
-  xy: 153, 83
+  xy: 1, 177
   size: 150, 150
   orig: 150, 150
   offset: 0, 0
   index: -1
 _UI/playBtn
   rotate: false
-  xy: 305, 83
+  xy: 153, 329
   size: 150, 150
   orig: 150, 150
   offset: 0, 0
   index: -1
 _UI/StartBtn
   rotate: false
-  xy: 457, 83
+  xy: 1, 25
   size: 150, 150
   orig: 150, 150
   offset: 0, 0
   index: -1
 _UI/CircleBtn
   rotate: false
-  xy: 1, 1
+  xy: 153, 247
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
 _UI/credits
   rotate: false
-  xy: 609, 153
+  xy: 305, 399
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
 _UI/DeleteBtn
   rotate: false
-  xy: 83, 1
+  xy: 153, 165
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
 _UI/down
   rotate: false
-  xy: 691, 153
+  xy: 387, 399
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
 _UI/Exit
   rotate: false
-  xy: 165, 1
+  xy: 153, 83
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
 _UI/FaceBook
   rotate: false
-  xy: 773, 153
+  xy: 469, 399
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
 _UI/FireShootBtn
   rotate: false
-  xy: 247, 1
+  xy: 551, 399
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
 _UI/gameService
   rotate: false
-  xy: 855, 153
+  xy: 633, 399
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
 _UI/Gplus
   rotate: false
-  xy: 329, 1
+  xy: 715, 399
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
 _UI/IconB
   rotate: false
-  xy: 937, 153
+  xy: 797, 399
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
 _UI/IconR
   rotate: false
-  xy: 411, 1
+  xy: 879, 399
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
 _UI/IconsA
   rotate: false
-  xy: 1019, 153
+  xy: 235, 247
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
 _UI/IconX
   rotate: false
-  xy: 493, 1
+  xy: 235, 165
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
 _UI/left
   rotate: false
-  xy: 1101, 153
+  xy: 235, 83
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
 _UI/Menu
   rotate: false
-  xy: 1183, 153
+  xy: 153, 1
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
 _UI/music
   rotate: false
-  xy: 1265, 153
-  size: 80, 80
-  orig: 80, 80
-  offset: 0, 0
-  index: -1
-_UI/musicOff
-  rotate: false
-  xy: 1347, 153
-  size: 80, 80
-  orig: 80, 80
-  offset: 0, 0
-  index: -1
-_UI/NoBtn
-  rotate: false
-  xy: 1429, 153
-  size: 80, 80
-  orig: 80, 80
-  offset: 0, 0
-  index: -1
-_UI/pause
-  rotate: false
-  xy: 1511, 153
-  size: 80, 80
-  orig: 80, 80
-  offset: 0, 0
-  index: -1
-_UI/Polygon
-  rotate: false
-  xy: 1593, 153
-  size: 80, 80
-  orig: 80, 80
-  offset: 0, 0
-  index: -1
-_UI/Question
-  rotate: false
-  xy: 1675, 153
-  size: 80, 80
-  orig: 80, 80
-  offset: 0, 0
-  index: -1
-_UI/Restart
-  rotate: false
-  xy: 1757, 153
-  size: 80, 80
-  orig: 80, 80
-  offset: 0, 0
-  index: -1
-_UI/right
-  rotate: false
-  xy: 1839, 153
-  size: 80, 80
-  orig: 80, 80
-  offset: 0, 0
-  index: -1
-_UI/SaveBtn
-  rotate: false
-  xy: 1921, 153
-  size: 80, 80
-  orig: 80, 80
-  offset: 0, 0
-  index: -1
-_UI/searchBtn
-  rotate: false
-  xy: 609, 71
-  size: 80, 80
-  orig: 80, 80
-  offset: 0, 0
-  index: -1
-_UI/settings
-  rotate: false
-  xy: 691, 71
-  size: 80, 80
-  orig: 80, 80
-  offset: 0, 0
-  index: -1
-_UI/settings2
-  rotate: false
-  xy: 773, 71
-  size: 80, 80
-  orig: 80, 80
-  offset: 0, 0
-  index: -1
-_UI/Share Icon
-  rotate: false
-  xy: 855, 71
-  size: 80, 80
-  orig: 80, 80
-  offset: 0, 0
-  index: -1
-_UI/simple
-  rotate: false
-  xy: 937, 71
-  size: 80, 80
-  orig: 80, 80
-  offset: 0, 0
-  index: -1
-_UI/simpleBlock
-  rotate: false
-  xy: 1019, 71
-  size: 80, 80
-  orig: 80, 80
-  offset: 0, 0
-  index: -1
-_UI/sound
-  rotate: false
-  xy: 1101, 71
-  size: 80, 80
-  orig: 80, 80
-  offset: 0, 0
-  index: -1
-_UI/soundOff
-  rotate: false
-  xy: 1183, 71
-  size: 80, 80
-  orig: 80, 80
-  offset: 0, 0
-  index: -1
-_UI/star
-  rotate: false
-  xy: 1265, 71
-  size: 80, 80
-  orig: 80, 80
-  offset: 0, 0
-  index: -1
-_UI/twitter
-  rotate: false
-  xy: 1347, 71
-  size: 80, 80
-  orig: 80, 80
-  offset: 0, 0
-  index: -1
-_UI/up
-  rotate: false
-  xy: 1429, 71
-  size: 80, 80
-  orig: 80, 80
-  offset: 0, 0
-  index: -1
-_UI/Yes Button
-  rotate: false
-  xy: 1511, 71
+  xy: 235, 1
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
 _UI/Knob2
   rotate: false
-  xy: 1593, 101
+  xy: 961, 429
   size: 50, 50
   orig: 50, 50
+  offset: 0, 0
+  index: -1
+_UI/musicOff
+  rotate: false
+  xy: 317, 317
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+_UI/NoBtn
+  rotate: false
+  xy: 317, 235
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+_UI/pause
+  rotate: false
+  xy: 399, 317
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+_UI/Polygon
+  rotate: false
+  xy: 317, 153
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+_UI/Question
+  rotate: false
+  xy: 399, 235
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+_UI/Restart
+  rotate: false
+  xy: 481, 317
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+_UI/right
+  rotate: false
+  xy: 317, 71
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+_UI/SaveBtn
+  rotate: false
+  xy: 399, 153
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+_UI/searchBtn
+  rotate: false
+  xy: 481, 235
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+_UI/settings
+  rotate: false
+  xy: 563, 317
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+_UI/settings2
+  rotate: false
+  xy: 399, 71
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+_UI/Share Icon
+  rotate: false
+  xy: 481, 153
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+_UI/simple
+  rotate: false
+  xy: 563, 235
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+_UI/simpleBlock
+  rotate: false
+  xy: 645, 317
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+_UI/sound
+  rotate: false
+  xy: 481, 71
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+_UI/soundOff
+  rotate: false
+  xy: 563, 153
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+_UI/star
+  rotate: false
+  xy: 645, 235
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+_UI/twitter
+  rotate: false
+  xy: 727, 317
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+_UI/up
+  rotate: false
+  xy: 563, 71
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+_UI/Yes Button
+  rotate: false
+  xy: 645, 153
+  size: 80, 80
+  orig: 80, 80
   offset: 0, 0
   index: -1

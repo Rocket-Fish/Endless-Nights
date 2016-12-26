@@ -7,12 +7,11 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.bearfishapps.libs.Tools.PhysicsWorld.WorldUtils;
 import com.bearfishapps.libs.Tools.Rendering.RenderHelper;
-import com.bearfishapps.shadowarcher.Physics.Collision.CollisionMasks;
 import com.bearfishapps.shadowarcher.Physics.UserDataClass.BodyUserDataClass;
 
 public class Obstacle extends CustomPhysicsBody {
     private final float friction = 1f;
-    private final float density = 100.1f;
+    private final float density = 1000.1f;
     protected float bodyPos[];
     private float scale;
 
@@ -43,6 +42,7 @@ public class Obstacle extends CustomPhysicsBody {
 
     @Override
     public void draw(ShapeRenderer renderer) {
+        renderer.setColor(0, 0, 0, 1);
         float[] renderPos = WorldUtils.matchBodyPositionFromFloat(bodyPos, bodies[0]);
         renderPos = WorldUtils.scaleF(renderPos, scale);
         RenderHelper.filledPolygon(renderPos, renderer);

@@ -33,6 +33,7 @@ public class MovableGround extends CustomPhysicsBody {
 
     @Override
     public void draw(ShapeRenderer renderer) {
+        renderer.setColor(0, 0, 0, 1);
         float[] renderPos = WorldUtils.matchBodyPositionFromFloat(bodyPos, bodies[0]);
         renderPos = WorldUtils.scaleF(renderPos, scale);
         RenderHelper.filledPolygon(renderPos, renderer);
