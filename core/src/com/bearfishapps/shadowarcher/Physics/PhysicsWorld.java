@@ -31,6 +31,7 @@ import box2dLight.RayHandler;
 
 public class PhysicsWorld extends Actor{
     protected ShapeRenderer shapeRenderer;
+    private boolean paused = false;
     private World world;
     private HumanInputProcessor humanInputProcessorP1;
     private HumanInputProcessor humanInputProcessorP2;
@@ -88,6 +89,8 @@ public class PhysicsWorld extends Actor{
 
     ArrayList<Arrow> luminantArrows = new ArrayList<Arrow>();
     public void step(float delta) {
+        if(paused)
+            return;
 
         p1.resetHumanoidContactWithGround();
         p2.resetHumanoidContactWithGround();
@@ -236,5 +239,12 @@ public class PhysicsWorld extends Actor{
         rayHandler.dispose();
     }
 
+    public void setPause(boolean paused) {
+        this.paused = paused;
+    }
+
+    public boolean isPaused() {
+        return paused;
+    }
 }
 
