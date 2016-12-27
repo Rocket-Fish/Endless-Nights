@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -47,7 +48,7 @@ public class PhysicsWorld extends Actor{
     private ArrayList<Body> bodiesToChange = new ArrayList<Body>();
     private ArrayList<Body> bodiesToDelete = new ArrayList<Body>();
 
-    ArrayList<StickyArrowClass> arrowsToStick = new ArrayList<StickyArrowClass>();
+    private ArrayList<StickyArrowClass> arrowsToStick = new ArrayList<StickyArrowClass>();
 
     // Box2d Lights
     private RayHandler rayHandler;
@@ -55,9 +56,12 @@ public class PhysicsWorld extends Actor{
     // TODO: REMOVE/Disable DEGUB RENDERER DIRNG RELEASE
     private Box2DDebugRenderer debugRenderer;
     private OrthographicCamera camera;
+    private boolean twoPlayers;
 
-    public PhysicsWorld(OrthographicCamera camera) {
+    public PhysicsWorld(OrthographicCamera camera, boolean twoPlayers) {
         this.camera = camera;
+        this.twoPlayers = twoPlayers;
+
         CollisionMasks.printShorts();
         shapeRenderer = new ShapeRenderer();
 
@@ -76,35 +80,45 @@ public class PhysicsWorld extends Actor{
         /** BOX2D LIGHT STUFF END */
 
         p1 = new HumanGroundBundleGroup(world, rayHandler, new Vector2(1, 6f), 1);
-        p2 = new HumanGroundBundleGroup(world, rayHandler, new Vector2(44f, 6f), 1);
         arrows.add(p1.getHumanoid().drawArrow());
-        arrows.add(p2.getHumanoid().drawArrow());
-
         humanoidBundles.add(p1);
-        humanoidBundles.add(p2);
+
+        if(twoPlayers) {
+            p2 = new HumanGroundBundleGroup(world, rayHandler, new Vector2(44f, 6f), 1);
+            arrows.add(p2.getHumanoid().drawArrow());
+            humanoidBundles.add(p2);
+        }
 
         DeathPlatform dp = new DeathPlatform(world, new Vector2(-500, -6), new Vector2(545f, -6));
+        if(!twoPlayers) {
+            DeathPlatform dp2 = new DeathPlatform(world, new Vector2(-500, -6), new Vector2(-500f, 1000));
+        }
 
-        otherBodies.add(new Obstacle(world, new Vector2(22.5f, 10f), 1));
-        otherBodies.add(new Obstacle(world, new Vector2(10f, 16f), 1));
-        otherBodies.add(new Obstacle(world, new Vector2(35f, 16f), 1));
+        if(twoPlayers) {
+            otherBodies.add(new Obstacle(world, new Vector2(22.5f, 10f), 1));
+            otherBodies.add(new Obstacle(world, new Vector2(10f, 16f), 1));
+            otherBodies.add(new Obstacle(world, new Vector2(35f, 16f), 1));
+        }
     }
 
     ArrayList<Arrow> luminantArrows = new ArrayList<Arrow>();
     private float pastSteps = 0;
+    private int score = -300;
     public void step(float delta) {
         if(paused)
             return;
 
         p1.resetHumanoidContactWithGround();
-        p2.resetHumanoidContactWithGround();
+        if(twoPlayers)
+            p2.resetHumanoidContactWithGround();
 
         Gdx.app.log("PhysicsWorld", "FPS - "+String.valueOf(1/delta)+" Arrows - "+arrows.size());
 
         world.step(1 / 45f, 6, 2);
 
         humanInputProcessorP1.refresh();
-        humanInputProcessorP2.refresh();
+        if(twoPlayers)
+            humanInputProcessorP2.refresh();
 
         for(Arrow a: arrows) {
             a.applyDrag();
@@ -159,7 +173,9 @@ public class PhysicsWorld extends Actor{
 
         for(Body b: bodiesToDelete) {
             Iterator it = humanoidBundles.iterator();
+            int i = 0;
             while (it.hasNext()) {
+                i++;
                 HumanGroundBundleGroup hh = (HumanGroundBundleGroup) it.next();
                 Humanoid h = hh.getHumanoid();
                 for(Body hb:h.getBodies()) {
@@ -168,6 +184,8 @@ public class PhysicsWorld extends Actor{
                     }
                 }
                 if(!h.isAlive()) {
+                    if(twoPlayers)
+                        score = -i;
                     hh.destroy();
                     it.remove();
                     continue;
@@ -226,7 +244,12 @@ public class PhysicsWorld extends Actor{
         }
 
         if(pastSteps--<0) {
-            otherBodies.add(new SimpleObject(world, rayHandler, new Vector2(22.5f, 27f), 2, arrows));
+            Vector2 pos;
+            if(twoPlayers)
+                pos =new Vector2(22.5f, 27f);
+            else
+                pos = new Vector2(MathUtils.random(10f, 35f), 27);
+            otherBodies.add(new SimpleObject(world, rayHandler, pos, 2, arrows));
             pastSteps = 500;
         }
     }
@@ -264,10 +287,22 @@ public class PhysicsWorld extends Actor{
 
     public void initUserInterface(InputMultiplexer multiplexer) {
  //       multiplexer.addProcessor(new MouseDrag(world, camera, groundPlatform.getBodies()[0]));
-        humanInputProcessorP1 = new HumanInputProcessor(arrows, p1, camera, 0, (int)camera.viewportWidth/2);
-        humanInputProcessorP2 = new HumanInputProcessor(arrows, p2, camera, (int)camera.viewportWidth/2, (int)camera.viewportWidth);
+        if(twoPlayers) {
+            humanInputProcessorP1 = new HumanInputProcessor(arrows, p1, camera, 0, (int)camera.viewportWidth/2);
+            humanInputProcessorP2 = new HumanInputProcessor(arrows, p2, camera, (int) camera.viewportWidth / 2, (int) camera.viewportWidth);
+            multiplexer.addProcessor(humanInputProcessorP2);
+        } else {
+            humanInputProcessorP1 = new HumanInputProcessor(arrows, p1, camera, 0, (int)camera.viewportWidth);
+        }
         multiplexer.addProcessor(humanInputProcessorP1);
-        multiplexer.addProcessor(humanInputProcessorP2);
+    }
+
+    public boolean isSingleplayerDead() {
+        if(!twoPlayers) {
+            if(!p1.getHumanoid().isAlive())
+                return true;
+        }
+        return false;
     }
 
     public void dispose() {
@@ -282,6 +317,10 @@ public class PhysicsWorld extends Actor{
 
     public boolean isPaused() {
         return paused;
+    }
+
+    public int checkScore() {
+        return score;
     }
 }
 

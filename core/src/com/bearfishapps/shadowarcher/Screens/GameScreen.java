@@ -21,8 +21,8 @@ public class GameScreen extends GeneralScreens {
     private boolean twoPlayer;
     public GameScreen(GdxGame game, boolean twoPlayer) {
         super(game, 45, 24);
-        physicsWorld = new PhysicsWorld(camera);
         Arrow.reset();
+        physicsWorld = new PhysicsWorld(camera, twoPlayer);
         setBackgroundColor(255, 255, 255, 1);
         this.twoPlayer = twoPlayer;
 
@@ -41,6 +41,16 @@ public class GameScreen extends GeneralScreens {
     @Override
     public void step(float delta, float animationKeyFrame) {
         physicsWorld.step(delta);
+        if(twoPlayer) {
+            int res = physicsWorld.checkScore();
+            if (res != -300) {
+                game.setScreen(new GameOverScreen(game, res));
+            }
+        } else {
+            if(physicsWorld.isSingleplayerDead()) {
+                game.setScreen(new GameOverScreen(game, physicsWorld.checkScore()));
+            }
+        }
     }
 
     @Override
