@@ -40,6 +40,10 @@ public class Obstacle extends CustomPhysicsBody {
 
     }
 
+    public void setVelocity(Vector2 velocity) {
+        bodies[0].setLinearVelocity(velocity);
+    }
+
     @Override
     public void draw(ShapeRenderer renderer) {
         renderer.setColor(0, 0, 0, 1);

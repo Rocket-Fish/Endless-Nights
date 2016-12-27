@@ -13,6 +13,8 @@ import com.bearfishapps.shadowarcher.Physics.Collision.CollisionMasks;
 import com.bearfishapps.shadowarcher.Physics.UserDataClass.BodyUserDataClass;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.ListIterator;
 
 import box2dLight.Light;
 import box2dLight.RayHandler;
@@ -34,7 +36,7 @@ public class SimpleSquare extends CustomPhysicsBody {
     }
 
     private int type;
-    private Color[] typeColors = {Color.FIREBRICK, Color.WHITE};
+    private Color[] typeColors = {Color.FIREBRICK, Color.WHITE, Color.TEAL};
     public SimpleSquare(World world, RayHandler rayHandler, Vector2 position, float scale, ArrayList<Arrow> arrows) {
         this(world, rayHandler, position, scale, -1, arrows);
     }
@@ -80,6 +82,9 @@ public class SimpleSquare extends CustomPhysicsBody {
         float[] renderPos = WorldUtils.matchBodyPositionFromFloat(boxPos, bodies[0]);
         RenderHelper.filledPolygon(renderPos, renderer);
 
+    }
+
+    public void summonObjectsIfNeeded(ListIterator<CustomPhysicsBody> otherBodyIterator) {
         if(activated && light.isActive()) {
             if(type == 0) {
                 light.setDistance(light.getDistance()-0.1f);
@@ -106,6 +111,21 @@ public class SimpleSquare extends CustomPhysicsBody {
                 }
                 if(light.getDistance()<1.1 && temporaryStateActivated)
                     light.setActive(false);
+            } else if(type == 2) {
+                if(!temporaryStateActivated) {
+                    temporaryStateActivated = true;
+                    light.setActive(false);
+                    Obstacle o = new Obstacle(world, new Vector2(MathUtils.random(10, 35), 26),1);
+                    o.setVelocity(new Vector2(0, -0.25f));
+                    otherBodyIterator.add(o);
+                }
+            } else if(type == 3) {
+                if(!temporaryStateActivated) {
+                    temporaryStateActivated = true;
+                    for(Arrow a: arrows) {
+
+                    }
+                }
             }
         }
     }

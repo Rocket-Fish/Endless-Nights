@@ -28,6 +28,7 @@ import com.bearfishapps.shadowarcher.Physics.WorldObjects.StaticObjects.DeathPla
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.ListIterator;
 
 import box2dLight.RayHandler;
 
@@ -192,6 +193,8 @@ public class PhysicsWorld extends Actor{
                     }
                 }
             }
+
+
         }
         bodiesToDelete.clear();
 
@@ -212,11 +215,20 @@ public class PhysicsWorld extends Actor{
             }
         }
 
+        ListIterator<CustomPhysicsBody> li = otherBodies.listIterator();
+        while(li.hasNext()) {
+            CustomPhysicsBody b = li.next();
+            if(b instanceof SimpleSquare) {
+                SimpleSquare ss = (SimpleSquare) b;
+                ss.summonObjectsIfNeeded(li);
+            }
+        }
+
         if(pastSteps++>500) {
             otherBodies.add(new SimpleSquare(world, rayHandler, new Vector2(22.5f, 27f), 2, arrows));
-            pastSteps = 0;
-        }
+        pastSteps = 0;
     }
+}
 
     @Override
     public void draw (Batch batch, float parentAlpha) {
@@ -240,7 +252,7 @@ public class PhysicsWorld extends Actor{
         for(CustomPhysicsBody b:otherBodies) {
             b.draw(shapeRenderer);
         }
-           shapeRenderer.end();
+        shapeRenderer.end();
 
         rayHandler.setCombinedMatrix(camera);
         rayHandler.updateAndRender();
