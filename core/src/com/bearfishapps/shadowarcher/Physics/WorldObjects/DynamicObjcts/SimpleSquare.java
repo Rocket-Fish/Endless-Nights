@@ -89,7 +89,7 @@ public class SimpleSquare extends CustomPhysicsBody {
                     temporaryStateActivated = true;
                     for(int i = 0; i < 45; i++){
                         Arrow a = new Arrow(world, rayHandler, 1);
-                        a.release(1, new Vector2(i, 36), 0);
+                        a.release(5, new Vector2(i, 30), MathUtils.random(93f, 87f));
                         arrows.add(a);
                     }
                 }
@@ -110,4 +110,9 @@ public class SimpleSquare extends CustomPhysicsBody {
         }
     }
 
+    @Override
+    public void destroy() {
+        super.destroy();
+        light.remove();
+    }
 }

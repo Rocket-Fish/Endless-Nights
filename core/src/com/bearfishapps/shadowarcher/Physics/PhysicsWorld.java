@@ -86,10 +86,10 @@ public class PhysicsWorld extends Actor{
         otherBodies.add(new Obstacle(world, new Vector2(22.5f, 10f), 1));
         otherBodies.add(new Obstacle(world, new Vector2(10f, 16f), 1));
         otherBodies.add(new Obstacle(world, new Vector2(35f, 16f), 1));
-        otherBodies.add(new SimpleSquare(world, rayHandler, new Vector2(22.5f, 27f), 2, arrows));
     }
 
     ArrayList<Arrow> luminantArrows = new ArrayList<Arrow>();
+    private float pastSteps = 0;
     public void step(float delta) {
         if(paused)
             return;
@@ -182,6 +182,16 @@ public class PhysicsWorld extends Actor{
                     ita.remove();
                 }
             }
+            Iterator ito = otherBodies.iterator();
+            while (ito.hasNext()) {
+                CustomPhysicsBody body = (CustomPhysicsBody) ito.next();
+                if(body instanceof SimpleSquare) {
+                    if(body.getBodies()[0].getPosition().equals(b.getPosition())) {
+                        body.destroy();
+                        ito.remove();
+                    }
+                }
+            }
         }
         bodiesToDelete.clear();
 
@@ -202,6 +212,10 @@ public class PhysicsWorld extends Actor{
             }
         }
 
+        if(pastSteps++>500) {
+            otherBodies.add(new SimpleSquare(world, rayHandler, new Vector2(22.5f, 27f), 2, arrows));
+            pastSteps = 0;
+        }
     }
 
     @Override
