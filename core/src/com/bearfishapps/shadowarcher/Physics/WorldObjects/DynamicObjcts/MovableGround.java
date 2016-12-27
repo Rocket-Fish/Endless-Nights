@@ -22,7 +22,7 @@ public class MovableGround extends CustomPhysicsBody {
 
         this.scale = scale;
         bodyPos = WorldUtils.scaleF(bodyPos, scale);
-        bodies[0] = WorldUtils.createPoly(world, BodyDef.BodyType.KinematicBody,bodyPos, position.x, position.y, density, 0f, friction, CollisionMasks.Mask_ARROW, (short)(CollisionMasks.Mask_Humanoid|CollisionMasks.Mask_DEFAULT));
+        bodies[0] = WorldUtils.createPoly(world, BodyDef.BodyType.KinematicBody,bodyPos, position.x, position.y, density, 0f, friction, CollisionMasks.Mask_ARROW, (short)(CollisionMasks.Mask_Humanoid|CollisionMasks.Mask_DEFAULT| CollisionMasks.Mask_PELLETS));
         bodies[0].setUserData(new BodyUserDataClass("ground_movable"));
     }
 

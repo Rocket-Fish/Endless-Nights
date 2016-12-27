@@ -12,6 +12,7 @@ public class CollisionMasks {
             Mask_Humanoid   = (short)(Mask_ARM | Mask_LEG | Mask_BODY | Mask_HEAD),
             Mask_BOW        = 0x020,
             Mask_ARROW      = 0x040,
+            Mask_PELLETS    = 0x080,
             Mask_EVERYTHING = 0xFFF
                     ;
     // 01 and 10 mask to make 11,

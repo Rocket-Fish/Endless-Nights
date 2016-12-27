@@ -21,7 +21,7 @@ import com.bearfishapps.shadowarcher.Physics.WorldObjects.DynamicObjcts.Arrow;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.DynamicObjcts.CustomPhysicsBody;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.DynamicObjcts.Humanoid;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.DynamicObjcts.Obstacle;
-import com.bearfishapps.shadowarcher.Physics.WorldObjects.DynamicObjcts.SimpleSquare;
+import com.bearfishapps.shadowarcher.Physics.WorldObjects.DynamicObjcts.SimpleObject;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.HumanGroundBundleGroup;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.StaticObjects.DeathPlatform;
 
@@ -70,6 +70,7 @@ public class PhysicsWorld extends Actor{
 
         rayHandler = new RayHandler(world);
         rayHandler.setAmbientLight(0f, 0f, 0f, 0.5f);
+//        rayHandler.setShadows(false);
         rayHandler.setBlurNum(3);
 
         /** BOX2D LIGHT STUFF END */
@@ -82,7 +83,7 @@ public class PhysicsWorld extends Actor{
         humanoidBundles.add(p1);
         humanoidBundles.add(p2);
 
-        DeathPlatform dp = new DeathPlatform(world, new Vector2(-500, -3), new Vector2(545f, -3));
+        DeathPlatform dp = new DeathPlatform(world, new Vector2(-500, -6), new Vector2(545f, -6));
 
         otherBodies.add(new Obstacle(world, new Vector2(22.5f, 10f), 1));
         otherBodies.add(new Obstacle(world, new Vector2(10f, 16f), 1));
@@ -114,7 +115,6 @@ public class PhysicsWorld extends Actor{
         ArrayList<Arrow> collidedArrows = new ArrayList<Arrow>();
         Vector2 tip = arrows.get(0).returnArrowTip();
         for(StickyArrowClass sc: arrowsToStick) {
-            Gdx.app.log("Arrows[0]", String.valueOf(arrows.get(0).getPosition()));
             Arrow a2 = new Arrow(sc.getArrow());
             if(arrows.contains(a2)) {
 //                Gdx.app.log("PhysicsWorld", "Contains a2");
@@ -137,8 +137,8 @@ public class PhysicsWorld extends Actor{
             weldJointDef.referenceAngle = weldJointDef.bodyB.getAngle() - weldJointDef.bodyA.getAngle();
             world.createJoint(weldJointDef);
 
-            if(((BodyUserDataClass)weldJointDef.bodyA.getUserData()).getType().equals("simpleSquare")) {
-                SimpleSquare ss = ((SimpleSquare)otherBodies.get(otherBodies.indexOf(new SimpleSquare(weldJointDef.bodyA))));
+            if(((BodyUserDataClass)weldJointDef.bodyA.getUserData()).getType().equals("simpleObject")) {
+                SimpleObject ss = ((SimpleObject)otherBodies.get(otherBodies.indexOf(new SimpleObject(weldJointDef.bodyA))));
                 ss.shotByArrow();
             }
 
@@ -186,12 +186,12 @@ public class PhysicsWorld extends Actor{
             Iterator ito = otherBodies.iterator();
             while (ito.hasNext()) {
                 CustomPhysicsBody body = (CustomPhysicsBody) ito.next();
-                if(body instanceof SimpleSquare) {
+//                if(body instanceof SimpleObject) {
                     if(body.getBodies()[0].getPosition().equals(b.getPosition())) {
                         body.destroy();
                         ito.remove();
                     }
-                }
+//                }
             }
 
 
@@ -213,22 +213,24 @@ public class PhysicsWorld extends Actor{
                     luminantArrows.add(a);
                 }
             }
+            a.explodeIfIsType2();
         }
 
         ListIterator<CustomPhysicsBody> li = otherBodies.listIterator();
         while(li.hasNext()) {
             CustomPhysicsBody b = li.next();
-            if(b instanceof SimpleSquare) {
-                SimpleSquare ss = (SimpleSquare) b;
+            if(b instanceof SimpleObject) {
+                SimpleObject ss = (SimpleObject) b;
                 ss.summonObjectsIfNeeded(li);
             }
         }
 
-        if(pastSteps++>500) {
-            otherBodies.add(new SimpleSquare(world, rayHandler, new Vector2(22.5f, 27f), 2, arrows));
-        pastSteps = 0;
+        if(pastSteps--<0) {
+            otherBodies.add(new SimpleObject(world, rayHandler, new Vector2(22.5f, 27f), 2, arrows));
+            pastSteps = 500;
+        }
     }
-}
+
 
     @Override
     public void draw (Batch batch, float parentAlpha) {

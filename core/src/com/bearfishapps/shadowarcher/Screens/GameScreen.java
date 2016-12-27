@@ -13,6 +13,7 @@ import com.bearfishapps.libs.GeneralScreens;
 import com.bearfishapps.libs.Tools.CustomClasses.CustomImageButton;
 import com.bearfishapps.shadowarcher.Physics.Assets.TextureRegionService;
 import com.bearfishapps.shadowarcher.Physics.PhysicsWorld;
+import com.bearfishapps.shadowarcher.Physics.WorldObjects.DynamicObjcts.Arrow;
 
 public class GameScreen extends GeneralScreens {
     private PhysicsWorld physicsWorld;
@@ -21,6 +22,7 @@ public class GameScreen extends GeneralScreens {
     public GameScreen(GdxGame game, boolean twoPlayer) {
         super(game, 45, 24);
         physicsWorld = new PhysicsWorld(camera);
+        Arrow.reset();
         setBackgroundColor(255, 255, 255, 1);
         this.twoPlayer = twoPlayer;
 

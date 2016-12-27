@@ -17,9 +17,9 @@ import box2dLight.RayHandler;
 
 public class Humanoid extends CustomPhysicsBody {
 
-    private final float density = 9.8f;
+    private final float density = 0.8f;
     private final float friction = 0.6f;
-    private final float maxStiffness = 10000000000000f;
+    private final float maxStiffness = 100000000000000000000000000000000000000f;
     private float stiffness = maxStiffness;
     private boolean isAlive = true;
     private RayHandler rayHandler;
@@ -52,11 +52,11 @@ public class Humanoid extends CustomPhysicsBody {
         rLegPos = WorldUtils.scaleF(rLegPos, scale);
         bowPos  = WorldUtils.scaleF(bowPos , scale);
 */
-        bodies[0] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, bodyPos, pos.x, pos.y, density*0.6f, 0.1f, friction, CollisionMasks.Mask_BODY, (short)(CollisionMasks.Mask_DEFAULT | CollisionMasks.Mask_LEG | CollisionMasks.Mask_ARROW));
-        bodies[1] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, headPos, pos.x, pos.y+(bodyPos[5]+headPos[5]), density*0.95f, 0.2f, friction, CollisionMasks.Mask_HEAD, (short)(CollisionMasks.Mask_DEFAULT | CollisionMasks.Mask_LEG | CollisionMasks.Mask_ARROW));
-        bodies[2] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, lArmPos, pos.x, pos.y-lArmPos[5], density*0.001f, 0.1f, friction, CollisionMasks.Mask_ARM, (short)(CollisionMasks.Mask_DEFAULT| CollisionMasks.Mask_ARROW));
-        bodies[3] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, rArmPos, pos.x, pos.y-rArmPos[5], density*0.001f, 0.1f, friction, CollisionMasks.Mask_ARM, (short)(CollisionMasks.Mask_DEFAULT| CollisionMasks.Mask_ARROW));
-        bodies[4] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, lLegPos, pos.x, pos.y+(bodyPos[2]), density*0.8f, 0.1f, friction, CollisionMasks.Mask_LEG, (short)(CollisionMasks.Mask_DEFAULT|CollisionMasks.Mask_BODY| CollisionMasks.Mask_ARROW));
+        bodies[0] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, bodyPos, pos.x, pos.y, density*0.6f, 0.1f, friction, CollisionMasks.Mask_BODY, (short)(CollisionMasks.Mask_DEFAULT | CollisionMasks.Mask_LEG | CollisionMasks.Mask_ARROW | CollisionMasks.Mask_PELLETS));
+        bodies[1] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, headPos, pos.x, pos.y+(bodyPos[5]+headPos[5]), density*0.95f, 0.2f, friction, CollisionMasks.Mask_HEAD, (short)(CollisionMasks.Mask_DEFAULT | CollisionMasks.Mask_LEG | CollisionMasks.Mask_ARROW | CollisionMasks.Mask_PELLETS));
+        bodies[2] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, lArmPos, pos.x, pos.y-lArmPos[5], density*0.001f, 0.1f, friction, CollisionMasks.Mask_ARM, (short)(CollisionMasks.Mask_DEFAULT| CollisionMasks.Mask_ARROW | CollisionMasks.Mask_PELLETS));
+        bodies[3] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, rArmPos, pos.x, pos.y-rArmPos[5], density*0.001f, 0.1f, friction, CollisionMasks.Mask_ARM, (short)(CollisionMasks.Mask_DEFAULT| CollisionMasks.Mask_ARROW | CollisionMasks.Mask_PELLETS));
+        bodies[4] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, lLegPos, pos.x, pos.y+(bodyPos[2]), density*0.8f, 0.1f, friction, CollisionMasks.Mask_LEG, (short)(CollisionMasks.Mask_DEFAULT|CollisionMasks.Mask_BODY| CollisionMasks.Mask_ARROW ));
         bodies[5] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, rLegPos, pos.x, pos.y+(bodyPos[2]), density*0.8f, 0.1f, friction, CollisionMasks.Mask_ARM, (short)(CollisionMasks.Mask_DEFAULT|CollisionMasks.Mask_BODY| CollisionMasks.Mask_ARROW));
         bodies[6] = WorldUtils.createPoly(world, BodyDef.BodyType.DynamicBody, bowPos, pos.x, pos.y-lArmPos[5], 0.00001f, 0.1f, friction, CollisionMasks.Mask_BOW, CollisionMasks.Mask_DEFAULT);
 
