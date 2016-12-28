@@ -48,7 +48,7 @@ public abstract class CustomPhysicsBody implements Renderable{
         if(cpb.getBodies()[0] == null)
             return false;
 
-        return bodies[0]==cpb.getBodies()[0];
+        return bodies[0].getPosition().equals(cpb.getBodies()[0].getPosition());
     }
 
     @Override

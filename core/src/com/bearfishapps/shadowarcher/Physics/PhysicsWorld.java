@@ -143,11 +143,6 @@ public class PhysicsWorld extends Actor{
                 collidedArrows.add(a);
             }
 
-            if(!twoPlayers) {
-                if(humanoidBundles.contains(new HumanGroundBundleGroup(sc.getBody2())));
-                    score++;
-            }
-
             // welding starts after here
             Vector2 anchorPoint = sc.getArrow().getWorldPoint(tip);
 
@@ -175,6 +170,10 @@ public class PhysicsWorld extends Actor{
                 Humanoid h = hh.getHumanoid();
                 for(Body hb:h.getBodies()) {
                     if(hb == b) {
+                        if(!twoPlayers) {
+                            if(!h.equals(p1.getHumanoid()))
+                                score++;
+                        }
                         h.damage();
                     }
                 }

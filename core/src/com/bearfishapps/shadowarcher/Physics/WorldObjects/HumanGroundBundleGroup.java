@@ -22,9 +22,6 @@ public class HumanGroundBundleGroup {
     private Light light;
     public final float LIGHT_INTENSITY = 3f;
 
-    public HumanGroundBundleGroup(Body b) {
-        humanoid = new Humanoid(b);
-    }
     public HumanGroundBundleGroup(World world, RayHandler rayHandler, Vector2 position, float scale) {
         humanoid = new Humanoid(world,rayHandler, position, scale);
         movableGround = new MovableGround(world, position, scale);
@@ -92,22 +89,4 @@ public class HumanGroundBundleGroup {
     public void resetHumanoidContactWithGround() {
         humanoid.falsifyContact();
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof HumanGroundBundleGroup)) return false;
-
-        HumanGroundBundleGroup cpb = (HumanGroundBundleGroup) o;
-        if(cpb.getHumanoid() == null)
-            return false;
-
-        return cpb.getHumanoid().equals(cpb.getHumanoid());
-    }
-
-    @Override
-    public int hashCode() {
-        return getHumanoid().getBodies().hashCode();
-    }
-
 }
