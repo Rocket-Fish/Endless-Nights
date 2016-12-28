@@ -44,7 +44,7 @@ public class GameOverScreen extends GeneralScreens {
         CustomImageButton.make(TextureRegionService.restartBtn);
         retryButton = new ImageButton(CustomImageButton.style);
 
-        CustomImageButton.make(TextureRegionService.quitButton);
+        CustomImageButton.make(TextureRegionService.leftButton);
         quitButton = new ImageButton(CustomImageButton.style);
         CustomImageButton.make(TextureRegionService.questionBtn);
         questionButton = new ImageButton(CustomImageButton.style);
@@ -93,7 +93,7 @@ public class GameOverScreen extends GeneralScreens {
         table.add(comment).pad(7).row();
         table.add(retryButton).pad(7).height(34).width(34).row();
         table.add(questionButton).pad(7).width(34).height(34).center().row();
-        table.add(quitButton).pad(7).width(64).height(64).center().row();
+        table.add(quitButton).pad(7).width(34).height(34).center().row();
     }
 
     @Override

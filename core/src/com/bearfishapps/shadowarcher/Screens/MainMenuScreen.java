@@ -19,7 +19,7 @@ import com.bearfishapps.shadowarcher.Physics.Assets.TextureRegionService;
 
 public class MainMenuScreen extends GeneralScreens{
     private Label title;
-    private ImageButton playButton, multiplayerButton, quitButton, questionButton;
+    private ImageButton playButton, multiplayerButton, quitButton, questionButton, settingsButton;
 
     public MainMenuScreen(GdxGame game) {
         super(game, 900, 480);
@@ -36,6 +36,8 @@ public class MainMenuScreen extends GeneralScreens{
         quitButton = new ImageButton(CustomImageButton.style);
         CustomImageButton.make(TextureRegionService.questionBtn);
         questionButton = new ImageButton(CustomImageButton.style);
+        CustomImageButton.make(TextureRegionService.settingsBtn);
+        settingsButton = new ImageButton(CustomImageButton.style);
 
     }
 
@@ -75,10 +77,26 @@ public class MainMenuScreen extends GeneralScreens{
             }
         });
 
+        settingsButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                stage.addAction(Actions.sequence(Actions.fadeOut(1f), Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        game.setScreen(new SettingsScreen(game));
+                    }
+                })));
+            }
+        });
         quitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit();
+                stage.addAction(Actions.sequence(Actions.fadeOut(1f), Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        Gdx.app.exit();
+                    }
+                })));
             }
         });
 
@@ -88,6 +106,7 @@ public class MainMenuScreen extends GeneralScreens{
         table.add(playButton).pad(7).right().width(64).height(64);
         table.add(multiplayerButton).pad(7).left().height(64).width(64).row();
         table.add(questionButton).colspan(2).pad(7).width(34).height(34).center().row();
+        table.add(settingsButton).colspan(2).pad(7).width(34).height(34).center().row();
         table.add(quitButton).colspan(2).pad(7).width(64).height(64).center().row();
     }
 

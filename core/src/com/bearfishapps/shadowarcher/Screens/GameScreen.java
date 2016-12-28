@@ -50,7 +50,7 @@ public class GameScreen extends GeneralScreens {
         if(!twoPlayer) {
             CustomLabel.make(((MainGameClass)game).superLargeFont, new Color(1, 1, 1, 0.1f));
             scoreLabel = new Label("0", CustomLabel.style);
-            scoreLabel.setPosition(200, -60);
+            scoreLabel.setPosition(200, -80);
 
             stage2.addActor(scoreLabel);
         }
@@ -71,7 +71,7 @@ public class GameScreen extends GeneralScreens {
 
    }
 
-    private int fps_limit = 45;
+    private int fps_limit = 60;
     private long diff, start = System.currentTimeMillis();
     public void sleep(int fps) {
         if(fps>0){
