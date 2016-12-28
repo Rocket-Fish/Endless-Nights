@@ -3,14 +3,14 @@ pack1.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-_UI/ExitBig
+_UI/2playBtn
   rotate: false
   xy: 1, 329
   size: 150, 150
   orig: 150, 150
   offset: 0, 0
   index: -1
-_UI/Knob1
+_UI/ExitBig
   rotate: false
   xy: 1, 177
   size: 150, 150
@@ -31,261 +31,170 @@ _UI/StartBtn
   orig: 150, 150
   offset: 0, 0
   index: -1
-_UI/CircleBtn
+_UI/credits
   rotate: false
   xy: 153, 247
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
-_UI/credits
+_UI/down
   rotate: false
   xy: 305, 399
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
-_UI/DeleteBtn
+_UI/Exit
   rotate: false
   xy: 153, 165
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
-_UI/down
+_UI/FireShootBtn
   rotate: false
   xy: 387, 399
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
-_UI/Exit
+_UI/gameService
   rotate: false
   xy: 153, 83
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
-_UI/FaceBook
+_UI/IconX
   rotate: false
   xy: 469, 399
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
-_UI/FireShootBtn
+_UI/left
   rotate: false
   xy: 551, 399
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
-_UI/gameService
+_UI/Menu
   rotate: false
   xy: 633, 399
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
-_UI/Gplus
+_UI/music
   rotate: false
   xy: 715, 399
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
-_UI/IconB
+_UI/musicOff
   rotate: false
   xy: 797, 399
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
-_UI/IconR
+_UI/NoBtn
   rotate: false
   xy: 879, 399
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
-_UI/IconsA
+_UI/pause
   rotate: false
   xy: 235, 247
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
-_UI/IconX
+_UI/Question
   rotate: false
   xy: 235, 165
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
-_UI/left
+_UI/Restart
   rotate: false
   xy: 235, 83
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
-_UI/Menu
+_UI/right
   rotate: false
   xy: 153, 1
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
-_UI/music
+_UI/settings
   rotate: false
   xy: 235, 1
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
-_UI/Knob2
-  rotate: false
-  xy: 961, 429
-  size: 50, 50
-  orig: 50, 50
-  offset: 0, 0
-  index: -1
-_UI/musicOff
+_UI/settings2
   rotate: false
   xy: 317, 317
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
-_UI/NoBtn
+_UI/Share Icon
   rotate: false
   xy: 317, 235
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
-_UI/pause
+_UI/simple
   rotate: false
   xy: 399, 317
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
-_UI/Polygon
+_UI/simpleBlock
   rotate: false
   xy: 317, 153
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
-_UI/Question
+_UI/sound
   rotate: false
   xy: 399, 235
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
-_UI/Restart
+_UI/soundOff
   rotate: false
   xy: 481, 317
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
-_UI/right
+_UI/up
   rotate: false
   xy: 317, 71
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
-_UI/SaveBtn
-  rotate: false
-  xy: 399, 153
-  size: 80, 80
-  orig: 80, 80
-  offset: 0, 0
-  index: -1
-_UI/searchBtn
-  rotate: false
-  xy: 481, 235
-  size: 80, 80
-  orig: 80, 80
-  offset: 0, 0
-  index: -1
-_UI/settings
-  rotate: false
-  xy: 563, 317
-  size: 80, 80
-  orig: 80, 80
-  offset: 0, 0
-  index: -1
-_UI/settings2
-  rotate: false
-  xy: 399, 71
-  size: 80, 80
-  orig: 80, 80
-  offset: 0, 0
-  index: -1
-_UI/Share Icon
-  rotate: false
-  xy: 481, 153
-  size: 80, 80
-  orig: 80, 80
-  offset: 0, 0
-  index: -1
-_UI/simple
-  rotate: false
-  xy: 563, 235
-  size: 80, 80
-  orig: 80, 80
-  offset: 0, 0
-  index: -1
-_UI/simpleBlock
-  rotate: false
-  xy: 645, 317
-  size: 80, 80
-  orig: 80, 80
-  offset: 0, 0
-  index: -1
-_UI/sound
-  rotate: false
-  xy: 481, 71
-  size: 80, 80
-  orig: 80, 80
-  offset: 0, 0
-  index: -1
-_UI/soundOff
-  rotate: false
-  xy: 563, 153
-  size: 80, 80
-  orig: 80, 80
-  offset: 0, 0
-  index: -1
-_UI/star
-  rotate: false
-  xy: 645, 235
-  size: 80, 80
-  orig: 80, 80
-  offset: 0, 0
-  index: -1
-_UI/twitter
-  rotate: false
-  xy: 727, 317
-  size: 80, 80
-  orig: 80, 80
-  offset: 0, 0
-  index: -1
-_UI/up
-  rotate: false
-  xy: 563, 71
-  size: 80, 80
-  orig: 80, 80
-  offset: 0, 0
-  index: -1
 _UI/Yes Button
   rotate: false
-  xy: 645, 153
+  xy: 399, 153
   size: 80, 80
   orig: 80, 80
   offset: 0, 0

@@ -11,7 +11,6 @@ public class TextureRegionService {
             quitButton ,
             pauseButton,
             creditsBtn ,
-            deleteBtn  ,
             downButton ,
             exitButton ,
             fireButton ,
@@ -32,15 +31,16 @@ public class TextureRegionService {
             soundButton,
             soundOffBtn,
             upButton   ,
-            yesButton  ;
+            yesButton  ,
+            shareButton,
+            startButton,
+            pvpButton  ;
 
     public static void mapAll(TextureAtlas atlas) {
         playButton  = atlas.findRegion("_UI/playBtn");
         quitButton  = atlas.findRegion("_UI/ExitBig");
         pauseButton = atlas.findRegion("_UI/pause");
-
         creditsBtn  = atlas.findRegion("_UI/credits");
-        deleteBtn   = atlas.findRegion("_UI/DeleteBtn");
         downButton  = atlas.findRegion("_UI/down");
         exitButton  = atlas.findRegion("_UI/Exit");
         fireButton  = atlas.findRegion("_UI/FireShootBtn");
@@ -62,6 +62,9 @@ public class TextureRegionService {
         soundOffBtn = atlas.findRegion("_UI/soundOff");
         upButton    = atlas.findRegion("_UI/up");
         yesButton   = atlas.findRegion("_UI/Yes Button");
+        startButton = atlas.findRegion("_UI/StartBtn");
+        shareButton = atlas.findRegion("_UI/Share Icon");
+        pvpButton   = atlas.findRegion("_UI/2playBtn");
     }
 
     private TextureRegionService() {

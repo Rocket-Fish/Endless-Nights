@@ -29,7 +29,7 @@ public class MainMenuScreen extends GeneralScreens{
 
         CustomImageButton.make(TextureRegionService.playButton);
         playButton = new ImageButton(CustomImageButton.style);
-        CustomImageButton.make(TextureRegionService.fireButton);
+        CustomImageButton.make(TextureRegionService.pvpButton);
         multiplayerButton = new ImageButton(CustomImageButton.style);
 
         CustomImageButton.make(TextureRegionService.quitButton);
