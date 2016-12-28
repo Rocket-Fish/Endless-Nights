@@ -1,12 +1,9 @@
 package com.bearfishapps.libs.Tools.CustomClasses;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.bearfishapps.libs.Tools.Constants;
 import com.bearfishapps.libs.Tools.FontGenerator;
 
 public class CustomTextButton {

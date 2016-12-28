@@ -7,6 +7,7 @@ public class Constants {
             virgo = "data/fonts/virgo.ttf",
             armalite = "data/fonts/armalite_rifle.ttf",
             blackopsone = "data/fonts/BlackOpsOne-Regular.ttf",
+            blackopsone_numOnly = "data/fonts/BlackOpsOneNum.ttf",
             majorshift = "data/fonts/major_shift.ttf",
 
             logo1 = "data/Bearfish.png",

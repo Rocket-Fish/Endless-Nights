@@ -5,11 +5,9 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.bearfishapps.libs.GdxGame;
 import com.bearfishapps.libs.GeneralScreens;
@@ -17,8 +15,6 @@ import com.bearfishapps.libs.Tools.Constants;
 import com.bearfishapps.libs.Tools.CustomClasses.CustomButton;
 import com.bearfishapps.libs.Tools.CustomClasses.CustomImageButton;
 import com.bearfishapps.libs.Tools.CustomClasses.CustomLabel;
-import com.bearfishapps.libs.Tools.CustomClasses.CustomTextButton;
-import com.bearfishapps.libs.Tools.FontGenerator;
 import com.bearfishapps.shadowarcher.Physics.Assets.TextureRegionService;
 
 public class MainMenuScreen extends GeneralScreens{

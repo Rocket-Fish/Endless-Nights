@@ -6,9 +6,6 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -25,7 +22,7 @@ import com.bearfishapps.libs.GeneralScreens;
 import com.bearfishapps.libs.Tools.Constants;
 import com.bearfishapps.libs.Tools.CustomClasses.CustomImageButton;
 import com.bearfishapps.libs.Tools.CustomClasses.CustomLabel;
-import com.bearfishapps.libs.Tools.FontGenerator;
+import com.bearfishapps.shadowarcher.MainGameClass;
 import com.bearfishapps.shadowarcher.Physics.Assets.TextureRegionService;
 import com.bearfishapps.shadowarcher.Physics.PhysicsWorld;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.DynamicObjcts.Arrow;
@@ -33,7 +30,7 @@ import com.bearfishapps.shadowarcher.Physics.WorldObjects.DynamicObjcts.Arrow;
 public class GameScreen extends GeneralScreens {
     private PhysicsWorld physicsWorld;
     private ImageButton changeGameStateButton, quitButton, restartButton;
-    private Label scoreLabel;
+    private Label scoreLabel, fpsLabel;
     private boolean twoPlayer;
 
     private Stage stage2;
@@ -42,18 +39,23 @@ public class GameScreen extends GeneralScreens {
     public GameScreen(GdxGame game, boolean twoPlayer) {
         super(game, 45, 24);
         if(!twoPlayer) {
-            CustomLabel.make(160, new Color(1, 1, 1, 0.1f),Constants.blackopsone);
+            CustomLabel.make(((MainGameClass)game).superLargeFont, new Color(1, 1, 1, 0.1f));
             scoreLabel = new Label("0", CustomLabel.style);
-            scoreLabel.setPosition(100, -50);
+            scoreLabel.setPosition(200, -60);
+
+            CustomLabel.make(12, new Color(1, 1, 1, 0.75f), Constants.blackopsone);
+            fpsLabel = new Label("FPS: ", CustomLabel.style);
+            fpsLabel.setPosition(0, 0);
 
             cam2 = new OrthographicCamera();
-            Viewport vp2 = new ExtendViewport(300, 160, cam2);
-            ((ExtendViewport)vp2).setMaxWorldWidth(300);
-            ((ExtendViewport)vp2).setMaxWorldHeight(160*2);
+            Viewport vp2 = new ExtendViewport(600, 320, cam2);
+            ((ExtendViewport)vp2).setMaxWorldWidth(600);
+            ((ExtendViewport)vp2).setMaxWorldHeight(320*2);
 //            cam2.position.set(-300/2, -160/2, 0);
             cam2.update();
 
             stage2 = new Stage(vp2);
+            stage2.addActor(fpsLabel);
             stage2.addActor(scoreLabel);
 
             cam2.update();
@@ -75,9 +77,23 @@ public class GameScreen extends GeneralScreens {
 
    }
 
+    private float fps_limit = 1f/45f;
+    private float pastTime = 0, oneSecond= 0;
+    private long lastTime = 0, physicsFPS = 0;
     @Override
     public void step(float delta, float animationKeyFrame) {
-        physicsWorld.step(delta);
+        long currentTime = System.currentTimeMillis();
+        pastTime += delta; oneSecond += delta;
+        if(oneSecond> 1) {physicsFPS = 1000/(currentTime-lastTime);oneSecond = 0;}
+        fpsLabel.setText("FPS: "+Gdx.graphics.getFramesPerSecond()+" Physics: "+ String.valueOf(physicsFPS));
+        if(pastTime<fps_limit) {
+            return;
+        }
+        lastTime = System.currentTimeMillis();
+        pastTime = 0;
+//        Gdx.app.log("GameScreen", "Actual FPS - "+String.valueOf(1/delta));
+
+        physicsWorld.step();
         if(twoPlayer) {
             int res = physicsWorld.checkScore();
             if (res != -300) {

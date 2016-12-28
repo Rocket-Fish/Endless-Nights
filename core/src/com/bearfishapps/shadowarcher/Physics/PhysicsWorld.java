@@ -110,15 +110,13 @@ public class PhysicsWorld extends Actor{
     ArrayList<Arrow> luminantArrows = new ArrayList<Arrow>();
     private float pastSteps = 0;
     private int score = -300;
-    public void step(float delta) {
+    public void step() {
         if(paused)
             return;
 
         p1.resetHumanoidContactWithGround();
         if(twoPlayers)
             p2.resetHumanoidContactWithGround();
-
-        Gdx.app.log("PhysicsWorld", "FPS - "+String.valueOf(1/delta)+" Arrows - "+arrows.size());
 
         world.step(1 / 45f, 6, 2);
 
