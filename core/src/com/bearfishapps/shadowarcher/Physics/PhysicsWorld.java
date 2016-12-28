@@ -14,8 +14,6 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.bearfishapps.libs.Tools.Constants;
-import com.bearfishapps.libs.Tools.FontGenerator;
 import com.bearfishapps.shadowarcher.AI.SmartHumanoidBundle;
 import com.bearfishapps.shadowarcher.Physics.Collision.CollisionMasks;
 import com.bearfishapps.shadowarcher.Physics.Collision.StickyArrowClass;
@@ -98,6 +96,7 @@ public class PhysicsWorld extends Actor{
         DeathPlatform dp = new DeathPlatform(world, new Vector2(-500, -6), new Vector2(545f, -6));
         if(!twoPlayers) {
             DeathPlatform dp2 = new DeathPlatform(world, new Vector2(-500, -6), new Vector2(-500f, 1000));
+            DeathPlatform dp3 = new DeathPlatform(world, new Vector2(545f, -6), new Vector2(545f, 1000));
         }
 
         if(twoPlayers) {
@@ -262,7 +261,7 @@ public class PhysicsWorld extends Actor{
             otherBodies.add(new SimpleObject(world, rayHandler, pos, 2, arrows));
         }
         if(!twoPlayers && pastSteps%200 == 0) {
-            SmartHumanoidBundle shb = new SmartHumanoidBundle(world, rayHandler, new Vector2(MathUtils.random(47f, 50f), MathUtils.random(-1f, 30f)), 1);
+            SmartHumanoidBundle shb = new SmartHumanoidBundle(world, rayHandler, new Vector2(MathUtils.random(47f, 50f), MathUtils.random(-1f, 30f)), 1, score);
             humanoidBundles.add(shb);
         }
         pastSteps++;
@@ -281,7 +280,7 @@ public class PhysicsWorld extends Actor{
     public void draw (Batch batch, float parentAlpha) {
         batch.end();
 
-        debugRenderer.render(world, batch.getProjectionMatrix());
+//        debugRenderer.render(world, batch.getProjectionMatrix());
 
         shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
         shapeRenderer.setTransformMatrix(batch.getTransformMatrix());

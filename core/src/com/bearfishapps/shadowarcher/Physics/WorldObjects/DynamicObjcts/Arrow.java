@@ -229,8 +229,8 @@ public class Arrow extends CustomPhysicsBody implements Comparable<Arrow>{
         if(bodies[0] == null)
             return;
         renderer.setColor(0, 0, 0, 1);
-        if(stayLight)
-            renderer.setColor(1, 0, 0, 1);
+//        if(stayLight)
+//            renderer.setColor(1, 0, 0, 1);
         float[] renderPos = WorldUtils.matchBodyPositionFromFloat(bodyPos, bodies[0]);
         renderPos = WorldUtils.scaleF(renderPos, scale);
         RenderHelper.filledPolygon(renderPos, renderer);

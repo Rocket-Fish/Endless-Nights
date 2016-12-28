@@ -94,7 +94,7 @@ public class SimpleObject extends CustomPhysicsBody {
 
     }
 
-    public void summonObjectsIfNeeded(ListIterator<CustomPhysicsBody> otherBodyIterator) {
+    public void summonObjectsIfNeeded(ListIterator<CustomPhysicsBody> otherBodyIterator, boolean isTwoPlayer) {
         if (activated && light.isActive()) {
             if (type == 0) {
                 light.setDistance(light.getDistance() - 0.1f);
@@ -102,7 +102,7 @@ public class SimpleObject extends CustomPhysicsBody {
                     light.setActive(false);
                 if (!temporaryStateActivated) {
                     temporaryStateActivated = true;
-                    for (int i = 0; i < 45; i+=2) {
+                    for (int i = 0; i < 45; i+=3) {
                         Arrow a = new Arrow(world, rayHandler, 1);
                         a.release(5, new Vector2(i, 30), MathUtils.random(93f, 87f));
                         arrows.add(a);
@@ -125,7 +125,11 @@ public class SimpleObject extends CustomPhysicsBody {
                     temporaryStateActivated = true;
                     light.setActive(false);
                     Obstacle o = new Obstacle(world, new Vector2(MathUtils.random(15, 30), 26), 1);
-                    o.setVelocity(new Vector2(0, -0.25f));
+                    if(isTwoPlayer) {
+                        o.setVelocity(new Vector2(0, -0.15f));
+                    } else {
+                        o.setVelocity(new Vector2(0, -0.3f));
+                    }
                     otherBodyIterator.add(o);
                 }
             } else if (type == 3) {

@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -56,14 +58,24 @@ public class MainMenuScreen extends GeneralScreens{
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new GameScreen(game, false));
+                stage.addAction(Actions.sequence(Actions.fadeOut(1f), Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        game.setScreen(new GameScreen(game, false));
+                    }
+                })));
             }
         });
 
         multiplayerButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new GameScreen(game, true));
+                stage.addAction(Actions.sequence(Actions.fadeOut(1f), Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        game.setScreen(new GameScreen(game, true));
+                    }
+                })));
             }
         });
 
@@ -74,7 +86,7 @@ public class MainMenuScreen extends GeneralScreens{
             }
         });
 
-        table.setDebug(true);
+//        table.setDebug(true);
         table.center().top();
         table.add(title).pad(14).colspan(2).row();
         table.add(playButton).pad(7).right().width(64).height(64);

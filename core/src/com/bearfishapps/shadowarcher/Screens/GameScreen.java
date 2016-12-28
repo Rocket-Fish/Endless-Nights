@@ -4,10 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -39,21 +41,6 @@ public class GameScreen extends GeneralScreens {
     // only for singleplayer
     public GameScreen(GdxGame game, boolean twoPlayer) {
         super(game, 45, 24);
-        Arrow.reset();
-        physicsWorld = new PhysicsWorld(camera, twoPlayer);
-        setBackgroundColor(255, 255, 255, 1);
-        this.twoPlayer = twoPlayer;
-
-        CustomImageButton.make(TextureRegionService.pauseButton);
-        changeGameStateButton = new ImageButton(CustomImageButton.style);
-
-        CustomImageButton.make(TextureRegionService.exitButton);
-        quitButton = new ImageButton(CustomImageButton.style);
-        quitButton.setVisible(false);
-        CustomImageButton.make(TextureRegionService.restartBtn);
-        restartButton = new ImageButton(CustomImageButton.style);
-        restartButton.setVisible(false);
-
         if(!twoPlayer) {
             CustomLabel.make(160, new Color(1, 1, 1, 0.1f),Constants.blackopsone);
             scoreLabel = new Label("0", CustomLabel.style);
@@ -70,8 +57,22 @@ public class GameScreen extends GeneralScreens {
             stage2.addActor(scoreLabel);
 
             cam2.update();
-
         }
+        Arrow.reset();
+        physicsWorld = new PhysicsWorld(camera, twoPlayer);
+        setBackgroundColor(255, 255, 255, 1);
+        this.twoPlayer = twoPlayer;
+
+        CustomImageButton.make(TextureRegionService.pauseButton);
+        changeGameStateButton = new ImageButton(CustomImageButton.style);
+
+        CustomImageButton.make(TextureRegionService.exitButton);
+        quitButton = new ImageButton(CustomImageButton.style);
+        quitButton.setVisible(false);
+        CustomImageButton.make(TextureRegionService.restartBtn);
+        restartButton = new ImageButton(CustomImageButton.style);
+        restartButton.setVisible(false);
+
    }
 
     @Override
@@ -90,10 +91,47 @@ public class GameScreen extends GeneralScreens {
         }
     }
 
+    private ShapeRenderer renderer = new ShapeRenderer();
+    private boolean fadeOut = false; private float initFrame = -1;
     @Override
     public void postRender(float delta, float animationKeyFrame) {
-        stage2.act();
-        stage2.draw();
+        if(!twoPlayer) {
+            stage2.act();
+            stage2.draw();
+        }
+
+        if(animationKeyFrame<=2f) {
+            Gdx.gl.glEnable(GL20.GL_BLEND);
+            Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+            renderer.setProjectionMatrix(camera.combined);
+            renderer.begin(ShapeRenderer.ShapeType.Filled);
+            renderer.setColor(new Color(0, 0, 0, 1f-animationKeyFrame/2f));
+            renderer.rect(0, 0, camera.viewportWidth, camera.viewportHeight);
+            renderer.end();
+            Gdx.gl.glDisable(GL20.GL_BLEND);
+        }
+        if(fadeOut) {
+            if(initFrame < 0)
+                initFrame = animationKeyFrame;
+            else if(animationKeyFrame-initFrame<=1) {
+                Gdx.gl.glEnable(GL20.GL_BLEND);
+                Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+                renderer.setProjectionMatrix(camera.combined);
+                renderer.begin(ShapeRenderer.ShapeType.Filled);
+                renderer.setColor(new Color(0, 0, 0, (animationKeyFrame - initFrame)));
+                renderer.rect(0, 0, camera.viewportWidth, camera.viewportHeight);
+                renderer.end();
+                Gdx.gl.glDisable(GL20.GL_BLEND);
+            } else {
+                renderer.setProjectionMatrix(camera.combined);
+                renderer.begin(ShapeRenderer.ShapeType.Filled);
+                renderer.setColor(new Color(0, 0, 0, 1));
+                renderer.rect(0, 0, camera.viewportWidth, camera.viewportHeight);
+                renderer.end();
+
+            }
+
+        }
     }
 
     @Override
@@ -145,20 +183,32 @@ public class GameScreen extends GeneralScreens {
         quitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new MainMenuScreen(game));
+                fadeOut = true;
+                stage.addAction(Actions.sequence(Actions.fadeOut(1f), new RunnableAction() {
+                    @Override
+                    public void run() {
+                        game.setScreen(new MainMenuScreen(game));
+                    }
+                }));
             }
         });
         restartButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new GameScreen(game, twoPlayer));
+                fadeOut = true;
+                stage.addAction(Actions.sequence(Actions.fadeOut(1f), new RunnableAction() {
+                    @Override
+                    public void run() {
+                        game.setScreen(new GameScreen(game, twoPlayer));
+                    }
+                }));
             }
         });
 
         InputMultiplexer multiplexer = new InputMultiplexer();
         stage.addActor(physicsWorld);
 
-        table.setDebug(true);
+//        table.setDebug(true);
         table.setRound(false);
         if(twoPlayer)
             table.center().top();

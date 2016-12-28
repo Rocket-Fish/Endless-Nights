@@ -15,7 +15,7 @@ import com.bearfishapps.shadowarcher.Physics.Assets.TextureRegionService;
 public class SplashScreen extends GeneralScreens {
     public SplashScreen(MainGameClass game) {
         super(game);
-        setBackgroundColor(255, 255, 255, 1);
+//        setBackgroundColor(255, 255, 255, 1);
         game.getLoader().loadEverything();
     }
 
@@ -44,7 +44,7 @@ public class SplashScreen extends GeneralScreens {
         Image logo2 = new Image(game.getLoader().get().get(Constants.logo2, Texture.class));
         logo2.setScaling(Scaling.fit);
 
-        table.setDebug(true);
+//        table.setDebug(true);
         table.bottom().left();
         table.add(logo1).width(300).height(200).fill().padRight(10);
         table.add(logo2).width(200).height(200).fill().row();
