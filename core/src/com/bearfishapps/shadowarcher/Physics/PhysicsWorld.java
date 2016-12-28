@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -13,6 +14,9 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.bearfishapps.libs.Tools.Constants;
+import com.bearfishapps.libs.Tools.FontGenerator;
+import com.bearfishapps.shadowarcher.AI.SmartHumanoidBundle;
 import com.bearfishapps.shadowarcher.Physics.Collision.CollisionMasks;
 import com.bearfishapps.shadowarcher.Physics.Collision.StickyArrowClass;
 import com.bearfishapps.shadowarcher.Physics.Collision.CollisionListener;
@@ -87,6 +91,8 @@ public class PhysicsWorld extends Actor{
             p2 = new HumanGroundBundleGroup(world, rayHandler, new Vector2(44f, 6f), 1);
             arrows.add(p2.getHumanoid().drawArrow());
             humanoidBundles.add(p2);
+        } else {
+            score = 0;
         }
 
         DeathPlatform dp = new DeathPlatform(world, new Vector2(-500, -6), new Vector2(545f, -6));
@@ -99,6 +105,7 @@ public class PhysicsWorld extends Actor{
             otherBodies.add(new Obstacle(world, new Vector2(10f, 16f), 1));
             otherBodies.add(new Obstacle(world, new Vector2(35f, 16f), 1));
         }
+
     }
 
     ArrayList<Arrow> luminantArrows = new ArrayList<Arrow>();
@@ -135,7 +142,11 @@ public class PhysicsWorld extends Actor{
                 Arrow a = arrows.get(arrows.indexOf(a2));
                 collidedArrows.add(a);
             }
-//            Gdx.app.log("-----", "------");
+
+            if(!twoPlayers) {
+                if(humanoidBundles.contains(new HumanGroundBundleGroup(sc.getBody2())));
+                    score++;
+            }
 
             // welding starts after here
             Vector2 anchorPoint = sc.getArrow().getWorldPoint(tip);
@@ -243,14 +254,26 @@ public class PhysicsWorld extends Actor{
             }
         }
 
-        if(pastSteps--<0) {
+        if(pastSteps%500 == 0) {
             Vector2 pos;
             if(twoPlayers)
                 pos =new Vector2(22.5f, 27f);
             else
                 pos = new Vector2(MathUtils.random(10f, 35f), 27);
             otherBodies.add(new SimpleObject(world, rayHandler, pos, 2, arrows));
-            pastSteps = 500;
+        }
+        if(!twoPlayers && pastSteps%200 == 0) {
+            SmartHumanoidBundle shb = new SmartHumanoidBundle(world, rayHandler, new Vector2(MathUtils.random(47f, 50f), MathUtils.random(-1f, 30f)), 1);
+            humanoidBundles.add(shb);
+        }
+        pastSteps++;
+        for(HumanGroundBundleGroup hgbg:humanoidBundles) {
+            if(hgbg instanceof SmartHumanoidBundle) {
+                SmartHumanoidBundle shb = (SmartHumanoidBundle) hgbg;
+                shb.update(p1.getHumanoid().getBodies()[0].getWorldCenter());
+                arrows.addAll(shb.getArrows());
+                shb.getArrows().clear();
+            }
         }
     }
 
@@ -283,6 +306,7 @@ public class PhysicsWorld extends Actor{
         rayHandler.updateAndRender();
 
         batch.begin();
+
     }
 
     public void initUserInterface(InputMultiplexer multiplexer) {

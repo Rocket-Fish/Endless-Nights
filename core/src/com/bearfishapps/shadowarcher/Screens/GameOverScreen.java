@@ -56,6 +56,11 @@ public class GameOverScreen extends GeneralScreens {
     }
 
     @Override
+    public void postRender(float delta, float animationKeyFrame) {
+
+    }
+
+    @Override
     public void preShow(Table table, InputMultiplexer multiplexer) {
         retryButton.addListener(new ClickListener() {
             @Override

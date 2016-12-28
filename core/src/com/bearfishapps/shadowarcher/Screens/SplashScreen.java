@@ -33,6 +33,11 @@ public class SplashScreen extends GeneralScreens {
     }
 
     @Override
+    public void postRender(float delta, float animationKeyFrame) {
+
+    }
+
+    @Override
     public void preShow(Table table, InputMultiplexer multiplexer) {
         Image logo1 = new Image(game.getLoader().get().get(Constants.logo1, Texture.class));
         logo1.setScaling(Scaling.fit);

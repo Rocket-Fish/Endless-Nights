@@ -2,8 +2,10 @@ package com.bearfishapps.shadowarcher.Physics.WorldObjects;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.bearfishapps.libs.Tools.PhysicsWorld.WorldUtils;
+import com.bearfishapps.shadowarcher.AI.SmartHumanoidBundle;
 import com.bearfishapps.shadowarcher.Physics.Collision.CollisionMasks;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.DynamicObjcts.Humanoid;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.DynamicObjcts.MovableGround;
@@ -20,6 +22,9 @@ public class HumanGroundBundleGroup {
     private Light light;
     public final float LIGHT_INTENSITY = 3f;
 
+    public HumanGroundBundleGroup(Body b) {
+        humanoid = new Humanoid(b);
+    }
     public HumanGroundBundleGroup(World world, RayHandler rayHandler, Vector2 position, float scale) {
         humanoid = new Humanoid(world,rayHandler, position, scale);
         movableGround = new MovableGround(world, position, scale);
@@ -86,6 +91,23 @@ public class HumanGroundBundleGroup {
 
     public void resetHumanoidContactWithGround() {
         humanoid.falsifyContact();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof HumanGroundBundleGroup)) return false;
+
+        HumanGroundBundleGroup cpb = (HumanGroundBundleGroup) o;
+        if(cpb.getHumanoid() == null)
+            return false;
+
+        return cpb.getHumanoid().equals(cpb.getHumanoid());
+    }
+
+    @Override
+    public int hashCode() {
+        return getHumanoid().getBodies().hashCode();
     }
 
 }

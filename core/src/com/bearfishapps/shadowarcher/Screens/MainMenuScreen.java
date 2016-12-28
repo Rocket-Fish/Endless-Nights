@@ -47,6 +47,11 @@ public class MainMenuScreen extends GeneralScreens{
     }
 
     @Override
+    public void postRender(float delta, float animationKeyFrame) {
+
+    }
+
+    @Override
     public void preShow(Table table, InputMultiplexer multiplexer) {
         playButton.addListener(new ClickListener() {
             @Override

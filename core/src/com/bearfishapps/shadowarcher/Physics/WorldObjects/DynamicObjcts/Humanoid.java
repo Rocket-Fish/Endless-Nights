@@ -38,6 +38,10 @@ public class Humanoid extends CustomPhysicsBody {
     private RevoluteJoint headJoint, armJoint1, armJoint2, legJoint1, legJoint2;
     private Arrow arrow;
 
+    public Humanoid(Body b) {
+        super(null, 1);
+        bodies[0] = b;
+    }
     public Humanoid(World world, RayHandler rayHandler, Vector2 pos, float scale) {
         super(world, 7);
         System.arraycopy(lArmPos, 0, rArmPos, 0, lArmPos.length);

@@ -85,6 +85,8 @@ public abstract class GeneralScreens implements Screen {
         // for ui
         stage.act();
         stage.draw();
+
+        postRender(delta, keyFrame);
     }
 
     @Override
@@ -116,6 +118,8 @@ public abstract class GeneralScreens implements Screen {
 
     // abstract classes for customization
     public abstract void step(float delta, float animationKeyFrame);
+
+    public abstract void postRender(float delta, float animationKeyFrame);
 
     public abstract void preShow(Table table, InputMultiplexer multiplexer);
 
