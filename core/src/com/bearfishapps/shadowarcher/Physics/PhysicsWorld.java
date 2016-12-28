@@ -248,7 +248,7 @@ public class PhysicsWorld extends Actor{
             CustomPhysicsBody b = li.next();
             if(b instanceof SimpleObject) {
                 SimpleObject ss = (SimpleObject) b;
-                ss.summonObjectsIfNeeded(li);
+                ss.summonObjectsIfNeeded(li, twoPlayers);
             }
         }
 
