@@ -34,31 +34,25 @@ public class GameScreen extends GeneralScreens {
     private boolean twoPlayer;
 
     private Stage stage2;
-    private Camera cam2;
     // only for singleplayer
     public GameScreen(GdxGame game, boolean twoPlayer) {
         super(game, 45, 24);
+        CustomLabel.make(12, new Color(1, 1, 1, 0.75f), Constants.blackopsone);
+        fpsLabel = new Label("FPS: ", CustomLabel.style);
+        fpsLabel.setPosition(0, 0);
+
+        Viewport vp2 = new ExtendViewport(600, 320);
+        ((ExtendViewport)vp2).setMaxWorldWidth(600);
+        ((ExtendViewport)vp2).setMaxWorldHeight(320*2);
+        stage2 = new Stage(vp2);
+        stage2.addActor(fpsLabel);
+
         if(!twoPlayer) {
             CustomLabel.make(((MainGameClass)game).superLargeFont, new Color(1, 1, 1, 0.1f));
             scoreLabel = new Label("0", CustomLabel.style);
             scoreLabel.setPosition(200, -60);
 
-            CustomLabel.make(12, new Color(1, 1, 1, 0.75f), Constants.blackopsone);
-            fpsLabel = new Label("FPS: ", CustomLabel.style);
-            fpsLabel.setPosition(0, 0);
-
-            cam2 = new OrthographicCamera();
-            Viewport vp2 = new ExtendViewport(600, 320, cam2);
-            ((ExtendViewport)vp2).setMaxWorldWidth(600);
-            ((ExtendViewport)vp2).setMaxWorldHeight(320*2);
-//            cam2.position.set(-300/2, -160/2, 0);
-            cam2.update();
-
-            stage2 = new Stage(vp2);
-            stage2.addActor(fpsLabel);
             stage2.addActor(scoreLabel);
-
-            cam2.update();
         }
         Arrow.reset();
         physicsWorld = new PhysicsWorld(camera, twoPlayer);
@@ -77,23 +71,27 @@ public class GameScreen extends GeneralScreens {
 
    }
 
-    private float fps_limit = 1f/45f;
-    private float pastTime = 0, oneSecond= 0;
-    private long lastTime = 0, physicsFPS = 0;
+    private int fps_limit = 45;
+    private long diff, start = System.currentTimeMillis();
+    public void sleep(int fps) {
+        if(fps>0){
+            diff = System.currentTimeMillis() - start;
+            long targetDelay = 1000/fps;
+            if (diff < targetDelay) {
+                try{
+                    Thread.sleep(targetDelay - diff);
+                } catch (InterruptedException e) {}
+            }
+            start = System.currentTimeMillis();
+        }
+    }
+
     @Override
     public void step(float delta, float animationKeyFrame) {
         long currentTime = System.currentTimeMillis();
-        pastTime += delta; oneSecond += delta;
-        if(oneSecond> 1) {physicsFPS = 1000/(currentTime-lastTime);oneSecond = 0;}
-        fpsLabel.setText("FPS: "+Gdx.graphics.getFramesPerSecond()+" Physics: "+ String.valueOf(physicsFPS));
-        if(pastTime<fps_limit) {
-            return;
-        }
-        lastTime = System.currentTimeMillis();
-        pastTime = 0;
-//        Gdx.app.log("GameScreen", "Actual FPS - "+String.valueOf(1/delta));
+        fpsLabel.setText("FPS: "+Gdx.graphics.getFramesPerSecond());
 
-        physicsWorld.step();
+        physicsWorld.step(fps_limit);
         if(twoPlayer) {
             int res = physicsWorld.checkScore();
             if (res != -300) {
@@ -105,16 +103,15 @@ public class GameScreen extends GeneralScreens {
                 game.setScreen(new GameOverScreen(game, physicsWorld.checkScore()));
             }
         }
+        sleep(fps_limit);
     }
 
     private ShapeRenderer renderer = new ShapeRenderer();
     private boolean fadeOut = false; private float initFrame = -1;
     @Override
     public void postRender(float delta, float animationKeyFrame) {
-        if(!twoPlayer) {
-            stage2.act();
-            stage2.draw();
-        }
+        stage2.act();
+        stage2.draw();
 
         if(animationKeyFrame<=2f) {
             Gdx.gl.glEnable(GL20.GL_BLEND);

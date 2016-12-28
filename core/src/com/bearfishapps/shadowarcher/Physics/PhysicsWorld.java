@@ -110,7 +110,7 @@ public class PhysicsWorld extends Actor{
     ArrayList<Arrow> luminantArrows = new ArrayList<Arrow>();
     private float pastSteps = 0;
     private int score = -300;
-    public void step() {
+    public void step(float fps_limit) {
         if(paused)
             return;
 
@@ -118,7 +118,7 @@ public class PhysicsWorld extends Actor{
         if(twoPlayers)
             p2.resetHumanoidContactWithGround();
 
-        world.step(1 / 45f, 6, 2);
+        world.step(1 / fps_limit, 6, 2);
 
         humanInputProcessorP1.refresh();
         if(twoPlayers)
