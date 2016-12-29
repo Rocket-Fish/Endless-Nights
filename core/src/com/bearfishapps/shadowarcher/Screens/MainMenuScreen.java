@@ -16,17 +16,21 @@ import com.bearfishapps.libs.Tools.CustomClasses.CustomButton;
 import com.bearfishapps.libs.Tools.CustomClasses.CustomImageButton;
 import com.bearfishapps.libs.Tools.CustomClasses.CustomLabel;
 import com.bearfishapps.libs.Tools.Prefs;
+import com.bearfishapps.shadowarcher.MainGameClass;
 import com.bearfishapps.shadowarcher.Physics.Assets.TextureRegionService;
+import com.bearfishapps.shadowarcher.Screens.UI.BackActionCallback;
+import com.bearfishapps.shadowarcher.Screens.UI.GPGSTable;
 
 public class MainMenuScreen extends GeneralScreens{
     private Label title;
     private ImageButton playButton, multiplayerButton, quitButton, questionButton, soundButton, servicesButton, infoButton;
+    private GPGSTable gtable;
 
     public MainMenuScreen(GdxGame game) {
         super(game, 900, 480);
 
         CustomLabel.make(94, Color.WHITE, Constants.armalite);
-        title = new Label("Shadow Archer", CustomLabel.style);
+        title = new Label("Endless Night", CustomLabel.style);
 
         CustomImageButton.make(TextureRegionService.playButton);
         playButton = new ImageButton(CustomImageButton.style);
@@ -48,6 +52,9 @@ public class MainMenuScreen extends GeneralScreens{
         CustomImageButton.make(TextureRegionService.creditsBtn);
         infoButton = new ImageButton(CustomImageButton.style);
 
+        gtable = new GPGSTable((MainGameClass) game);
+        gtable.getTable().setVisible(false);
+
     }
 
     @Override
@@ -61,7 +68,7 @@ public class MainMenuScreen extends GeneralScreens{
     }
 
     @Override
-    public void preShow(Table table, InputMultiplexer multiplexer) {
+    public void preShow(final Table table, InputMultiplexer multiplexer) {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -110,6 +117,42 @@ public class MainMenuScreen extends GeneralScreens{
                     }
         });
 
+        servicesButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                gtable.getTable().addAction(Actions.sequence(Actions.alpha(0f), Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        gtable.getTable().setVisible(true);
+                    }
+                }), Actions.fadeIn(1f)));
+                table.addAction(Actions.sequence(Actions.fadeOut(1f), Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        table.setVisible(false);
+                    }
+                })));
+            }
+        });
+
+        gtable.setBackCallback(new BackActionCallback() {
+            @Override
+            public void onCall() {
+                table.addAction(Actions.sequence(Actions.alpha(0f), Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        table.setVisible(true);
+                    }
+                }), Actions.fadeIn(1f)));
+                gtable.getTable().addAction(Actions.sequence(Actions.fadeOut(1f), Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        gtable.getTable().setVisible(false);
+                    }
+                })));
+            }
+        });
+
 //        table.setDebug(true);
         table.center().top();
         table.add(title).pad(14).colspan(4).row();
@@ -122,6 +165,7 @@ public class MainMenuScreen extends GeneralScreens{
         table.add(soundButton).pad(7).width(34).height(34).row();
 
         table.add(quitButton).colspan(4).pad(7).width(64).height(64).center().row();
+        stage.addActor(gtable.getTable());
 
     }
 

@@ -14,6 +14,7 @@ import com.bearfishapps.libs.Tools.Constants;
 import com.bearfishapps.libs.Tools.CustomClasses.CustomImageButton;
 import com.bearfishapps.libs.Tools.CustomClasses.CustomLabel;
 import com.bearfishapps.libs.Tools.Prefs;
+import com.bearfishapps.shadowarcher.MainGameClass;
 import com.bearfishapps.shadowarcher.Physics.Assets.TextureRegionService;
 
 public class TutorialScreen extends GameScreen {
@@ -21,7 +22,7 @@ public class TutorialScreen extends GameScreen {
     private Table tmpTable;
     private Label content, prompt;
     private boolean moveOn = true;
-    public TutorialScreen(GdxGame game) {
+    public TutorialScreen(final GdxGame game) {
         super(game, false);
         tmpTable = new Table();
 //        tmpTable.setDebug(true);
@@ -43,13 +44,15 @@ public class TutorialScreen extends GameScreen {
                 if(state >6) {
                     tmpTable.setVisible(false);
                     Prefs.setBoolean(Constants.firstRun, false);
+                    if(((MainGameClass)game).getService().isSignedIn())
+                        ((MainGameClass)game).getService().unlockAchievementGPGS(((MainGameClass)game).ACH_COMPLETE_TUTORIAL);
                 }
             }
         });
         stage2.addActor(tmpTable);
     }
 
-    private float prevFrame;
+    private float prevFrame = 0;
     private float keyFrame;
     @Override
     public void step(float delta, float animationKeyFrame) {
@@ -57,21 +60,23 @@ public class TutorialScreen extends GameScreen {
         super.step(delta, animationKeyFrame);
         if (moveOn) {
             if (state == 0) {
-                moveOn = false;
-                physicsWorld.setPause(true);
-                Vector2 target = new Vector2(physicsWorld.getP1().getHumanoid().getBodies()[0].getWorldCenter());
-                target = target.scl(13.3f);
-                target.x += 130;
-                target.y += 50;
+                if(animationKeyFrame-prevFrame > 0.1f) {
+                    moveOn = false;
+                    physicsWorld.setPause(true);
+                    Vector2 target = new Vector2(physicsWorld.getP1().getHumanoid().getBodies()[0].getWorldCenter());
+                    target = target.scl(13.3f);
+                    target.x += 130;
+                    target.y += 50;
 
-                tmpTable.addAction(Actions.moveTo(target.x, target.y));
-                content.setText("This is Your Character,\nTap Screen to move\nDrag Screen to Shoot");
+                    tmpTable.addAction(Actions.sequence(Actions.moveTo(target.x, target.y)));
+                    content.setText("This is Your Character,\nTap Screen to move\nDrag Screen to Shoot");
+                }
             } else if (state == 1) {
-                if(animationKeyFrame-prevFrame > 0.5f) {
+                if(animationKeyFrame-prevFrame > 0.3f) {
                     moveOn = false;
                     physicsWorld.setPause(true);
 
-                    tmpTable.addAction(Actions.moveTo(400, 50));
+                    tmpTable.addAction(Actions.sequence(Actions.moveTo(400, 50)));
                     content.setText("Enemies Spawn from the Right,\nThey Will Follow You\nAnd Shoot Arrows at You");
                 }
             } else if (state == 2) {
@@ -79,7 +84,7 @@ public class TutorialScreen extends GameScreen {
                     moveOn = false;
                     physicsWorld.setPause(true);
 
-                    tmpTable.addAction(Actions.moveTo(200, 250));
+                    tmpTable.addAction(Actions.sequence(Actions.moveTo(200, 250)));
                     content.setText("Stay Mobile to live\nYou only have one life");
                 }
             } else if (state == 3) {
@@ -87,7 +92,7 @@ public class TutorialScreen extends GameScreen {
                     moveOn = false;
                     physicsWorld.setPause(true);
 
-                    tmpTable.addAction(Actions.moveTo(250, 200));
+                    tmpTable.addAction(Actions.sequence(Actions.moveTo(250, 200)));
                     content.setText("Watch for boxes\nThat drop from above\nThey give boosts");
                 }
             } else if (state == 4) {
@@ -95,7 +100,7 @@ public class TutorialScreen extends GameScreen {
                     moveOn = false;
                     physicsWorld.setPause(true);
 
-                    tmpTable.addAction(Actions.moveTo(250, 200));
+//                    tmpTable.addAction(Actions.moveTo(250, 200));
                     content.setText("Boxes may change your arrows\n Or may spawn objects");
                 }
             } if (state == 5) {
@@ -103,7 +108,7 @@ public class TutorialScreen extends GameScreen {
                     moveOn = false;
                     physicsWorld.setPause(true);
 
-                    tmpTable.addAction(Actions.moveTo(250, 200));
+//                    tmpTable.addAction(Actions.moveTo(250, 200));
                     content.setText("They are Color Coded\nSo Choose Wisely");
                 }
             } else if (state == 6) {
@@ -111,7 +116,7 @@ public class TutorialScreen extends GameScreen {
                     moveOn = false;
                     physicsWorld.setPause(true);
 
-                    tmpTable.addAction(Actions.moveTo(250, 200));
+//                    tmpTable.addAction(Actions.moveTo(250, 200));
                     content.setText("But Most Importantly\n Have Fun");
                 }
             }

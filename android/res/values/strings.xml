@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">ShadowArcher</string>
+    <string name="app_name">Endless Night</string>
+    <string name="app_id">884316336477</string>
+    <string name="app_id_full">884316336477-c9qf4e870qvrkcrt8ei1c99ejavaj2b1.apps.googleusercontent.com</string>
+    <string name="leaderboard_id">CgkI3eLxqt4ZEAIQAw</string>
 
 </resources>

@@ -1,6 +1,5 @@
 package com.bearfishapps.shadowarcher.Screens;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -15,17 +14,27 @@ import com.bearfishapps.libs.Tools.Constants;
 import com.bearfishapps.libs.Tools.CustomClasses.CustomImageButton;
 import com.bearfishapps.libs.Tools.CustomClasses.CustomLabel;
 import com.bearfishapps.libs.Tools.Prefs;
+import com.bearfishapps.shadowarcher.MainGameClass;
 import com.bearfishapps.shadowarcher.Physics.Assets.TextureRegionService;
+import com.bearfishapps.shadowarcher.Screens.UI.BackActionCallback;
+import com.bearfishapps.shadowarcher.Screens.UI.GPGSTable;
 
 public class GameOverScreen extends GeneralScreens {
     private Label title, comment;
-    private ImageButton retryButton, quitButton, questionButton;
+    private ImageButton retryButton, quitButton, servicesButton;
     private boolean is2PlayerGame;
+    private GPGSTable gtable;
     public GameOverScreen(GdxGame game, int score) {
         super(game, 900, 480);
-
+        MainGameClass mainGame = ((MainGameClass)game);
         CustomLabel.make(84, Color.WHITE, Constants.armalite);
         title = new Label("Game Over", CustomLabel.style);
+        if(mainGame.getService().isSignedIn()) {
+            int ss = (mainGame.getService().loadScoreOfLeaderBoard());
+            if(ss > Prefs.getScore()) {
+                Prefs.setScore(ss);
+            }
+        }
 
         String content = "";
         if(score<0) {
@@ -34,12 +43,25 @@ public class GameOverScreen extends GeneralScreens {
                 case -2: content = "Left Side Wins";break;
                 case -1: content = "Right Side Wins";break;
             }
+
+            if(mainGame.getService().isSignedIn()) {
+                mainGame.getService().unlockAchievementGPGS(mainGame.ACH_PLAY_WITH_A_FRIEND);
+            }
+
         } else {
             is2PlayerGame = false;
             content = "Score: "+score;
             if(score> Prefs.getScore()) {
                 Prefs.setScore(score);
                 title.setText("High Score");
+                ((MainGameClass)game).getService().submitScore(score);
+            }
+            if(mainGame.getService().isSignedIn()) {
+                mainGame.getService().unlockAchievementGPGS(mainGame.ACH_FINISH_A_GAME);
+                if(score>=40)
+                    mainGame.getService().unlockAchievementGPGS(mainGame.ACH_SURVIVOR);
+                if(score>=100)
+                    mainGame.getService().unlockAchievementGPGS(mainGame.ACH_HUNDRED);
             }
         }
 
@@ -51,8 +73,11 @@ public class GameOverScreen extends GeneralScreens {
 
         CustomImageButton.make(TextureRegionService.leftButton);
         quitButton = new ImageButton(CustomImageButton.style);
-        CustomImageButton.make(TextureRegionService.questionBtn);
-        questionButton = new ImageButton(CustomImageButton.style);
+        CustomImageButton.make(TextureRegionService.gameservBtn);
+        servicesButton = new ImageButton(CustomImageButton.style);
+
+        gtable = new GPGSTable((MainGameClass) game);
+        gtable.getTable().setVisible(false);
 
     }
 
@@ -67,7 +92,7 @@ public class GameOverScreen extends GeneralScreens {
     }
 
     @Override
-    public void preShow(Table table, InputMultiplexer multiplexer) {
+    public void preShow(final Table table, InputMultiplexer multiplexer) {
         retryButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -92,13 +117,52 @@ public class GameOverScreen extends GeneralScreens {
             }
         });
 
+        servicesButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                gtable.getTable().addAction(Actions.sequence(Actions.alpha(0f), Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        gtable.getTable().setVisible(true);
+                    }
+                }), Actions.fadeIn(1f)));
+                table.addAction(Actions.sequence(Actions.fadeOut(1f), Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        table.setVisible(false);
+                    }
+                })));
+            }
+        });
+
+        gtable.setBackCallback(new BackActionCallback() {
+            @Override
+            public void onCall() {
+                table.addAction(Actions.sequence(Actions.alpha(0f), Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        table.setVisible(true);
+                    }
+                }), Actions.fadeIn(1f)));
+                gtable.getTable().addAction(Actions.sequence(Actions.fadeOut(1f), Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        gtable.getTable().setVisible(false);
+                    }
+                })));
+            }
+        });
+
+
 //        table.setDebug(true);
         table.center().top();
         table.add(title).pad(14).row();
         table.add(comment).pad(7).row();
         table.add(retryButton).pad(7).height(34).width(34).row();
-        table.add(questionButton).pad(7).width(34).height(34).center().row();
+        table.add(servicesButton).pad(7).width(34).height(34).center().row();
         table.add(quitButton).pad(7).width(34).height(34).center().row();
+
+        stage.addActor(gtable.getTable());
     }
 
     @Override
