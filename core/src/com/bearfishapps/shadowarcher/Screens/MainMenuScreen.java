@@ -69,6 +69,30 @@ public class MainMenuScreen extends GeneralScreens{
 
     @Override
     public void preShow(final Table table, InputMultiplexer multiplexer) {
+        questionButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                stage.addAction(Actions.sequence(Actions.fadeOut(1f), Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        game.setScreen(new TutorialScreen(game));
+                    }
+                })));
+            }
+        });
+
+        infoButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                stage.addAction(Actions.sequence(Actions.fadeOut(1f), Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        game.setScreen(new CreditsScreen(game));
+                    }
+                })));
+            }
+        });
+
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -158,10 +182,10 @@ public class MainMenuScreen extends GeneralScreens{
         table.add(title).pad(14).colspan(4).row();
         table.add(playButton).colspan(2).pad(7).right().width(64).height(64);
         table.add(multiplayerButton).colspan(2).pad(7).left().height(64).width(64).row();
-        table.add(questionButton).colspan(4).pad(7).width(34).height(34).center().row();
+        table.add(questionButton).colspan(4).pad(9).width(34).height(34).center().row();
 
         table.add(servicesButton).pad(7).width(34).height(34);
-        table.add(infoButton).colspan(2).pad(7).width(34).height(34);
+        table.add(infoButton).colspan(2).pad(9).width(34).height(34);
         table.add(soundButton).pad(7).width(34).height(34).row();
 
         table.add(quitButton).colspan(4).pad(7).width(64).height(64).center().row();
