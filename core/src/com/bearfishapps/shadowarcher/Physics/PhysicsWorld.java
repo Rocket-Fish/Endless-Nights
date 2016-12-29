@@ -342,5 +342,9 @@ public class PhysicsWorld extends Actor{
     public int checkScore() {
         return score;
     }
+
+    public HumanGroundBundleGroup getP1() {
+        return p1;
+    }
 }
 

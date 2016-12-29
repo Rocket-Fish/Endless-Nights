@@ -14,6 +14,7 @@ import com.bearfishapps.libs.GeneralScreens;
 import com.bearfishapps.libs.Tools.Constants;
 import com.bearfishapps.libs.Tools.CustomClasses.CustomImageButton;
 import com.bearfishapps.libs.Tools.CustomClasses.CustomLabel;
+import com.bearfishapps.libs.Tools.Prefs;
 import com.bearfishapps.shadowarcher.Physics.Assets.TextureRegionService;
 
 public class GameOverScreen extends GeneralScreens {
@@ -36,6 +37,10 @@ public class GameOverScreen extends GeneralScreens {
         } else {
             is2PlayerGame = false;
             content = "Score: "+score;
+            if(score> Prefs.getScore()) {
+                Prefs.setScore(score);
+                title.setText("High Score");
+            }
         }
 
         CustomLabel.make(48, Color.WHITE, Constants.armalite);

@@ -3,6 +3,10 @@ package com.bearfishapps.libs.Tools;
 public class Constants {
     public static String prefName = "com.bearfishapps.shadowarcher.nisi",
             scoreName = "score",
+            firstRun = "firstRun",
+            desiredFPS = "desiredFPS",
+            soundOn = "soundOn",
+
             tycho = "data/fonts/tycho___.ttf",
             virgo = "data/fonts/virgo.ttf",
             armalite = "data/fonts/armalite_rifle.ttf",

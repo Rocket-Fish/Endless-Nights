@@ -28,12 +28,12 @@ import com.bearfishapps.shadowarcher.Physics.PhysicsWorld;
 import com.bearfishapps.shadowarcher.Physics.WorldObjects.DynamicObjcts.Arrow;
 
 public class GameScreen extends GeneralScreens {
-    private PhysicsWorld physicsWorld;
+    protected PhysicsWorld physicsWorld;
     private ImageButton changeGameStateButton, quitButton, restartButton;
     private Label scoreLabel, fpsLabel;
     private boolean twoPlayer;
 
-    private Stage stage2;
+    protected Stage stage2;
     // only for singleplayer
     public GameScreen(GdxGame game, boolean twoPlayer) {
         super(game, 45, 24);
@@ -238,6 +238,8 @@ public class GameScreen extends GeneralScreens {
         stage.addActor(table);
         stage.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(1f)));
         multiplexer.addProcessor(stage);
+
+        multiplexer.addProcessor(stage2);
 
         physicsWorld.initUserInterface(multiplexer);
         Gdx.input.setInputProcessor(multiplexer);

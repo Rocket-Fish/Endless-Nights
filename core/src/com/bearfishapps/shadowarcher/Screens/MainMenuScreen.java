@@ -15,16 +15,17 @@ import com.bearfishapps.libs.Tools.Constants;
 import com.bearfishapps.libs.Tools.CustomClasses.CustomButton;
 import com.bearfishapps.libs.Tools.CustomClasses.CustomImageButton;
 import com.bearfishapps.libs.Tools.CustomClasses.CustomLabel;
+import com.bearfishapps.libs.Tools.Prefs;
 import com.bearfishapps.shadowarcher.Physics.Assets.TextureRegionService;
 
 public class MainMenuScreen extends GeneralScreens{
     private Label title;
-    private ImageButton playButton, multiplayerButton, quitButton, questionButton, settingsButton;
+    private ImageButton playButton, multiplayerButton, quitButton, questionButton, soundButton, servicesButton, infoButton;
 
     public MainMenuScreen(GdxGame game) {
         super(game, 900, 480);
 
-        CustomLabel.make(84, Color.WHITE, Constants.armalite);
+        CustomLabel.make(94, Color.WHITE, Constants.armalite);
         title = new Label("Shadow Archer", CustomLabel.style);
 
         CustomImageButton.make(TextureRegionService.playButton);
@@ -36,8 +37,16 @@ public class MainMenuScreen extends GeneralScreens{
         quitButton = new ImageButton(CustomImageButton.style);
         CustomImageButton.make(TextureRegionService.questionBtn);
         questionButton = new ImageButton(CustomImageButton.style);
-        CustomImageButton.make(TextureRegionService.settingsBtn);
-        settingsButton = new ImageButton(CustomImageButton.style);
+
+        if(Prefs.isTrue(Constants.soundOn))
+            CustomImageButton.make(TextureRegionService.soundButton);
+        else
+            CustomImageButton.make(TextureRegionService.soundOffBtn);
+        soundButton = new ImageButton(CustomImageButton.style);
+        CustomImageButton.make(TextureRegionService.gameservBtn);
+        servicesButton = new ImageButton(CustomImageButton.style);
+        CustomImageButton.make(TextureRegionService.creditsBtn);
+        infoButton = new ImageButton(CustomImageButton.style);
 
     }
 
@@ -77,17 +86,6 @@ public class MainMenuScreen extends GeneralScreens{
             }
         });
 
-        settingsButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                stage.addAction(Actions.sequence(Actions.fadeOut(1f), Actions.run(new Runnable() {
-                    @Override
-                    public void run() {
-                        game.setScreen(new SettingsScreen(game));
-                    }
-                })));
-            }
-        });
         quitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -100,14 +98,31 @@ public class MainMenuScreen extends GeneralScreens{
             }
         });
 
+        soundButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                        Prefs.setBoolean(Constants.soundOn, !Prefs.isTrue(Constants.soundOn));
+                        if(Prefs.isTrue(Constants.soundOn))
+                            CustomImageButton.make(TextureRegionService.soundButton);
+                        else
+                            CustomImageButton.make(TextureRegionService.soundOffBtn);
+                        soundButton.setStyle(CustomImageButton.style);
+                    }
+        });
+
 //        table.setDebug(true);
         table.center().top();
-        table.add(title).pad(14).colspan(2).row();
-        table.add(playButton).pad(7).right().width(64).height(64);
-        table.add(multiplayerButton).pad(7).left().height(64).width(64).row();
-        table.add(questionButton).colspan(2).pad(7).width(34).height(34).center().row();
-        table.add(settingsButton).colspan(2).pad(7).width(34).height(34).center().row();
-        table.add(quitButton).colspan(2).pad(7).width(64).height(64).center().row();
+        table.add(title).pad(14).colspan(4).row();
+        table.add(playButton).colspan(2).pad(7).right().width(64).height(64);
+        table.add(multiplayerButton).colspan(2).pad(7).left().height(64).width(64).row();
+        table.add(questionButton).colspan(4).pad(7).width(34).height(34).center().row();
+
+        table.add(servicesButton).pad(7).width(34).height(34);
+        table.add(infoButton).colspan(2).pad(7).width(34).height(34);
+        table.add(soundButton).pad(7).width(34).height(34).row();
+
+        table.add(quitButton).colspan(4).pad(7).width(64).height(64).center().row();
+
     }
 
     @Override

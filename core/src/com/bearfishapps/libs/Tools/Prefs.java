@@ -12,6 +12,32 @@ public class Prefs {
             prefs.putInteger(Constants.scoreName, 0);
             prefs.flush();
         }
+        if (!prefs.contains(Constants.firstRun)) {
+            prefs.putBoolean(Constants.firstRun, true);
+            prefs.flush();
+        }
+        if (!prefs.contains(Constants.soundOn)) {
+            prefs.putBoolean(Constants.soundOn, false);
+            prefs.flush();
+        }
+    }
+
+    public static void setBoolean(String name, boolean value) {
+        prefs.putBoolean(name, value);
+        prefs.flush();
+    }
+
+    public static boolean isTrue(String name) {
+        return prefs.getBoolean(name);
+    }
+
+    public static void setInteger(String name, int value) {
+        prefs.putInteger(name, value);
+        prefs.flush();
+    }
+
+    public static int getIntValue(String name) {
+        return prefs.getInteger(name);
     }
 
     public static void setScore(int score) {
